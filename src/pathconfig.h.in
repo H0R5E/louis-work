@@ -1,0 +1,4 @@
+#pragma once
+
+// assets path settings
+#define ASSETS_DIR "@ASSETS_DIR@"
