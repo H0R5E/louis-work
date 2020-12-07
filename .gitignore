@@ -36,3 +36,9 @@ build/
 bin/
 lib/
 
+# KDevelop
+*.kdev4
+
+# Auto generated files
+src/pathconfig.h
+
