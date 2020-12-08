@@ -14,6 +14,7 @@ Game::Game() {
                   sf::Style::Fullscreen);
     
     current_state = &Game::start;
+    current_state->enter(*this);
     
 }
 
@@ -21,29 +22,29 @@ void Game::EventLoop() {
     
     GameState* check_state;
     
-    while ( this->window.isOpen() ) {
+    while ( window.isOpen() ) {
         
         sf::Event event;
         
         // while there are pending events...
-        while (this->window.pollEvent(event)) {
+        while (window.pollEvent(event)) {
         
             // check the type of the event...
             switch (event.type) {
                 
                 // window closed
                 case sf::Event::Closed:
-                    this->window.close();
+                    window.close();
                     break;
                 
                 // catch 
                 case sf::Event::KeyPressed:
                     
-                    check_state = this->current_state->handleKeyPressed(event,
-                                                                        *this);
+                    check_state = current_state->handleKeyPressed(event, *this);
                     
                     if (check_state) {
-                        this->current_state = check_state;
+                        current_state = check_state;
+                        current_state->enter(*this);
                     }
                     
                     break;
@@ -55,8 +56,6 @@ void Game::EventLoop() {
             }
             
         }
-        
-        this->current_state->update(*this);
         
     }
     

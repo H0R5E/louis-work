@@ -13,7 +13,7 @@ GameState* PlayState::handleKeyPressed ( const sf::Event& event, Game& game ) {
     
 }
 
-void PlayState::update (Game& game) {
+void PlayState::enter (Game& game) {
     game.window.clear(sf::Color::Black);
     game.window.display();
     
