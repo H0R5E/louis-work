@@ -2,16 +2,18 @@
 
 #include <SFML/Graphics.hpp>
 #include <memory>
-#include "windowstate.h"
+#include <vector>
 
-class StartState : public WindowState {
+#include "gamestate.h"
+
+class StartState : public GameState {
 private:
-    sf::Text text;
-    sf::Font font;
+    sf::Font titleFont;
+    sf::Font msgFont;
+    std::vector<sf::Text> phrases;
 public:
     StartState ();
-    std::unique_ptr<WindowState> handleKeyPressed (
-                                        const sf::Event& event,
-                                        sf::RenderWindow& window) override;
-    void update (sf::RenderWindow& window) override;
+    GameState* handleKeyPressed (const sf::Event& event,
+                                 Game& game) override;
+    void update (Game& game) override;
 };

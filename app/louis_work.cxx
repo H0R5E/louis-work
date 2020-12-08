@@ -3,57 +3,17 @@
 #include <memory>
 #include <iostream>
 
-#include "windowstate.h"
-#include "startstate.h"
+#include "game.h"
+#include "gamestate.h"
 
 int main() {
     
-    auto width = sf::VideoMode::getDesktopMode().width;
-    auto height = sf::VideoMode::getDesktopMode().height;
+    Game my_game {};
     
-    std::unique_ptr<WindowState> state = std::make_unique<StartState>();
-    
-    sf::RenderWindow window (sf::VideoMode(width, height),
-                             "Louis' Work",
-                             sf::Style::Fullscreen);
-    
-    while ( window.isOpen() ) {
-        
-        sf::Event event;
-        
-        // while there are pending events...
-        while (window.pollEvent(event)) {
-        
-            // check the type of the event...
-            switch (event.type) {
-                
-                // window closed
-                case sf::Event::Closed:
-                    window.close();
-                    break;
-                
-                // catch 
-                case sf::Event::KeyPressed:
-                    
-                    try {
-                        state->handleKeyPressed(event, window);
-                    } catch (const std::runtime_error& e) {
-                         std::cout << "Caught " << e.what();
-                         return 1;
-                    }
-                    
-                    break;
-                
-                // we don't process other types of events
-                default:
-                    break;
-                
-            }
-            
-        }
-        
-        state->update(window);
-        
+    try {
+        my_game.EventLoop();
+    } catch (...) {
+        return 1;
     }
     
     return 0;
