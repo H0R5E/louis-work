@@ -58,6 +58,9 @@ void Game::EventLoop() {
             
         }
         
+        float fps = 1.f / 60.f;
+        sf::sleep(sf::seconds(fps));
+        
     }
     
 }
