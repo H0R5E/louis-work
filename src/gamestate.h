@@ -1,9 +1,8 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <memory>
 
-// Forward declase
+// Forward declare
 class Game;
 
 class GameState {
