@@ -8,7 +8,7 @@
 class PlayState : public GameState {
 public:
     PlayState () {};
-    GameState* handleKeyPressed (const sf::Event& event,
-                                 Game& game) override;
+    GameState* handleTextEntered (const sf::Event& event,
+                                  Game& game) override;
     void enter (Game& game) override;
 };

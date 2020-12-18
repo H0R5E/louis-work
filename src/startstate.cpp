@@ -8,14 +8,13 @@ StartState::StartState() {
     msgFont = GetFont("JetBrainsMono-Light.ttf");
 }
 
-GameState* StartState::handleKeyPressed (const sf::Event& event,
-                                         Game& game) {
+GameState* StartState::handleTextEntered (const sf::Event& event,
+                                          Game& game) {
     
     // Using Ctrl + C to exit
-    if (event.key.control && event.key.code == sf::Keyboard::C) {
+    if (CtrlC()) {
         game.window.close();
-    } else if (!(event.key.code == sf::Keyboard::LControl ||
-                 event.key.code == sf::Keyboard::RControl)) {
+    } else {
         return &Game::play;
     }
     

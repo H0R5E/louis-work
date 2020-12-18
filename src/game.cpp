@@ -38,9 +38,10 @@ void Game::EventLoop() {
                     break;
                 
                 // catch 
-                case sf::Event::KeyPressed:
+                case sf::Event::TextEntered:
                     
-                    check_state = current_state->handleKeyPressed(event, *this);
+                    check_state = current_state->handleTextEntered(event,
+                                                                   *this);
                     
                     if (check_state) {
                         current_state = check_state;

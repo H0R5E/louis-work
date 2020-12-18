@@ -23,4 +23,8 @@ sf::Font GetFont ( std::string_view name ) {
     
 }
 
-
+bool CtrlC() {
+    return sf::Keyboard::isKeyPressed(sf::Keyboard::C) &&
+           (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) ||
+            sf::Keyboard::isKeyPressed(sf::Keyboard::RControl));
+}

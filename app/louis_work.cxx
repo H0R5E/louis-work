@@ -1,10 +1,5 @@
 
-#include <SFML/Graphics.hpp>
-#include <memory>
-#include <iostream>
-
 #include "game.h"
-#include "gamestate.h"
 
 int main() {
     

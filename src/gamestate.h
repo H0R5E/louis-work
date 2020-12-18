@@ -9,7 +9,7 @@ class Game;
 class GameState {
 public:
     virtual ~GameState () {};
-    virtual GameState* handleKeyPressed (const sf::Event& event,
-                                         Game& game) = 0;
+    virtual GameState* handleTextEntered (const sf::Event& event,
+                                          Game& game) = 0;
     virtual void enter (Game& game) = 0;
 };

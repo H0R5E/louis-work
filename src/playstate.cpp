@@ -1,12 +1,14 @@
 
+#include "helpers.h"
 #include "playstate.h"
 #include "game.h"
 
-GameState* PlayState::handleKeyPressed ( const sf::Event& event, Game& game ) {
+GameState* PlayState::handleTextEntered (const sf::Event& event, Game& game) {
     
     // Using Ctrl + C to change state
-    if(event.key.control && event.key.code == sf::Keyboard::C)
+    if (CtrlC()) {
         return &Game::start;
+    }
     
     // Just return null for now as not yet transitioning states
     return nullptr;
