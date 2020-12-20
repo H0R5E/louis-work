@@ -11,7 +11,10 @@ private:
     sf::Font msgFont;
 public:
     StartState ();
-    GameState* handleTextEntered (const sf::Event& event,
+    GameState* HandleTextEntered (const sf::Event& event,
                                   Game& game) override;
-    void enter (Game& game) override;
+    GameState* HandleKeyReleased (const sf::Event& event,
+                                  Game& game) override;
+    GameState* Update (Game& game) override;
+    void Enter (Game& game) override;
 };

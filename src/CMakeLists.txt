@@ -21,11 +21,19 @@ target_link_libraries(startstate gamestate helpers ${CONAN_LIBS})
 
 add_library(playstate playstate.cpp playstate.h)
 target_include_directories(playstate PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(playstate gamestate slc ${CONAN_LIBS})
+target_link_libraries(playstate gamestate helpers slc ${CONAN_LIBS})
+
+add_library(drawstate drawstate.cpp drawstate.h)
+target_include_directories(drawstate PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(drawstate gamestate helpers ${CONAN_LIBS})
+
+add_library(waitstate waitstate.cpp waitstate.h)
+target_include_directories(waitstate PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(waitstate gamestate helpers ${CONAN_LIBS})
 
 add_library(game game.cpp game.h)
 target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(game startstate playstate ${CONAN_LIBS})
+target_link_libraries(game startstate playstate drawstate waitstate ${CONAN_LIBS})
 
 add_library(states INTERFACE)
 target_link_libraries(states INTERFACE game gamestate)

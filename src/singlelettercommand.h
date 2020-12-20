@@ -8,5 +8,7 @@ private:
     sf::Font font;
 public:
     SingleLetterCommand ();
-    void execute(const sf::Event& event, Game& game) override;
+    void Execute(const sf::Event& event,
+                 Game& game) override;
+    bool IsCompleted () override;
 };

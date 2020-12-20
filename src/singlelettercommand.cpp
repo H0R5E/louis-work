@@ -7,18 +7,11 @@ SingleLetterCommand::SingleLetterCommand() {
     font = GetFont("JetBrainsMono-Light.ttf");
 }
 
-void SingleLetterCommand::execute ( const sf::Event& event, Game& game ) {
+void SingleLetterCommand::Execute (const sf::Event& event,
+                                  Game& game ) {
     
-    char letter;
-    
-    if (event.text.unicode < 128) {
-        letter = static_cast<char>(event.text.unicode);
-    } else {
-        return;
-    }
-    
-    game.window.clear(sf::Color::Blue);
-    
+    char letter {static_cast<char>(event.text.unicode)};
+        
     auto width = sf::VideoMode::getDesktopMode().width;
     auto height = sf::VideoMode::getDesktopMode().height;
     
@@ -38,5 +31,19 @@ void SingleLetterCommand::execute ( const sf::Event& event, Game& game ) {
     game.window.draw(text);
     game.window.display();
     
+    clock.restart();
+    
 }
+
+bool SingleLetterCommand::IsCompleted () {
+    
+    auto elapsed = clock.getElapsedTime();
+    
+    if (elapsed.asSeconds() < 0.5f)
+        return false;
+        
+    return true;
+    
+}
+
 

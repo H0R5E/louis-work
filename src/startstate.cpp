@@ -8,7 +8,7 @@ StartState::StartState() {
     msgFont = GetFont("JetBrainsMono-Light.ttf");
 }
 
-GameState* StartState::handleTextEntered (const sf::Event& event,
+GameState* StartState::HandleTextEntered (const sf::Event& event,
                                           Game& game) {
     
     // Using Ctrl + C to exit
@@ -22,7 +22,16 @@ GameState* StartState::handleTextEntered (const sf::Event& event,
     
 }
 
-void StartState::enter ( Game& game ) {
+GameState* StartState::HandleKeyReleased (const sf::Event& event,
+                                           Game& game ) {
+    return nullptr;
+}
+
+GameState* StartState::Update (Game& game) {
+    return nullptr;
+}
+
+void StartState::Enter ( Game& game ) {
     
     game.window.clear(sf::Color::Blue);
     

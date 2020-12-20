@@ -7,8 +7,12 @@ class Game;
 
 class GameState {
 public:
+    bool isKeyReleased {false};
     virtual ~GameState () {};
-    virtual GameState* handleTextEntered (const sf::Event& event,
+    virtual GameState* HandleTextEntered (const sf::Event& event,
                                           Game& game) = 0;
-    virtual void enter (Game& game) = 0;
+    virtual GameState* HandleKeyReleased (const sf::Event& event,
+                                          Game& game) = 0;
+    virtual GameState* Update (Game& game) = 0;
+    virtual void Enter (Game& game) = 0;
 };
