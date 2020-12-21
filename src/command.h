@@ -14,4 +14,3 @@ public:
     virtual void Stop () = 0;
     virtual bool IsCompleted () = 0;
 };
-

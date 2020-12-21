@@ -6,7 +6,7 @@
 #include "game.h"
 
 State* PlayState::HandleTextEntered (const sf::Event& event,
-                                         Game& game) {
+                                     Game& game) {
     
     // Using Ctrl + C to change state
     if (CtrlC()) {
@@ -18,8 +18,8 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
             game.command = std::make_unique<SingleLetterCommand>();
             game.sound_command = std::make_unique<SoundCommand>();
         }
-        game.command->Execute(event, game);
         game.sound_command->Execute(event, game);
+        game.command->Execute(event, game);
         return &Game::draw;
     }
     

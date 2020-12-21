@@ -35,11 +35,6 @@ void Game::EventLoop() {
             // check the type of the event...
             switch (event.type) {
                 
-                // window closed
-                case sf::Event::Closed:
-                    window.close();
-                    break;
-                
                 // catch 
                 case sf::Event::TextEntered:
                     
