@@ -1,7 +1,7 @@
 
 #include "helpers.h"
-#include "game.h"
 #include "drawstate.h"
+#include "game.h"
 
 State* DrawState::HandleTextEntered (const sf::Event& event, Game& game) {
     

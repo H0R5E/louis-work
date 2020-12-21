@@ -1,7 +1,7 @@
 
 #include "helpers.h"
-#include "game.h"
 #include "waitstate.h"
+#include "game.h"
 
 State* WaitState::HandleTextEntered (const sf::Event& event, Game& game) {
     
