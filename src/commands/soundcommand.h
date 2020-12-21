@@ -1,15 +1,16 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "command.h"
 
-class SingleLetterCommand : public Command {
+class SoundCommand : public Command {
 private:
-    sf::Font font;
+    sf::SoundBuffer buffer;
+    sf::Sound sound;
 public:
-    SingleLetterCommand ();
+    SoundCommand ();
     void Execute(const sf::Event& event,
                  Game& game) override;
-    void Stop () override {};
+    void Stop () override;
     bool IsCompleted () override;
 };

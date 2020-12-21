@@ -20,6 +20,7 @@ public:
     sf::RenderWindow window;
     State* current_state;
     std::unique_ptr<Command> command;
+    std::unique_ptr<Command> sound_command;
     Game ();
     void EventLoop ();
 };

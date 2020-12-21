@@ -2,6 +2,7 @@
 #include "helpers.h"
 #include "playstate.h"
 #include "singlelettercommand.h"
+#include "soundcommand.h"
 #include "game.h"
 
 State* PlayState::HandleTextEntered (const sf::Event& event,
@@ -15,8 +16,10 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
     if (event.text.unicode < 128) {
         if (!game.command) {
             game.command = std::make_unique<SingleLetterCommand>();
+            game.sound_command = std::make_unique<SoundCommand>();
         }
         game.command->Execute(event, game);
+        game.sound_command->Execute(event, game);
         return &Game::draw;
     }
     
@@ -35,6 +38,12 @@ State* PlayState::Update (Game& game) {
 }
 
 void PlayState::Enter (Game& game) {
+    
+    if (game.command) {
+        game.command->Stop();
+        game.sound_command->Stop();
+    }
+    
     game.window.clear(sf::Color::Black);
     game.window.display();
     

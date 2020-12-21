@@ -23,6 +23,22 @@ sf::Font GetFont ( std::string_view name ) {
     
 }
 
+sf::SoundBuffer GetSoundBuffer (std::string_view name) {
+    
+    fs::path dir (ASSETS_DIR);
+    fs::path file (name);
+    fs::path full_path = dir / file;
+    
+    sf::SoundBuffer buffer;
+    
+    if (!buffer.loadFromFile(full_path)) {
+        throw std::runtime_error("Sound failed to load");
+    }
+    
+    return buffer;
+    
+}
+
 bool CtrlC() {
     return sf::Keyboard::isKeyPressed(sf::Keyboard::C) &&
            (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) ||

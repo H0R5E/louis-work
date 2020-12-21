@@ -11,6 +11,7 @@ public:
     virtual ~Command () {};
     virtual void Execute(const sf::Event& event, 
                          Game& game) = 0;
+    virtual void Stop () = 0;
     virtual bool IsCompleted () = 0;
 };
 
