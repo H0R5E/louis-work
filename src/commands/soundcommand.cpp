@@ -20,9 +20,7 @@ void SoundCommand::Stop() {
 }
 
 bool SoundCommand::IsCompleted () {
-    
     return true;
-    
 }
 
 

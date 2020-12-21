@@ -1,8 +1,4 @@
 
-# path to source code
-add_subdirectory(states)
-add_subdirectory(commands)
-
 add_library(state INTERFACE)
 target_sources(state INTERFACE state.h)
 target_include_directories(state INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -17,4 +13,7 @@ target_include_directories(command INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(game game.cpp game.h)
 target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(game gamestates gamecommands ${CONAN_LIBS})
+target_link_libraries(game command gamestates ${CONAN_LIBS})
+
+add_subdirectory(states)
+add_subdirectory(commands)
