@@ -1,9 +1,10 @@
 
 #include "helpers.h"
 #include "playstate.h"
+#include "singlelettercommand.h"
 #include "game.h"
 
-GameState* PlayState::HandleTextEntered (const sf::Event& event,
+State* PlayState::HandleTextEntered (const sf::Event& event,
                                          Game& game) {
     
     // Using Ctrl + C to change state
@@ -12,6 +13,9 @@ GameState* PlayState::HandleTextEntered (const sf::Event& event,
     }
     
     if (event.text.unicode < 128) {
+        if (!game.command) {
+            game.command = std::make_unique<SingleLetterCommand>();
+        }
         game.command->Execute(event, game);
         return &Game::draw;
     }
@@ -21,12 +25,12 @@ GameState* PlayState::HandleTextEntered (const sf::Event& event,
     
 }
 
-GameState* PlayState::HandleKeyReleased (const sf::Event& event,
+State* PlayState::HandleKeyReleased (const sf::Event& event,
                                          Game& game) {
     return nullptr;
 }
 
-GameState* PlayState::Update (Game& game) {
+State* PlayState::Update (Game& game) {
     return nullptr;
 }
 

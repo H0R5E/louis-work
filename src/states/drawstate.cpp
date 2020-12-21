@@ -3,7 +3,7 @@
 #include "game.h"
 #include "drawstate.h"
 
-GameState* DrawState::HandleTextEntered (const sf::Event& event, Game& game) {
+State* DrawState::HandleTextEntered (const sf::Event& event, Game& game) {
     
     // Using Ctrl + C to change state
     if (CtrlC()) {
@@ -15,7 +15,7 @@ GameState* DrawState::HandleTextEntered (const sf::Event& event, Game& game) {
     
 }
 
-GameState* DrawState::HandleKeyReleased ( const sf::Event& event, Game& game ) {
+State* DrawState::HandleKeyReleased ( const sf::Event& event, Game& game ) {
     
     if (game.command->IsCompleted()) {
         return &Game::play;
@@ -25,7 +25,6 @@ GameState* DrawState::HandleKeyReleased ( const sf::Event& event, Game& game ) {
     
 }
 
-GameState * DrawState::Update (Game& game) {
+State * DrawState::Update (Game& game) {
     return nullptr;
 }
-

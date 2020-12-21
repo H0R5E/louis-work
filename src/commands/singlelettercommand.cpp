@@ -8,7 +8,7 @@ SingleLetterCommand::SingleLetterCommand() {
 }
 
 void SingleLetterCommand::Execute (const sf::Event& event,
-                                  Game& game ) {
+                                   Game& game ) {
     
     char letter {static_cast<char>(event.text.unicode)};
         

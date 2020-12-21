@@ -3,12 +3,13 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "gamestate.h"
+// Forward declare
+#include "command.h"
+#include "state.h"
 #include "startstate.h"
 #include "playstate.h"
 #include "drawstate.h"
 #include "waitstate.h"
-#include "command.h"
 
 class Game {
 public:
@@ -17,7 +18,7 @@ public:
     static DrawState draw;
     static WaitState wait;
     sf::RenderWindow window;
-    GameState* current_state;
+    State* current_state;
     std::unique_ptr<Command> command;
     Game ();
     void EventLoop ();

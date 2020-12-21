@@ -8,8 +8,8 @@ StartState::StartState() {
     msgFont = GetFont("JetBrainsMono-Light.ttf");
 }
 
-GameState* StartState::HandleTextEntered (const sf::Event& event,
-                                          Game& game) {
+State* StartState::HandleTextEntered (const sf::Event& event,
+                                      Game& game) {
     
     // Using Ctrl + C to exit
     if (CtrlC()) {
@@ -22,12 +22,12 @@ GameState* StartState::HandleTextEntered (const sf::Event& event,
     
 }
 
-GameState* StartState::HandleKeyReleased (const sf::Event& event,
-                                           Game& game ) {
+State* StartState::HandleKeyReleased (const sf::Event& event,
+                                      Game& game ) {
     return nullptr;
 }
 
-GameState* StartState::Update (Game& game) {
+State* StartState::Update (Game& game) {
     return nullptr;
 }
 

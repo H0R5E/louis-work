@@ -1,6 +1,5 @@
 
 #include "game.h"
-#include "singlelettercommand.h"
 
 StartState Game::start {};
 PlayState Game::play {};
@@ -16,8 +15,6 @@ Game::Game() {
                   "Louis' Work",
                   sf::Style::Fullscreen);
     
-    command = std::make_unique<SingleLetterCommand>();
-    
     current_state = &Game::start;
     current_state->Enter(*this);
     
@@ -25,7 +22,7 @@ Game::Game() {
 
 void Game::EventLoop() {
     
-    GameState* check_state;
+    State* check_state;
     constexpr float fps = 1.f / 60.f;
     
     while ( window.isOpen() ) {

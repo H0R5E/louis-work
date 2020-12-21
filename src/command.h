@@ -3,7 +3,6 @@
 #include <SFML/Graphics.hpp>
 
 // Forward declare
-class GameState;
 class Game;
 
 class Command {

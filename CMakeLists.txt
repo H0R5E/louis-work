@@ -27,6 +27,3 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall")
 # path to source code
 add_subdirectory(app)
 add_subdirectory(src)
-
-# linking
-target_link_libraries(louis states)
