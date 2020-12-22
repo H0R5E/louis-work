@@ -3,11 +3,6 @@
 #include "startstate.h"
 #include "game.h"
 
-StartState::StartState() {
-    titleFont = GetFont("Monofett-Regular.ttf");
-    msgFont = GetFont("JetBrainsMono-Light.ttf");
-}
-
 State* StartState::HandleTextEntered (const sf::Event& event,
                                       Game& game) {
     
@@ -38,8 +33,10 @@ void StartState::Enter ( Game& game ) {
     auto width = sf::VideoMode::getDesktopMode().width;
     auto height = sf::VideoMode::getDesktopMode().height;
     
+    game.font = GetFont("Monofett-Regular.ttf");
+    
     sf::Text text;
-    text.setFont(titleFont); 
+    text.setFont(game.font); 
     text.setString("Louis' Work");
     text.setCharacterSize(96); // in pixels, not points!
     text.setFillColor(sf::Color::Yellow);
@@ -52,7 +49,9 @@ void StartState::Enter ( Game& game ) {
     
     game.window.draw(text);
     
-    text.setFont(msgFont); 
+    game.font = GetFont("JetBrainsMono-Light.ttf");
+    
+    text.setFont(game.font); 
     text.setString("Press Any Key to Start");
     text.setCharacterSize(30); // in pixels, not points!
     text.setFillColor(sf::Color::Yellow);
@@ -65,7 +64,7 @@ void StartState::Enter ( Game& game ) {
     
     game.window.draw(text);
     
-    text.setFont(msgFont); 
+    text.setFont(game.font); 
     text.setString("Press Ctrl-C to Quit");
     text.setCharacterSize(30); // in pixels, not points!
     text.setFillColor(sf::Color::Yellow);

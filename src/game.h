@@ -18,6 +18,7 @@ public:
     static DrawState draw;
     static WaitState wait;
     sf::RenderWindow window;
+    sf::Font font;
     State* current_state;
     std::unique_ptr<Command> command;
     std::unique_ptr<Command> sound_command;

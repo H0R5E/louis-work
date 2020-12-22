@@ -3,10 +3,6 @@
 #include "helpers.h"
 #include "game.h"
 
-SingleLetterCommand::SingleLetterCommand() {
-    font = GetFont("JetBrainsMono-Light.ttf");
-}
-
 void SingleLetterCommand::Execute (const sf::Event& event,
                                    Game& game ) {
     
@@ -15,8 +11,10 @@ void SingleLetterCommand::Execute (const sf::Event& event,
     auto width = sf::VideoMode::getDesktopMode().width;
     auto height = sf::VideoMode::getDesktopMode().height;
     
+    game.font = GetFont("JetBrainsMono-Light.ttf");
+    
     sf::Text text;
-    text.setFont(font); 
+    text.setFont(game.font); 
     text.setString(letter);
     text.setCharacterSize(120); // in pixels, not points!
     text.setFillColor(sf::Color::Yellow);
