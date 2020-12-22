@@ -3,14 +3,11 @@
 #include "helpers.h"
 #include "game.h"
 
-SoundCommand::SoundCommand() {
-    LoadAsset<sf::SoundBuffer>(buffer, "Alarm_or_siren.ogg");
-}
-
 void SoundCommand::Execute (const sf::Event& event,
                             Game& game ) {
     
-    sound.setBuffer(buffer);
+    LoadAsset<sf::SoundBuffer>(game.buffer, "Alarm_or_siren.ogg");
+    sound.setBuffer(game.buffer);
     sound.play();
     
 }
