@@ -4,7 +4,7 @@
 #include "game.h"
 
 SoundCommand::SoundCommand() {
-    buffer = GetSoundBuffer("Alarm_or_siren.ogg");
+    LoadIt<sf::SoundBuffer>(buffer, "Alarm_or_siren.ogg");
 }
 
 void SoundCommand::Execute (const sf::Event& event,
@@ -22,5 +22,3 @@ void SoundCommand::Stop() {
 bool SoundCommand::IsCompleted () {
     return true;
 }
-
-

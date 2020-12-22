@@ -11,7 +11,7 @@ void SingleLetterCommand::Execute (const sf::Event& event,
     auto width = sf::VideoMode::getDesktopMode().width;
     auto height = sf::VideoMode::getDesktopMode().height;
     
-    game.font = GetFont("JetBrainsMono-Light.ttf");
+    LoadIt<sf::Font>(game.font, "JetBrainsMono-Light.ttf");
     
     sf::Text text;
     text.setFont(game.font); 
