@@ -33,7 +33,7 @@ void StartState::Enter ( Game& game ) {
     auto width = sf::VideoMode::getDesktopMode().width;
     auto height = sf::VideoMode::getDesktopMode().height;
     
-    LoadIt<sf::Font>(game.font, "Monofett-Regular.ttf");
+    LoadAsset<sf::Font>(game.font, "Monofett-Regular.ttf");
     
     sf::Text text;
     text.setFont(game.font); 
@@ -49,7 +49,7 @@ void StartState::Enter ( Game& game ) {
     
     game.window.draw(text);
     
-    LoadIt<sf::Font>(game.font, "JetBrainsMono-Light.ttf");
+    LoadAsset<sf::Font>(game.font, "JetBrainsMono-Light.ttf");
     
     text.setFont(game.font); 
     text.setString("Press Any Key to Start");
