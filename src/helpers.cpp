@@ -1,4 +1,6 @@
 
+#include "SFML/Graphics.hpp"
+
 #include "helpers.h"
 
 bool CtrlC() {

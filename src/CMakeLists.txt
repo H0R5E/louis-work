@@ -3,17 +3,17 @@ add_library(state INTERFACE)
 target_sources(state INTERFACE state.h)
 target_include_directories(state INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_library(helpers helpers.cpp helpers.h)
-target_include_directories(helpers PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(helpers ${CONAN_LIBS})
-
 add_library(command INTERFACE)
 target_sources(command INTERFACE command.h)
 target_include_directories(command INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
+add_library(helpers helpers.cpp helpers.h)
+target_include_directories(helpers PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(helpers PRIVATE ${CONAN_LIBS})
+
 add_library(game game.cpp game.h)
 target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(game command gamestates ${CONAN_LIBS})
+target_link_libraries(game command state gamestates ${CONAN_LIBS})
 
 add_subdirectory(states)
 add_subdirectory(commands)

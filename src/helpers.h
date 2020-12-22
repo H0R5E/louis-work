@@ -4,8 +4,6 @@
 #include <filesystem>
 #include <stdexcept>
 #include <string_view>
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 
 #include "pathconfig.h"
 
