@@ -7,6 +7,10 @@ add_library(command INTERFACE)
 target_sources(command INTERFACE command.h)
 target_include_directories(command INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
+add_library(resource INTERFACE)
+target_sources(resource INTERFACE resourceholder.h)
+target_include_directories(resource INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+
 add_library(helpers helpers.cpp helpers.h)
 target_include_directories(helpers PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(helpers PRIVATE ${CONAN_LIBS})

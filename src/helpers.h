@@ -24,4 +24,5 @@ void LoadAsset (T& asset, std::string_view name) {
     
 }
 
+fs::path FindAsset (std::string_view name);
 bool CtrlC ();
