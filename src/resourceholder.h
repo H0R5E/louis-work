@@ -7,8 +7,6 @@
 #include <stdexcept>
 #include <string_view>
 
-#include <iostream>
-
 #include "helpers.h"
 
 template <typename Resource>
