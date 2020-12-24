@@ -5,6 +5,8 @@
 #include "pathconfig.h"
 #include "helpers.h"
 
+namespace fs = std::filesystem;
+
 fs::path FindAsset (std::string_view name) {
     
     fs::path dir (ASSETS_DIR);

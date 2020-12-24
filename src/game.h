@@ -6,6 +6,7 @@
 
 // Forward declare
 #include "command.h"
+#include "resourceholder.h"
 #include "state.h"
 #include "startstate.h"
 #include "playstate.h"
@@ -19,8 +20,8 @@ public:
     static DrawState draw;
     static WaitState wait;
     sf::RenderWindow window;
-    sf::Font font;
-    sf::SoundBuffer buffer;
+    ResourceHolder<sf::Font> font_holder {};
+    ResourceHolder<sf::SoundBuffer> buffer_holder {};
     State* current_state;
     std::unique_ptr<Command> command;
     std::unique_ptr<Command> sound_command;

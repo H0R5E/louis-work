@@ -6,8 +6,8 @@
 void SoundCommand::Execute (const sf::Event& event,
                             Game& game ) {
     
-    LoadAsset<sf::SoundBuffer>(game.buffer, "Alarm_or_siren.ogg");
-    sound.setBuffer(game.buffer);
+    auto& sound_buffer = game.buffer_holder.Get("Alarm_or_siren");
+    sound.setBuffer(sound_buffer);
     sound.play();
     
 }

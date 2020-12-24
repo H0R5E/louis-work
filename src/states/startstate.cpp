@@ -33,10 +33,11 @@ void StartState::Enter ( Game& game ) {
     auto width = sf::VideoMode::getDesktopMode().width;
     auto height = sf::VideoMode::getDesktopMode().height;
     
-    LoadAsset<sf::Font>(game.font, "Monofett-Regular.ttf");
-    
     sf::Text text;
-    text.setFont(game.font); 
+    auto& title_font = game.font_holder.Get("Monofett-Regular");
+    auto& menu_font = game.font_holder.Get("JetBrainsMono-Light");
+    
+    text.setFont(title_font); 
     text.setString("Louis' Work");
     text.setCharacterSize(96); // in pixels, not points!
     text.setFillColor(sf::Color::Yellow);
@@ -49,9 +50,7 @@ void StartState::Enter ( Game& game ) {
     
     game.window.draw(text);
     
-    LoadAsset<sf::Font>(game.font, "JetBrainsMono-Light.ttf");
-    
-    text.setFont(game.font); 
+    text.setFont(menu_font); 
     text.setString("Press Any Key to Start");
     text.setCharacterSize(30); // in pixels, not points!
     text.setFillColor(sf::Color::Yellow);
@@ -64,7 +63,6 @@ void StartState::Enter ( Game& game ) {
     
     game.window.draw(text);
     
-    text.setFont(game.font); 
     text.setString("Press Ctrl-C to Quit");
     text.setCharacterSize(30); // in pixels, not points!
     text.setFillColor(sf::Color::Yellow);

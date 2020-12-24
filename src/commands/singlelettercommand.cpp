@@ -11,10 +11,10 @@ void SingleLetterCommand::Execute (const sf::Event& event,
     auto width = sf::VideoMode::getDesktopMode().width;
     auto height = sf::VideoMode::getDesktopMode().height;
     
-    LoadAsset<sf::Font>(game.font, "JetBrainsMono-Light.ttf");
-    
     sf::Text text;
-    text.setFont(game.font); 
+    auto& letter_font = game.font_holder.Get("JetBrainsMono-Light");
+    
+    text.setFont(letter_font); 
     text.setString(letter);
     text.setCharacterSize(120); // in pixels, not points!
     text.setFillColor(sf::Color::Yellow);

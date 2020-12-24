@@ -11,6 +11,11 @@ Game::Game() {
     auto width = sf::VideoMode::getDesktopMode().width;
     auto height = sf::VideoMode::getDesktopMode().height;
     
+    // Load resources
+    font_holder.Load("Monofett-Regular");
+    font_holder.Load("JetBrainsMono-Light");
+    buffer_holder.Load("Alarm_or_siren");
+    
     window.create(sf::VideoMode(width, height),
                   "Louis' Work",
                   sf::Style::Fullscreen);

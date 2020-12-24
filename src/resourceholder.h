@@ -44,14 +44,33 @@ void ResourceHolder<Resource>::Load(std::string_view resourcename) {
 
 template <typename Resource>
 Resource& ResourceHolder<Resource>::Get(std::string_view resourcename) {
+    
     auto found = mResourceMap.find(resourcename);
+    
+    if (found == mResourceMap.end()) {
+        std::string msg = "ResourceHolder::Get - Failed to get ";
+        msg.append(resourcename);
+        throw std::runtime_error(msg);
+    }
+    
     return *found->second;
 }
 
 template <typename Resource>
-const Resource& ResourceHolder<Resource>::Get(std::string_view resourcename) const {
+const Resource& ResourceHolder<Resource>::Get(
+                                    std::string_view resourcename) const {
+    
     auto found = mResourceMap.find(resourcename);
+    
+    if (found == mResourceMap.end()) {
+        std::string msg = "ResourceHolder::Get - Failed to get ";
+        msg.append(resourcename);
+        throw std::runtime_error(msg);
+    }
+    
     return *found->second;
+    
+    
 }
 
 template<typename Resource>
