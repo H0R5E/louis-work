@@ -3,19 +3,16 @@
 #include "waitstate.h"
 #include "game.h"
 
-State* WaitState::HandleTextEntered (const sf::Event& event, Game& game) {
+State* WaitState::HandleKeyPressed (const sf::Event& event,
+                                     Game& game) {
     
-    // Using Ctrl + C to change state
-    if (CtrlC()) {
+    // Using Ctrl + C to exit
+    if (event.key.control && event.key.code == sf::Keyboard::C) {
         return &Game::start;
     }
     
     return nullptr;
     
-}
-
-State* WaitState::HandleKeyReleased (const sf::Event& event, Game& game) {
-    return nullptr;
 }
 
 State* WaitState::Update (Game& game) {

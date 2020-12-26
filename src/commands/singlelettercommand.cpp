@@ -25,9 +25,9 @@ void SingleLetterCommand::Execute (const sf::Event& event,
                    textRect.top + textRect.height / 2.0f);
     text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f));
     
-    game.window.clear(sf::Color::Black);
-    game.window.draw(text);
-    game.window.display();
+    game.window->clear(sf::Color::Black);
+    game.window->draw(text);
+    game.window->display();
     
     clock.restart();
     

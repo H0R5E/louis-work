@@ -33,7 +33,7 @@ add_subdirectory(app)
 add_subdirectory(src)
 
 # discover test files
-file(GLOB test_SRC CONFIGURE_DEPENDS "test/*.cpp")
+file(GLOB test_SRC CONFIGURE_DEPENDS "test/*.cpp" "test/*.h")
 
 # add tests
 add_executable(tests ${test_SRC})

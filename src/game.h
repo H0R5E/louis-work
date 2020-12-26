@@ -7,6 +7,7 @@
 // Forward declare
 #include "command.h"
 #include "resourceholder.h"
+#include "window.h"
 #include "state.h"
 #include "startstate.h"
 #include "playstate.h"
@@ -19,12 +20,12 @@ public:
     static PlayState play;
     static DrawState draw;
     static WaitState wait;
-    sf::RenderWindow window;
     ResourceHolder<sf::Font> font_holder {};
     ResourceHolder<sf::SoundBuffer> buffer_holder {};
     State* current_state;
+    std::unique_ptr<Window> window;
     std::unique_ptr<Command> command;
     std::unique_ptr<Command> sound_command;
-    Game ();
+    Game(std::unique_ptr<Window>&& window);
     void EventLoop ();
 };

@@ -3,14 +3,14 @@
 #include "drawstate.h"
 #include "game.h"
 
-State* DrawState::HandleTextEntered (const sf::Event& event, Game& game) {
+State* DrawState::HandleKeyPressed (const sf::Event& event,
+                                    Game& game) {
     
-    // Using Ctrl + C to change state
-    if (CtrlC()) {
+    // Using Ctrl + C to exit
+    if (event.key.control && event.key.code == sf::Keyboard::C) {
         return &Game::start;
     }
     
-    // Just return null for now as not yet transitioning states
     return nullptr;
     
 }
@@ -23,8 +23,4 @@ State* DrawState::HandleKeyReleased ( const sf::Event& event, Game& game ) {
         return &Game::wait;
     }
     
-}
-
-State * DrawState::Update (Game& game) {
-    return nullptr;
 }

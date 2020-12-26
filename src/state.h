@@ -7,12 +7,14 @@ class Game;
 
 class State {
 public:
-    bool isKeyReleased {false};
+    bool skipEvents {false};
     virtual ~State () {};
+    virtual State* HandleKeyPressed (const sf::Event& event,
+                                     Game& game) {return nullptr;};
     virtual State* HandleTextEntered (const sf::Event& event,
-                                      Game& game) = 0;
+                                      Game& game) {return nullptr;};
     virtual State* HandleKeyReleased (const sf::Event& event,
-                                      Game& game) = 0;
-    virtual State* Update (Game& game) = 0;
-    virtual void Enter (Game& game) = 0;
+                                      Game& game) {return nullptr;};
+    virtual State* Update (Game& game) {return nullptr;};
+    virtual void Enter (Game& game) {};
 };

@@ -5,13 +5,20 @@
 #include "soundcommand.h"
 #include "game.h"
 
-State* PlayState::HandleTextEntered (const sf::Event& event,
+State* PlayState::HandleKeyPressed (const sf::Event& event,
                                      Game& game) {
     
-    // Using Ctrl + C to change state
-    if (CtrlC()) {
+    // Using Ctrl + C to exit
+    if (event.key.control && event.key.code == sf::Keyboard::C) {
         return &Game::start;
     }
+    
+    return nullptr;
+    
+}
+
+State* PlayState::HandleTextEntered (const sf::Event& event,
+                                     Game& game) {
     
     if (event.text.unicode < 128) {
         if (!game.command) {
@@ -28,15 +35,6 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
     
 }
 
-State* PlayState::HandleKeyReleased (const sf::Event& event,
-                                         Game& game) {
-    return nullptr;
-}
-
-State* PlayState::Update (Game& game) {
-    return nullptr;
-}
-
 void PlayState::Enter (Game& game) {
     
     if (game.command) {
@@ -44,7 +42,7 @@ void PlayState::Enter (Game& game) {
         game.sound_command->Stop();
     }
     
-    game.window.clear(sf::Color::Black);
-    game.window.display();
+    game.window->clear(sf::Color::Black);
+    game.window->display();
     
 }
