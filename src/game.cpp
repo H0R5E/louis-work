@@ -16,6 +16,7 @@ Game::Game(std::unique_ptr<Window>&& window) :
     
     current_state = &Game::start;
     current_state->Enter(*this);
+    current_state->skipEvents = false;
     
 }
 
@@ -34,7 +35,7 @@ void Game::EventLoop() {
             if (current_state->skipEvents) {
                 continue;
             }
-        
+            
             // check the type of the event...
             switch (event.type) {
                 

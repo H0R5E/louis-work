@@ -1,4 +1,8 @@
 
+#pragma once
+
+#include <stack>
+
 #include "window.h"
 
 const sf::Event simulateKeypress(sf::Keyboard::Key key,
@@ -22,32 +26,32 @@ const sf::Event simulateKeypress(sf::Keyboard::Key key,
 
 class MockWindow : public Window {
 public:
-    int nDraws {0};
-    bool isClear {false};
+    MockWindow (std::stack<sf::Event> eventStack) : 
+        eventStack {eventStack} {};
     virtual void close () override {
         isClosed = true;
     };
     virtual bool isOpen () override {
-        if (isClosed) {
+        
+        if (isPolled) {
+            eventStack.pop();
+            isPolled = false;
+        };
+        
+        if (isClosed || eventStack.size() == 0) {
             return false;
         } else {
             return true;
         }
     };
     virtual bool pollEvent (sf::Event &event) override {
-        event = simulateKeypress(sf::Keyboard::C,
-                                 false,
-                                 true,
-                                 false,
-                                 false);
-        
         if (isPolled) {
             return false;
         } else {
+            event = eventStack.top();
             isPolled = true;
             return true;
         }
-        
     };
     virtual void clear (
             const sf::Color &color=sf::Color(0, 0, 0, 255)) override {
@@ -58,7 +62,10 @@ public:
         nDraws++;
     }
     virtual void display () override {};
-private:
-    bool isPolled {false};
+    int nDraws {0};
+    bool isClear {false};
     bool isClosed {false};
+private:
+    std::stack<sf::Event> eventStack; 
+    bool isPolled {false};
 };
