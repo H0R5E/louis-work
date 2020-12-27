@@ -2,7 +2,7 @@
 #include "gtest/gtest.h"
 
 #include "sound.h"
-#include "commandfactory.h"
+#include "factory.h"
 
 TEST (CommandFactoryTest, NoThrow) { 
     ASSERT_NO_THROW(CommandFactory<SoundAdapter>());

@@ -6,6 +6,7 @@
 
 // Forward declare
 #include "command.h"
+#include "factory.h"
 #include "resourceholder.h"
 #include "window.h"
 #include "state.h"
@@ -25,6 +26,8 @@ public:
     State* current_state;
     std::unique_ptr<Window> window;
     std::unique_ptr<Command> command;
-    Game(std::unique_ptr<Window>&& window);
+    std::unique_ptr<CommandFactoryBase> factory;
+    Game(std::unique_ptr<Window>&& window,
+         std::unique_ptr<CommandFactoryBase>&& factory);
     void EventLoop ();
 };

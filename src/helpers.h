@@ -5,4 +5,3 @@
 #include <string_view>
 
 std::filesystem::path FindAsset (std::string_view name);
-bool CtrlC ();

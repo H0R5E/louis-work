@@ -6,8 +6,10 @@ PlayState Game::play {};
 DrawState Game::draw {};
 WaitState Game::wait {};
 
-Game::Game(std::unique_ptr<Window>&& window) :
-        window(std::move(window)) {
+Game::Game(std::unique_ptr<Window>&& window,
+           std::unique_ptr<CommandFactoryBase>&& factory) :
+        window(std::move(window)),
+        factory(std::move(factory)) {
     
     // Load resources
     font_holder.Load("Monofett-Regular");
@@ -17,6 +19,8 @@ Game::Game(std::unique_ptr<Window>&& window) :
     current_state = &Game::start;
     current_state->Enter(*this);
     current_state->skipEvents = false;
+    
+    command = this->factory->makeCommand();
     
 }
 

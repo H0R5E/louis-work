@@ -36,7 +36,7 @@ add_subdirectory(src)
 file(GLOB test_SRC CONFIGURE_DEPENDS "test/*.cpp" "test/*.h")
 
 # add tests
-add_executable(tests ${test_SRC})
-target_link_libraries(tests game ${CONAN_LIBS})
-gtest_discover_tests(tests)
+#add_executable(tests ${test_SRC})
+#target_link_libraries(tests game ${CONAN_LIBS})
+#gtest_discover_tests(tests)
 

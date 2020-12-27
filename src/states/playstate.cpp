@@ -1,8 +1,5 @@
 
-#include "helpers.h"
 #include "playstate.h"
-#include "singlelettercommand.h"
-#include "command.h"
 #include "game.h"
 
 State* PlayState::HandleKeyPressed (const sf::Event& event,
@@ -20,13 +17,10 @@ State* PlayState::HandleKeyPressed (const sf::Event& event,
 State* PlayState::HandleTextEntered (const sf::Event& event,
                                      Game& game) {
     
-//     if (event.text.unicode < 128) {
-//         if (!game.command) {
-//             game.command = std::make_unique<SingleLetterCommand>();
-//         }
-//         game.command->Execute(event, game);
-//         return &Game::draw;
-//     }
+     if (event.text.unicode < 128) {
+         game.command->Execute(event, game);
+         return &Game::draw;
+     }
     
     // Just return null for now as not yet transitioning states
     return nullptr;

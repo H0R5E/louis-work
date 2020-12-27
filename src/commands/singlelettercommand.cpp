@@ -1,6 +1,5 @@
 
 #include "singlelettercommand.h"
-#include "helpers.h"
 #include "game.h"
 
 void SingleLetterCommand::Execute (const sf::Event& event,

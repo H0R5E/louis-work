@@ -24,10 +24,3 @@ fs::path FindAsset (std::string_view name) {
     throw std::runtime_error("Asset not found");
     
 }
-
-
-bool CtrlC() {
-    return sf::Keyboard::isKeyPressed(sf::Keyboard::C) &&
-           (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) ||
-            sf::Keyboard::isKeyPressed(sf::Keyboard::RControl));
-}
