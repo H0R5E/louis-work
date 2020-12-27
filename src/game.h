@@ -25,7 +25,6 @@ public:
     State* current_state;
     std::unique_ptr<Window> window;
     std::unique_ptr<Command> command;
-    std::unique_ptr<Command> sound_command;
     Game(std::unique_ptr<Window>&& window);
     void EventLoop ();
 };

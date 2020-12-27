@@ -5,11 +5,11 @@
 
 #include "window.h"
 
-const sf::Event simulateKeypress(sf::Keyboard::Key key,
-                                 bool alt,
-                                 bool control,
-                                 bool shift,
-                                 bool system)
+const sf::Event simulateKeyPressed(sf::Keyboard::Key key,
+                                   bool alt,
+                                   bool control,
+                                   bool shift,
+                                   bool system)
 {
     sf::Event::KeyEvent data;
     data.code = key;
@@ -17,11 +17,30 @@ const sf::Event simulateKeypress(sf::Keyboard::Key key,
     data.control = control;
     data.shift = shift;
     data.system = system;
-
+    
     sf::Event event;
     event.type = sf::Event::KeyPressed;
     event.key = data;
     return event;
+}
+
+const sf::Event simulateTextEntered(sf::Uint32 value)
+{
+    sf::Event::TextEvent data;
+    data.unicode = value;
+    
+    sf::Event event;
+    event.type = sf::Event::TextEntered;
+    event.text = data;
+    return event;
+}
+
+const sf::Event simulateCtrlC() {
+    return simulateKeyPressed(sf::Keyboard::C,
+                              false,
+                              true,
+                              false,
+                              false);
 }
 
 class MockWindow : public Window {

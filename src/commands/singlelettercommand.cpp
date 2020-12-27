@@ -6,6 +6,10 @@
 void SingleLetterCommand::Execute (const sf::Event& event,
                                    Game& game ) {
     
+    auto& sound_buffer = game.buffer_holder.Get("Alarm_or_siren");
+    sound->setBuffer(sound_buffer);
+    sound->play();
+    
     char letter {static_cast<char>(event.text.unicode)};
         
     auto width = sf::VideoMode::getDesktopMode().width;
@@ -31,6 +35,10 @@ void SingleLetterCommand::Execute (const sf::Event& event,
     
     clock.restart();
     
+}
+
+void SingleLetterCommand::Stop() {
+    sound->stop();
 }
 
 bool SingleLetterCommand::IsCompleted () {

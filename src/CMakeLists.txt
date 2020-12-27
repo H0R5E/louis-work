@@ -7,9 +7,17 @@ add_library(command INTERFACE)
 target_sources(command INTERFACE command.h)
 target_include_directories(command INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
+add_library(commandfactory INTERFACE)
+target_sources(commandfactory INTERFACE commandfactory.h)
+target_include_directories(commandfactory INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+
 add_library(resource INTERFACE)
 target_sources(resource INTERFACE resourceholder.h)
 target_include_directories(resource INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_library(sound INTERFACE)
+target_sources(resource INTERFACE sound.h)
+target_include_directories(sound INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(window INTERFACE)
 target_sources(resource INTERFACE window.h)
@@ -21,7 +29,14 @@ target_link_libraries(helpers PRIVATE ${CONAN_LIBS})
 
 add_library(game game.cpp game.h)
 target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(game command state gamestates window ${CONAN_LIBS})
+target_link_libraries(game command
+                           commandfactory
+                           gamecommands
+                           gamestates
+                           sound
+                           state
+                           window
+                           ${CONAN_LIBS})
 
 add_subdirectory(states)
 add_subdirectory(commands)

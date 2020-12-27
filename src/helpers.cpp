@@ -1,6 +1,6 @@
 
 #include <stdexcept>
-#include "SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 
 #include "pathconfig.h"
 #include "helpers.h"
