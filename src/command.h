@@ -4,20 +4,24 @@
 #include <SFML/Graphics.hpp>
 
 #include "sound.h"
+#include "component.h"
 
 // Forward declare
 class Game;
 
 class Command {
 public:
-    Command (std::unique_ptr<Sound>&& sound) :
-        sound(std::move(sound)) {};
-    virtual ~Command () {};
-    virtual void Execute(const sf::Event& event, 
-                         Game& game) = 0;
-    virtual void Stop () = 0;
-    virtual bool IsCompleted () = 0;
-protected:
-    sf::Clock clock;
+    Command (std::unique_ptr<Sound>&& sound,
+             std::unique_ptr<DrawComponent>&& draw_component,
+             std::unique_ptr<SoundComponent>&& sound_component) :
+        sound(std::move(sound)),
+        draw_component(std::move(draw_component)),
+        sound_component(std::move(sound_component)) {};
+    void Execute(const sf::Event& event, 
+                 Game& game);
+    bool Update (Game& game);
     std::unique_ptr<Sound> sound;
+private:
+    std::unique_ptr<DrawComponent> draw_component;
+    std::unique_ptr<SoundComponent> sound_component;
 };

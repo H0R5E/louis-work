@@ -16,7 +16,7 @@ State* WaitState::HandleKeyPressed (const sf::Event& event,
 
 State* WaitState::Update (Game& game) {
     
-    if (game.command->IsCompleted())
+    if (!game.command->Update(game))
         return &Game::play;
     
     return nullptr;

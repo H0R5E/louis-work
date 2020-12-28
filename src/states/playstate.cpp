@@ -3,7 +3,7 @@
 #include "game.h"
 
 State* PlayState::HandleKeyPressed (const sf::Event& event,
-                                     Game& game) {
+                                    Game& game) {
     
     // Using Ctrl + C to exit
     if (event.key.control && event.key.code == sf::Keyboard::C) {
@@ -28,10 +28,6 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
 }
 
 void PlayState::Enter (Game& game) {
-    
-    if (game.command) {
-        game.command->Stop();
-    }
     
     game.window->clear(sf::Color::Black);
     game.window->display();

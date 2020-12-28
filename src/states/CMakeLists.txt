@@ -5,7 +5,7 @@ target_link_libraries(startstate PRIVATE game ${CONAN_LIBS})
 
 add_library(playstate playstate.cpp playstate.h)
 target_include_directories(playstate PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(playstate PRIVATE game gamecommands ${CONAN_LIBS})
+target_link_libraries(playstate PRIVATE game ${CONAN_LIBS})
 
 add_library(drawstate drawstate.cpp drawstate.h)
 target_include_directories(drawstate PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

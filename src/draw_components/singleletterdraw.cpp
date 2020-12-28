@@ -1,13 +1,11 @@
 
-#include "singlelettercommand.h"
+#include "singleletterdraw.h"
+#include "command.h"
 #include "game.h"
 
-void SingleLetterCommand::Execute (const sf::Event& event,
-                                   Game& game ) {
-    
-    auto& sound_buffer = game.buffer_holder.Get("Alarm_or_siren");
-    sound->setBuffer(sound_buffer);
-    sound->play();
+void SingleLetterDraw::start (const sf::Event& event,
+                              Command& command,
+                              Game& game ) {
     
     char letter {static_cast<char>(event.text.unicode)};
         
@@ -36,18 +34,14 @@ void SingleLetterCommand::Execute (const sf::Event& event,
     
 }
 
-void SingleLetterCommand::Stop() {
-    sound->stop();
-}
-
-bool SingleLetterCommand::IsCompleted () {
+bool SingleLetterDraw::update (Command& command, Game& game) {
     
     auto elapsed = clock.getElapsedTime();
     
     if (elapsed.asSeconds() < 0.5f)
-        return false;
+        return true;
         
-    return true;
+    return false;
     
 }
 

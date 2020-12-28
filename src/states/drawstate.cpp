@@ -16,10 +16,10 @@ State* DrawState::HandleKeyPressed (const sf::Event& event,
 
 State* DrawState::HandleKeyReleased ( const sf::Event& event, Game& game ) {
     
-    if (game.command->IsCompleted()) {
-        return &Game::play;
-    } else {
+    if (game.command->Update(game)) {
         return &Game::wait;
+    } else {
+        return &Game::play;
     }
     
 }
