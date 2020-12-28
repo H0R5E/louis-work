@@ -8,7 +8,7 @@
 int main() {
     
     Game my_game {std::make_unique<WindowAdapter>(),
-                  std::make_unique<CommandFactory<SoundAdapter>>()};
+                  std::make_unique<CommandFactory>()};
     
     try {
        my_game.EventLoop();

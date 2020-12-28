@@ -21,22 +21,26 @@ public:
     virtual ~CommandFactoryBase () = default;
 };
 
-template <typename T>
 class CommandFactory : public CommandFactoryBase {
 public:
+    CommandFactory () = default;
+    CommandFactory (std::unique_ptr<Command>&& command) :
+        force_command(std::move(command)) {}
     std::unique_ptr<Command> makeCommand () override {
+        if (force_command) {
+            return std::move(force_command);
+        }
         auto newCommand = myCommand();
         return newCommand;
     }
 private:
-    fPtrType myCommand {&makeSingleLetterSiren<T>};
+    std::unique_ptr<Command> force_command;
+    fPtrType myCommand {&makeSingleLetterSiren<SoundAdapter>};
 };
 
 template <typename T>
 std::unique_ptr<Command> makeSingleLetterSiren () {
-    auto newCommand = std::make_unique<Command>(
-                            std::make_unique<T>(),
-                            std::make_unique<SingleLetterDraw>(),
-                            std::make_unique<SirenSound>());
-    return newCommand;
+    return std::make_unique<Command>(std::make_unique<T>(),
+                                     std::make_unique<SingleLetterDraw>(),
+                                     std::make_unique<SirenSound>());
 };

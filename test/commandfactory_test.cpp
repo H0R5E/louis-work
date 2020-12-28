@@ -5,5 +5,5 @@
 #include "factory.h"
 
 TEST (CommandFactoryTest, NoThrow) { 
-    ASSERT_NO_THROW(CommandFactory<SoundAdapter>());
+    ASSERT_NO_THROW(CommandFactory());
 }

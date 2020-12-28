@@ -1,8 +1,11 @@
 
 #pragma once
 
+#include <chrono>
 #include <stack>
+#include <thread>
 
+#include "sound.h"
 #include "window.h"
 
 const sf::Event simulateKeyPressed(sf::Keyboard::Key key,
@@ -35,6 +38,24 @@ const sf::Event simulateTextEntered(sf::Uint32 value)
     return event;
 }
 
+const sf::Event simulateTextEntered(sf::Uint32 value,
+                                    int delay) {
+    std::this_thread::sleep_for(std::chrono::seconds(delay));
+    return simulateTextEntered(value);
+}
+
+const sf::Event simulateKeyReleased()
+{
+    sf::Event event;
+    event.type = sf::Event::KeyReleased;
+    return event;
+}
+
+const sf::Event simulateKeyReleased(int delay) {
+    std::this_thread::sleep_for(std::chrono::seconds(delay));
+    return simulateKeyReleased();
+}
+
 const sf::Event simulateCtrlC() {
     return simulateKeyPressed(sf::Keyboard::C,
                               false,
@@ -46,10 +67,10 @@ const sf::Event simulateCtrlC() {
 class MockWindow : public Window {
 public:
     MockWindow (std::stack<sf::Event> eventStack) : 
-        eventStack {eventStack} {};
+        eventStack {eventStack} {}
     virtual void close () override {
         isClosed = true;
-    };
+    }
     virtual bool isOpen () override {
         
         if (isPolled) {
@@ -62,7 +83,7 @@ public:
         } else {
             return true;
         }
-    };
+    }
     virtual bool pollEvent (sf::Event &event) override {
         if (isPolled) {
             return false;
@@ -71,12 +92,12 @@ public:
             isPolled = true;
             return true;
         }
-    };
+    }
     virtual void clear (
             const sf::Color &color=sf::Color(0, 0, 0, 255)) override {
         isClear = true;
         nDraws = 0;
-    };
+    }
     virtual void draw (const sf::Drawable &drawable) override {
         nDraws++;
     }
@@ -87,4 +108,42 @@ public:
 private:
     std::stack<sf::Event> eventStack; 
     bool isPolled {false};
+};
+
+enum Status { Stopped, Paused, Playing };
+
+class MockSound : public Sound {
+public:
+    void play () override {
+        if (!bufferSet) {
+            return;
+        }
+        status = Status::Playing;
+        isReset = false;
+    }
+    void pause () override {
+        if (status == Status::Stopped) {
+            return;
+        }
+        status = Status::Paused;
+    }
+    void stop () override {
+        if (status == Status::Stopped) {
+            return;
+        };
+        status = Status::Stopped;
+        isReset = true;
+    }
+    void setBuffer (const sf::SoundBuffer &buffer) override {
+        bufferSet = true;
+    }
+    void setLoop (bool loop) override {
+        isLooping = loop;
+    }
+    Status status {Status::Stopped};
+    bool bufferSet {false};
+    bool isPlaying {false};
+    bool isPaused {false};
+    bool isLooping {false};
+    bool isReset {true};
 };
