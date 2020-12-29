@@ -8,8 +8,8 @@
 
 TEST (GameTest, TestStartStateEnter) {
     
-    std::stack<sf::Event> eventStack;
-    Game test_game {std::make_unique<MockWindow>(eventStack),
+    std::queue<DelayEvent> eventQueue;
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
                     std::make_unique<CommandFactory>(
                                         makeSingleLetterSiren<MockSound>())};
     ASSERT_EQ(&test_game.start, test_game.current_state);
@@ -18,9 +18,9 @@ TEST (GameTest, TestStartStateEnter) {
 
 TEST (GameTest, TestStartStateExit) { 
     
-    std::stack<sf::Event> eventStack;
-    eventStack.push(simulateCtrlC());
-    Game test_game {std::make_unique<MockWindow>(eventStack),
+    std::queue<DelayEvent> eventQueue;
+    eventQueue.push(simulateCtrlC());
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
                     std::make_unique<CommandFactory>(
                                         makeSingleLetterSiren<MockSound>())};
     ASSERT_NO_THROW(test_game.EventLoop());
@@ -32,9 +32,9 @@ TEST (GameTest, TestStartStateExit) {
 
 TEST (GameTest, TestStartStateDraw) { 
     
-    std::stack<sf::Event> eventStack;
-    eventStack.push(simulateCtrlC());
-    Game test_game {std::make_unique<MockWindow>(eventStack),
+    std::queue<DelayEvent> eventQueue;
+    eventQueue.push(simulateCtrlC());
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
                     std::make_unique<CommandFactory>(
                                         makeSingleLetterSiren<MockSound>())};
     test_game.EventLoop();
@@ -45,9 +45,9 @@ TEST (GameTest, TestStartStateDraw) {
 
 TEST (GameTest, TestPlayStateEnter) { 
     
-    std::stack<sf::Event> eventStack;
-    eventStack.push(simulateTextEntered(10));
-    Game test_game {std::make_unique<MockWindow>(eventStack),
+    std::queue<DelayEvent> eventQueue;
+    eventQueue.push(simulateTextEntered(10));
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
                     std::make_unique<CommandFactory>(
                                         makeSingleLetterSiren<MockSound>())};
     test_game.EventLoop();
@@ -57,9 +57,9 @@ TEST (GameTest, TestPlayStateEnter) {
 
 TEST (GameTest, TestPlayStateClear) { 
     
-    std::stack<sf::Event> eventStack;
-    eventStack.push(simulateTextEntered(10));
-    Game test_game {std::make_unique<MockWindow>(eventStack),
+    std::queue<DelayEvent> eventQueue;
+    eventQueue.push(simulateTextEntered(10));
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
                     std::make_unique<CommandFactory>(
                                         makeSingleLetterSiren<MockSound>())};
     test_game.EventLoop();
@@ -70,10 +70,10 @@ TEST (GameTest, TestPlayStateClear) {
 
 TEST (GameTest, TestPlayStateToStart) { 
     
-    std::stack<sf::Event> eventStack;
-    eventStack.push(simulateTextEntered(10));
-    eventStack.push(simulateCtrlC());
-    Game test_game {std::make_unique<MockWindow>(eventStack),
+    std::queue<DelayEvent> eventQueue;
+    eventQueue.push(simulateTextEntered(10));
+    eventQueue.push(simulateCtrlC());
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
                     std::make_unique<CommandFactory>(
                                         makeSingleLetterSiren<MockSound>())};
     test_game.EventLoop();
@@ -83,10 +83,10 @@ TEST (GameTest, TestPlayStateToStart) {
 
 TEST (GameTest, TestPlayStateToDraw) { 
     
-    std::stack<sf::Event> eventStack;
-    eventStack.push(simulateTextEntered(10));
-    eventStack.push(simulateTextEntered(10));
-    Game test_game {std::make_unique<MockWindow>(eventStack),
+    std::queue<DelayEvent> eventQueue;
+    eventQueue.push(simulateTextEntered(10));
+    eventQueue.push(simulateTextEntered(10));
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
                     std::make_unique<CommandFactory>(
                                         makeSingleLetterSiren<MockSound>())};
     test_game.EventLoop();
@@ -96,10 +96,10 @@ TEST (GameTest, TestPlayStateToDraw) {
 
 TEST (GameTest, TestDrawStateDraw) { 
     
-    std::stack<sf::Event> eventStack;
-    eventStack.push(simulateTextEntered(10));
-    eventStack.push(simulateTextEntered(10));
-    Game test_game {std::make_unique<MockWindow>(eventStack),
+    std::queue<DelayEvent> eventQueue;
+    eventQueue.push(simulateTextEntered(10));
+    eventQueue.push(simulateTextEntered(10));
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
                     std::make_unique<CommandFactory>(
                                         makeSingleLetterSiren<MockSound>())};
     test_game.EventLoop();
@@ -110,11 +110,11 @@ TEST (GameTest, TestDrawStateDraw) {
 
 TEST (GameTest, TestDrawStateToStart) { 
     
-    std::stack<sf::Event> eventStack;
-    eventStack.push(simulateTextEntered(10));
-    eventStack.push(simulateTextEntered(10));
-    eventStack.push(simulateCtrlC());
-    Game test_game {std::make_unique<MockWindow>(eventStack),
+    std::queue<DelayEvent> eventQueue;
+    eventQueue.push(simulateTextEntered(10));
+    eventQueue.push(simulateTextEntered(10));
+    eventQueue.push(simulateCtrlC());
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
                     std::make_unique<CommandFactory>(
                                         makeSingleLetterSiren<MockSound>())};
     test_game.EventLoop();
@@ -124,11 +124,11 @@ TEST (GameTest, TestDrawStateToStart) {
 
 TEST (GameTest, TestDrawStateToPlay) { 
     
-    std::stack<sf::Event> eventStack;
-    eventStack.push(simulateTextEntered(10));
-    eventStack.push(simulateTextEntered(10));
-    eventStack.push(simulateKeyReleased(2));
-    Game test_game {std::make_unique<MockWindow>(eventStack),
+    std::queue<DelayEvent> eventQueue;
+    eventQueue.push(simulateTextEntered(10));
+    eventQueue.push(simulateTextEntered(10));
+    eventQueue.push(simulateKeyReleased(1));
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
                     std::make_unique<CommandFactory>(
                                         makeSingleLetterSiren<MockSound>())};
     test_game.EventLoop();
@@ -138,11 +138,11 @@ TEST (GameTest, TestDrawStateToPlay) {
 
 TEST (GameTest, TestDrawStateToWait) { 
     
-    std::stack<sf::Event> eventStack;
-    eventStack.push(simulateTextEntered(10));
-    eventStack.push(simulateTextEntered(10));
-    eventStack.push(simulateTextEntered(10));
-    Game test_game {std::make_unique<MockWindow>(eventStack),
+    std::queue<DelayEvent> eventQueue;
+    eventQueue.push(simulateTextEntered(10));
+    eventQueue.push(simulateTextEntered(10));
+    eventQueue.push(simulateKeyReleased());
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
                     std::make_unique<CommandFactory>(
                                         makeSingleLetterSiren<MockSound>())};
     test_game.EventLoop();

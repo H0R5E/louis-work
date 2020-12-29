@@ -2,13 +2,18 @@
 #pragma once
 
 #include <chrono>
-#include <stack>
+#include <queue>
 #include <thread>
 
 #include "sound.h"
 #include "window.h"
 
-const sf::Event simulateKeyPressed(sf::Keyboard::Key key,
+class DelayEvent : public sf::Event {
+public:
+    int delay {0};
+};
+
+const DelayEvent simulateKeyPressed(sf::Keyboard::Key key,
                                    bool alt,
                                    bool control,
                                    bool shift,
@@ -21,42 +26,37 @@ const sf::Event simulateKeyPressed(sf::Keyboard::Key key,
     data.shift = shift;
     data.system = system;
     
-    sf::Event event;
+    DelayEvent event;
     event.type = sf::Event::KeyPressed;
     event.key = data;
     return event;
 }
 
-const sf::Event simulateTextEntered(sf::Uint32 value)
+const DelayEvent simulateTextEntered(sf::Uint32 value)
 {
     sf::Event::TextEvent data;
     data.unicode = value;
     
-    sf::Event event;
+    DelayEvent event;
     event.type = sf::Event::TextEntered;
     event.text = data;
     return event;
 }
 
-const sf::Event simulateTextEntered(sf::Uint32 value,
-                                    int delay) {
-    std::this_thread::sleep_for(std::chrono::seconds(delay));
-    return simulateTextEntered(value);
-}
-
-const sf::Event simulateKeyReleased()
+const DelayEvent simulateKeyReleased()
 {
-    sf::Event event;
+    DelayEvent event;
     event.type = sf::Event::KeyReleased;
     return event;
 }
 
-const sf::Event simulateKeyReleased(int delay) {
-    std::this_thread::sleep_for(std::chrono::seconds(delay));
-    return simulateKeyReleased();
+const DelayEvent simulateKeyReleased(int delay) {
+    auto event = simulateKeyReleased();
+    event.delay = delay;
+    return event;
 }
 
-const sf::Event simulateCtrlC() {
+const DelayEvent simulateCtrlC() {
     return simulateKeyPressed(sf::Keyboard::C,
                               false,
                               true,
@@ -66,19 +66,19 @@ const sf::Event simulateCtrlC() {
 
 class MockWindow : public Window {
 public:
-    MockWindow (std::stack<sf::Event> eventStack) : 
-        eventStack {eventStack} {}
+    MockWindow (std::queue<DelayEvent> eventQueue) : 
+        eventQueue {eventQueue} {}
     virtual void close () override {
         isClosed = true;
     }
     virtual bool isOpen () override {
         
         if (isPolled) {
-            eventStack.pop();
+            eventQueue.pop();
             isPolled = false;
         };
         
-        if (isClosed || eventStack.size() == 0) {
+        if (isClosed || eventQueue.size() == 0) {
             return false;
         } else {
             return true;
@@ -88,7 +88,11 @@ public:
         if (isPolled) {
             return false;
         } else {
-            event = eventStack.top();
+            DelayEvent devent = eventQueue.front();
+            if (devent.delay > 0) {
+                std::this_thread::sleep_for(std::chrono::seconds(devent.delay));
+            }
+            event = devent;
             isPolled = true;
             return true;
         }
@@ -106,7 +110,7 @@ public:
     bool isClear {false};
     bool isClosed {false};
 private:
-    std::stack<sf::Event> eventStack; 
+    std::queue<DelayEvent> eventQueue; 
     bool isPolled {false};
 };
 
