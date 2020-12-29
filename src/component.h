@@ -13,7 +13,8 @@ public:
     virtual void start (const sf::Event& event,
                         Command& command,
                         Game& game) = 0;
-    virtual bool update (Command& command, Game& game) = 0;
+    virtual void update (Command& command, Game& game) {};
+    virtual bool isCompleted () = 0;
 protected:
     sf::Clock clock;
 };

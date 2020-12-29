@@ -16,8 +16,11 @@ State* WaitState::HandleKeyPressed (const sf::Event& event,
 
 State* WaitState::Update (Game& game) {
     
-    if (!game.command->Update(game))
+    if (game.command->Stop()) {
         return &Game::play;
+    } else {
+        game.command->Update(game);
+    }
     
     return nullptr;
     

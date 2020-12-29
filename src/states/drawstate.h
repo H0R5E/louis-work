@@ -11,4 +11,5 @@ public:
                              Game& game) override;
     State* HandleKeyReleased (const sf::Event& event,
                               Game& game) override;
+    State* Update (Game& game) override;
 };

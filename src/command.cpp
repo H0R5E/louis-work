@@ -11,18 +11,24 @@ void Command::Execute ( const sf::Event& event, Game& game ) {
     
 }
 
-bool Command::Update ( Game& game ) {
+void Command::Update ( Game& game ) {
     
-    bool still_alive = draw_component->update(*this, game);
+    draw_component->update(*this, game);
     
     if (sound_component) {
-        if (still_alive) {
-            sound_component->update(*this, game);
-        } else {
-            sound_component->stop(*this);
-        }
+        sound_component->update(*this, game);
     }
     
-    return still_alive;
+}
+
+bool Command::Stop () {
+    
+    auto is_completed = draw_component->isCompleted();
+    
+    if (sound_component && is_completed) {
+        sound_component->stop(*this);
+    }
+    
+    return is_completed;
     
 }

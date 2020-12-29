@@ -19,7 +19,8 @@ public:
         sound_component(std::move(sound_component)) {};
     void Execute(const sf::Event& event, 
                  Game& game);
-    bool Update (Game& game);
+    void Update (Game& game);
+    bool Stop ();
     std::unique_ptr<Sound> sound;
 private:
     std::unique_ptr<DrawComponent> draw_component;

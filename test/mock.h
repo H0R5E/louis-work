@@ -13,11 +13,11 @@ public:
     int delay {0};
 };
 
-const DelayEvent simulateKeyPressed(sf::Keyboard::Key key,
-                                   bool alt,
-                                   bool control,
-                                   bool shift,
-                                   bool system)
+inline const DelayEvent simulateKeyPressed(sf::Keyboard::Key key,
+                                           bool alt,
+                                           bool control,
+                                           bool shift,
+                                           bool system)
 {
     sf::Event::KeyEvent data;
     data.code = key;
@@ -32,7 +32,7 @@ const DelayEvent simulateKeyPressed(sf::Keyboard::Key key,
     return event;
 }
 
-const DelayEvent simulateTextEntered(sf::Uint32 value)
+inline const DelayEvent simulateTextEntered(sf::Uint32 value)
 {
     sf::Event::TextEvent data;
     data.unicode = value;
@@ -43,20 +43,20 @@ const DelayEvent simulateTextEntered(sf::Uint32 value)
     return event;
 }
 
-const DelayEvent simulateKeyReleased()
+inline const DelayEvent simulateKeyReleased()
 {
     DelayEvent event;
     event.type = sf::Event::KeyReleased;
     return event;
 }
 
-const DelayEvent simulateKeyReleased(int delay) {
+inline const DelayEvent simulateKeyReleased(int delay) {
     auto event = simulateKeyReleased();
     event.delay = delay;
     return event;
 }
 
-const DelayEvent simulateCtrlC() {
+inline const DelayEvent simulateCtrlC() {
     return simulateKeyPressed(sf::Keyboard::C,
                               false,
                               true,

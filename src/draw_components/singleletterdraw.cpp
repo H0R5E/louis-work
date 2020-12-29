@@ -34,14 +34,14 @@ void SingleLetterDraw::start (const sf::Event& event,
     
 }
 
-bool SingleLetterDraw::update (Command& command, Game& game) {
+bool SingleLetterDraw::isCompleted () {
     
     auto elapsed = clock.getElapsedTime();
     
     if (elapsed.asSeconds() < 0.5f)
-        return true;
+        return false;
         
-    return false;
+    return true;
     
 }
 

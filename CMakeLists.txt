@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # testing
 include(GoogleTest)
+include(CodeCoverage)
 enable_testing()
 
 # conan
@@ -33,9 +34,13 @@ add_subdirectory(app)
 add_subdirectory(src)
 
 # discover test files
-file(GLOB test_SRC CONFIGURE_DEPENDS "test/*.cpp" "test/*.h")
+file(GLOB test_SRC CONFIGURE_DEPENDS "test/*.cpp")
 
 # add tests
 add_executable(tests ${test_SRC})
 target_link_libraries(tests game ${CONAN_LIBS})
 gtest_discover_tests(tests)
+
+# coverage
+SETUP_TARGET_FOR_COVERAGE(NAME coverage 
+                          EXECUTABLE tests)

@@ -21,6 +21,7 @@ public:
     virtual ~CommandFactoryBase () = default;
 };
 
+template <typename T=SoundAdapter>
 class CommandFactory : public CommandFactoryBase {
 public:
     CommandFactory () = default;
@@ -35,7 +36,7 @@ public:
     }
 private:
     std::unique_ptr<Command> force_command;
-    fPtrType myCommand {&makeSingleLetterSiren<SoundAdapter>};
+    fPtrType myCommand {&makeSingleLetterSiren<T>};
 };
 
 template <typename T>
