@@ -36,6 +36,9 @@ build/
 bin/
 lib/
 
+# Coverage report
+coverage/
+
 # KDevelop
 *.kdev4
 

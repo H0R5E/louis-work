@@ -14,6 +14,11 @@ enable_testing()
 # conan
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup(NO_OUTPUT_DIRS)
+LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+
+# code coverage
+include(CodeCoverage)
+append_coverage_compiler_flags()
 
 # output structure
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
@@ -33,10 +38,24 @@ add_subdirectory(app)
 add_subdirectory(src)
 
 # discover test files
-file(GLOB test_SRC CONFIGURE_DEPENDS "test/*.cpp")
+file(GLOB test_SRC CONFIGURE_DEPENDS "test/*.cpp" "test/*.h")
 
 # add tests
 add_executable(tests ${test_SRC})
 target_link_libraries(tests game ${CONAN_LIBS})
 gtest_discover_tests(tests)
 
+# coverage
+find_program(GCOVR_PATH gcovr)
+
+if (CMAKE_COMPILER_IS_GNUCXX AND GCOVR_PATH)
+    
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
+    
+    setup_target_for_coverage_gcovr_html(
+        NAME coverage
+        EXECUTABLE tests
+        EXCLUDE "test/*")
+    
+endif ()
