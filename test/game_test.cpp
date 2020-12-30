@@ -85,6 +85,20 @@ TEST (GameTest, TestPlayStateToStart) {
     
 }
 
+TEST (GameTest, TestStartStateSkipEvents) { 
+    
+    std::queue<DelayEvent> eventQueue;
+    eventQueue.push(simulateTextEntered(10));
+    eventQueue.push(simulateCtrlC(false));
+    eventQueue.push(simulateTextEntered(10));
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
+                    std::make_unique<SoundMaker<MockSound>>(),
+                    makeSingleLetterSiren()};
+    test_game.EventLoop();
+    ASSERT_EQ(&StateHolder::start, test_game.getCurrentState());
+    
+}
+
 TEST (GameTest, TestPlayStateToDraw) { 
     
     std::queue<DelayEvent> eventQueue;

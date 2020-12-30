@@ -11,6 +11,7 @@
 class DelayEvent : public sf::Event {
 public:
     int delay {0};
+    bool isPolled {true};
 };
 
 inline const DelayEvent simulateKeyPressed(sf::Keyboard::Key key,
@@ -64,6 +65,12 @@ inline const DelayEvent simulateCtrlC() {
                               false);
 }
 
+inline const DelayEvent simulateCtrlC(bool isPolled) {
+    auto event = simulateCtrlC();
+    event.isPolled = isPolled;
+    return event;
+}
+
 class MockWindow : public Window {
 public:
     MockWindow (std::queue<DelayEvent> eventQueue) : 
@@ -92,8 +99,11 @@ public:
             if (devent.delay > 0) {
                 std::this_thread::sleep_for(std::chrono::seconds(devent.delay));
             }
+            isPolled = devent.isPolled;
+            if (!isPolled) {
+                eventQueue.pop();
+            }
             event = devent;
-            isPolled = true;
             return true;
         }
     }
