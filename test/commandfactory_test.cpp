@@ -6,11 +6,11 @@
 #include "factory.h"
 
 TEST (CommandFactoryTest, init) { 
-    ASSERT_NO_THROW(CommandFactory<>());
+    ASSERT_NO_THROW(CommandFactory());
 }
 
 TEST (CommandFactoryTest, makeCommand) { 
-    auto factory = CommandFactory<MockSound>();
+    auto factory = CommandFactory();
     auto command = factory.makeCommand();
     ASSERT_TRUE(command != nullptr);
 }

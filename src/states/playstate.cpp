@@ -1,13 +1,15 @@
 
 #include "playstate.h"
-#include "game.h"
+
+#include "command.h"
+#include "stateholder.h"
 
 State* PlayState::HandleKeyPressed (const sf::Event& event,
-                                    Game& game) {
+                                    Service& service) {
     
     // Using Ctrl + C to exit
     if (event.key.control && event.key.code == sf::Keyboard::C) {
-        return &Game::start;
+        return &StateHolder::start;
     }
     
     return nullptr;
@@ -15,11 +17,12 @@ State* PlayState::HandleKeyPressed (const sf::Event& event,
 }
 
 State* PlayState::HandleTextEntered (const sf::Event& event,
-                                     Game& game) {
+                                     Service& service) {
     
      if (event.text.unicode < 128) {
-         game.command->Execute(event, game);
-         return &Game::draw;
+         auto command = service.getCommandPtr();
+         command->Execute(event, service);
+         return &StateHolder::draw;
      }
     
     // Just return null for now as not yet transitioning states
@@ -27,9 +30,10 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
     
 }
 
-void PlayState::Enter (Game& game) {
+void PlayState::Enter (Service& service) {
     
-    game.window->clear(sf::Color::Black);
-    game.window->display();
+    auto window = service.getWindowPtr();
+    window->clear(sf::Color::Black);
+    window->display();
     
 }

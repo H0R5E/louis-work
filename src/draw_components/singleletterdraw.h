@@ -6,7 +6,6 @@
 class SingleLetterDraw : public DrawComponent {
 public:
     void start (const sf::Event& event,
-                Command& command,
-                Game& game) override;
+                Service& service) override;
     bool isCompleted () override;
 };

@@ -1,11 +1,9 @@
 
 #include "singleletterdraw.h"
-#include "command.h"
-#include "game.h"
+#include "service.h"
 
 void SingleLetterDraw::start (const sf::Event& event,
-                              Command& command,
-                              Game& game ) {
+                              Service& service ) {
     
     char letter {static_cast<char>(event.text.unicode)};
         
@@ -13,7 +11,7 @@ void SingleLetterDraw::start (const sf::Event& event,
     auto height = sf::VideoMode::getDesktopMode().height;
     
     sf::Text text;
-    auto& letter_font = game.font_holder.Get("JetBrainsMono-Light");
+    auto& letter_font = service.getFont("JetBrainsMono-Light");
     
     text.setFont(letter_font); 
     text.setString(letter);
@@ -26,9 +24,10 @@ void SingleLetterDraw::start (const sf::Event& event,
                    textRect.top + textRect.height / 2.0f);
     text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f));
     
-    game.window->clear(sf::Color::Black);
-    game.window->draw(text);
-    game.window->display();
+    auto window = service.getWindowPtr();
+    window->clear(sf::Color::Black);
+    window->draw(text);
+    window->display();
     
     clock.restart();
     

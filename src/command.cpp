@@ -1,22 +1,22 @@
 
 #include "command.h"
 
-void Command::Execute ( const sf::Event& event, Game& game ) {
+void Command::Execute ( const sf::Event& event, Service& service ) {
     
     if (sound_component) {
-        sound_component->start(event, *this, game);
+        sound_component->start(event, service);
     }
     
-    draw_component->start(event, *this, game);
+    draw_component->start(event, service);
     
 }
 
-void Command::Update ( Game& game ) {
+void Command::Update ( Service& service ) {
     
-    draw_component->update(*this, game);
+    draw_component->update(service);
     
     if (sound_component) {
-        sound_component->update(*this, game);
+        sound_component->update(service);
     }
     
 }
@@ -26,7 +26,7 @@ bool Command::Stop () {
     auto is_completed = draw_component->isCompleted();
     
     if (sound_component && is_completed) {
-        sound_component->stop(*this);
+        sound_component->stop();
     }
     
     return is_completed;

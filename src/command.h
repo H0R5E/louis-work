@@ -3,25 +3,22 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 
-#include "sound.h"
+#include "service.h"
 #include "component.h"
-
-// Forward declare
-class Game;
 
 class Command {
 public:
-    Command (std::unique_ptr<Sound>&& sound,
-             std::unique_ptr<DrawComponent>&& draw_component,
+    Command (std::unique_ptr<DrawComponent>&& draw_component,
              std::unique_ptr<SoundComponent>&& sound_component) :
-        sound(std::move(sound)),
         draw_component(std::move(draw_component)),
-        sound_component(std::move(sound_component)) {};
+        sound_component(std::move(sound_component)) {}
     void Execute(const sf::Event& event, 
-                 Game& game);
-    void Update (Game& game);
+                 Service& service);
+    void Update (Service& service);
     bool Stop ();
-    std::unique_ptr<Sound> sound;
+    SoundComponent* getSoundComponentPtr () {
+        return sound_component.get();
+    }
 private:
     std::unique_ptr<DrawComponent> draw_component;
     std::unique_ptr<SoundComponent> sound_component;

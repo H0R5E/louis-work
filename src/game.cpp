@@ -1,26 +1,40 @@
 
 #include "game.h"
-
-StartState Game::start {};
-PlayState Game::play {};
-DrawState Game::draw {};
-WaitState Game::wait {};
+#include "stateholder.h"
 
 Game::Game(std::unique_ptr<Window>&& window,
-           std::unique_ptr<CommandFactoryBase>&& factory) :
-        window(std::move(window)),
-        factory(std::move(factory)) {
+           std::unique_ptr<SoundMakerBase>&& sound_maker) :
+        sound_maker(std::move(sound_maker)),
+        window(std::move(window)) {
     
     // Load resources
+    initResources();
+    
+}
+
+Game::Game (std::unique_ptr<Window> && window,
+            std::unique_ptr<SoundMakerBase>&& sound_maker,
+            std::unique_ptr<Command> && command ) :
+        factory(std::move(command)),
+        sound_maker(std::move(sound_maker)),
+        window(std::move(window)) {
+    
+    // Load resources
+    initResources();
+    
+}
+
+void Game::initResources () {
+    
     font_holder.Load("Monofett-Regular");
     font_holder.Load("JetBrainsMono-Light");
     buffer_holder.Load("Alarm_or_siren");
     
-    current_state = &Game::start;
+    current_state = &StateHolder::start;
     current_state->Enter(*this);
     current_state->skipEvents = false;
     
-    command = this->factory->makeCommand();
+    command = factory.makeCommand();
     
 }
 
@@ -97,4 +111,28 @@ void Game::EventLoop() {
         
     }
     
+}
+
+Command* Game::getCommandPtr() {
+    return command.get();
+}
+
+State* Game::getCurrentState() {
+    return current_state;
+}
+
+sf::Font& Game::getFont ( std::string_view name ) {
+    return font_holder.Get(name);
+}
+
+sf::SoundBuffer& Game::getSoundBuffer ( std::string_view name ) {
+    return buffer_holder.Get(name);
+}
+
+Window* Game::getWindowPtr() {
+    return window.get();
+}
+
+std::unique_ptr<Sound> Game::makeSoundPtr () {
+    return sound_maker->Get();
 }

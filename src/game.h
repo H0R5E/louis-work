@@ -8,26 +8,32 @@
 #include "command.h"
 #include "factory.h"
 #include "resourceholder.h"
-#include "window.h"
+#include "service.h"
+#include "sound.h"
 #include "state.h"
-#include "startstate.h"
-#include "playstate.h"
-#include "drawstate.h"
-#include "waitstate.h"
+#include "window.h"
 
-class Game {
+class Game : public Service {
 public:
-    static StartState start;
-    static PlayState play;
-    static DrawState draw;
-    static WaitState wait;
-    ResourceHolder<sf::Font> font_holder {};
+    Game(std::unique_ptr<Window>&& window,
+         std::unique_ptr<SoundMakerBase>&& sound_maker);
+    Game(std::unique_ptr<Window>&& window,
+         std::unique_ptr<SoundMakerBase>&& sound_maker,
+         std::unique_ptr<Command>&& command);
+    void EventLoop ();
+    Command* getCommandPtr () override;
+    State* getCurrentState ();
+    sf::Font& getFont (std::string_view name) override;
+    sf::SoundBuffer& getSoundBuffer (std::string_view name) override;
+    Window* getWindowPtr () override;
+    std::unique_ptr<Sound> makeSoundPtr () override;
+private:
+    void initResources ();
     ResourceHolder<sf::SoundBuffer> buffer_holder {};
     State* current_state;
-    std::unique_ptr<Window> window;
     std::unique_ptr<Command> command;
-    std::unique_ptr<CommandFactoryBase> factory;
-    Game(std::unique_ptr<Window>&& window,
-         std::unique_ptr<CommandFactoryBase>&& factory);
-    void EventLoop ();
+    CommandFactory factory;
+    ResourceHolder<sf::Font> font_holder {};
+    std::unique_ptr<SoundMakerBase> sound_maker;
+    std::unique_ptr<Window> window;
 };

@@ -1,32 +1,38 @@
 
 #include "drawstate.h"
-#include "game.h"
+
+#include "command.h"
+#include "stateholder.h"
 
 State* DrawState::HandleKeyPressed (const sf::Event& event,
-                                    Game& game) {
+                                    Service& service) {
     
     // Using Ctrl + C to exit
     if (event.key.control && event.key.code == sf::Keyboard::C) {
-        return &Game::start;
+        return &StateHolder::start;
     }
     
     return nullptr;
     
 }
 
-State* DrawState::HandleKeyReleased ( const sf::Event& event, Game& game ) {
+State* DrawState::HandleKeyReleased (const sf::Event& event,
+                                     Service& service ) {
     
-    if (game.command->Stop()) {
-        return &Game::play;
+    auto command = service.getCommandPtr();
+    
+    if (command->Stop()) {
+        return &StateHolder::play;
     } else {
-        return &Game::wait;
+        return &StateHolder::wait;
     }
     
 }
 
-State* DrawState::Update (Game& game) {
+State* DrawState::Update (Service& service) {
     
-    game.command->Update(game);
+    auto command = service.getCommandPtr();
+    command->Update(service);
     return nullptr;
     
 }

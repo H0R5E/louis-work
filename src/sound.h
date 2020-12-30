@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <memory>
 #include <SFML/Audio.hpp>
 
 class Sound {
@@ -34,3 +35,22 @@ public:
         sf::Sound::setLoop(loop);
     };
 };
+
+
+class SoundMakerBase {
+public:
+    virtual ~SoundMakerBase () = default;
+    virtual std::unique_ptr<Sound> Get () = 0;
+};
+
+template<typename T=SoundAdapter>
+class SoundMaker : public SoundMakerBase {
+public:
+    std::unique_ptr<Sound> Get () override;
+};
+
+template<typename T>
+std::unique_ptr<Sound> SoundMaker<T>::Get() {
+    auto sound = std::make_unique<T>();
+    return sound;
+}
