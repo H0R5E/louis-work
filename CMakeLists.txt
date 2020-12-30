@@ -18,7 +18,6 @@ LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 # code coverage
 include(CodeCoverage)
-append_coverage_compiler_flags()
 
 # output structure
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
@@ -38,7 +37,8 @@ add_subdirectory(app)
 add_subdirectory(src)
 
 # discover test files
-file(GLOB test_SRC CONFIGURE_DEPENDS "test/*.cpp" "test/*.h")
+file(GLOB test_SRC CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/test/*.cpp"
+                                     "${CMAKE_SOURCE_DIR}/test/*.h")
 
 # add tests
 add_executable(tests ${test_SRC})
@@ -50,12 +50,16 @@ find_program(GCOVR_PATH gcovr)
 
 if (CMAKE_COMPILER_IS_GNUCXX AND GCOVR_PATH)
     
+    append_coverage_compiler_flags()
+    
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
     
     setup_target_for_coverage_gcovr_html(
         NAME coverage
         EXECUTABLE tests
-        EXCLUDE "test/*")
+        EXCLUDE "${CMAKE_SOURCE_DIR}/app/*"
+                "${CMAKE_SOURCE_DIR}/src/adapters/*"
+                "${CMAKE_SOURCE_DIR}/test/*")
     
 endif ()

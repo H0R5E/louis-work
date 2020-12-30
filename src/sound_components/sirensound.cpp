@@ -1,7 +1,6 @@
 
 #include "sirensound.h"
-#include "command.h"
-#include "game.h"
+#include "service.h"
 
 void SirenSound::start (const sf::Event& event,
                         Service& service) {
