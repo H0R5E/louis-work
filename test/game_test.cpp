@@ -7,6 +7,15 @@
 #include "game.h"
 #include "stateholder.h"
 
+TEST (GameTest, TestConstruct) {
+    
+    std::queue<DelayEvent> eventQueue;
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
+                    std::make_unique<SoundMaker<MockSound>>()};
+    ASSERT_EQ(&StateHolder::start, test_game.getCurrentState());
+    
+}
+
 TEST (GameTest, TestStartStateEnter) {
     
     std::queue<DelayEvent> eventQueue;
@@ -169,7 +178,23 @@ TEST (GameTest, TestDrawStateToWait) {
     
 }
 
-TEST (GameTest, TestDrawStateToPlayStopped) { 
+TEST (GameTest, TestWaitStateToPlay) { 
+    
+    std::queue<DelayEvent> eventQueue;
+    eventQueue.push(simulateTextEntered(10));
+    eventQueue.push(simulateTextEntered(10));
+    eventQueue.push(simulateKeyReleased());
+    eventQueue.push(simulateKeyReleased(1));
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
+                    std::make_unique<SoundMaker<MockSound>>(),
+                    makeSingleLetterSiren()};
+    test_game.EventLoop();
+    ASSERT_EQ(&StateHolder::play, test_game.getCurrentState());
+    
+}
+
+
+TEST (GameTest, TestDrawStatePlaying) { 
     
     std::queue<DelayEvent> eventQueue;
     eventQueue.push(simulateTextEntered(10));
@@ -184,7 +209,7 @@ TEST (GameTest, TestDrawStateToPlayStopped) {
     
 }
 
-TEST (GameTest, TestDrawStatePlaying) { 
+TEST (GameTest, TestPlayStateStopped) { 
     
     std::queue<DelayEvent> eventQueue;
     eventQueue.push(simulateTextEntered(10));

@@ -7,17 +7,19 @@ project("Louis' Work" VERSION 0.1)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# testing
-include(GoogleTest)
-enable_testing()
-
 # conan
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup(NO_OUTPUT_DIRS)
 LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
+# testing
+include(GoogleTest)
+enable_testing()
+
 # code coverage
 include(CodeCoverage)
+find_program(GCOVR_PATH gcovr)
+set(GCOV TRUE)
 
 # output structure
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
@@ -29,8 +31,28 @@ set(ASSETS_DIR ${CMAKE_SOURCE_DIR}/assets)
 configure_file(${CMAKE_SOURCE_DIR}/src/pathconfig.h.in
                ${CMAKE_SOURCE_DIR}/src/pathconfig.h)
 
-# compiler flags
+# release compiler flags
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall")
+
+# coverage target and compiler flags
+if (CMAKE_COMPILER_IS_GNUCXX AND GCOVR_PATH AND GCOV)
+    
+    append_coverage_compiler_flags()
+    set(TEST_COMPILER_FLAGS "-O0 -fno-default-inline -fno-inline -fno-elide-constructors -save-temps")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TEST_COMPILER_FLAGS}")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${TEST_COMPILER_FLAGS}")
+     
+    setup_target_for_coverage_gcovr_html(
+        NAME coverage
+        EXECUTABLE tests
+        DEPENDENCIES tests
+        EXCLUDE "${CMAKE_SOURCE_DIR}/app/*"
+                "${CMAKE_SOURCE_DIR}/src/adapters/*"
+                "${CMAKE_SOURCE_DIR}/test/*")
+    
+    add_dependencies(coverage tests)
+    
+endif ()
 
 # path to source code
 add_subdirectory(app)
@@ -44,22 +66,3 @@ file(GLOB test_SRC CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/test/*.cpp"
 add_executable(tests ${test_SRC})
 target_link_libraries(tests game ${CONAN_LIBS})
 gtest_discover_tests(tests)
-
-# coverage
-find_program(GCOVR_PATH gcovr)
-
-if (CMAKE_COMPILER_IS_GNUCXX AND GCOVR_PATH)
-    
-    append_coverage_compiler_flags()
-    
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
-    
-    setup_target_for_coverage_gcovr_html(
-        NAME coverage
-        EXECUTABLE tests
-        EXCLUDE "${CMAKE_SOURCE_DIR}/app/*"
-                "${CMAKE_SOURCE_DIR}/src/adapters/*"
-                "${CMAKE_SOURCE_DIR}/test/*")
-    
-endif ()

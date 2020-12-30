@@ -15,6 +15,7 @@
 
 class Game : public Service {
 public:
+    Game() = delete;
     Game(std::unique_ptr<Window>&& window,
          std::unique_ptr<SoundMakerBase>&& sound_maker);
     Game(std::unique_ptr<Window>&& window,
