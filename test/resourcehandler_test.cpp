@@ -1,4 +1,6 @@
 
+#include <stdexcept>
+
 #include "gtest/gtest.h"
 
 #include <SFML/Graphics.hpp>
@@ -13,6 +15,20 @@ TEST (ResourceHolderTest, LoadFont) {
     
 }
 
+TEST (ResourceHolderTest, NotAFont) { 
+    
+    ResourceHolder<sf::Font> FontHolder {};
+    ASSERT_THROW(FontHolder.Load("Alarm_or_siren");, std::runtime_error);
+    
+}
+
+TEST (ResourceHolderTest, GetFontMissing) { 
+    
+    ResourceHolder<sf::Font> FontHolder {};
+    ASSERT_THROW(FontHolder.Get("Anything");, std::runtime_error);
+    
+}
+
 TEST (ResourceHolderTest, GetFontConst) { 
     
     ResourceHolder<sf::Font> FontHolder {};
@@ -20,6 +36,14 @@ TEST (ResourceHolderTest, GetFontConst) {
     const ResourceHolder<sf::Font>* p = &FontHolder;
     auto font = p->Get("Monofett-Regular");
     ASSERT_EQ ("Monofett", font.getInfo().family);
+    
+}
+
+TEST (ResourceHolderTest, GetFontMissingConst) { 
+    
+    ResourceHolder<sf::Font> FontHolder {};
+    const ResourceHolder<sf::Font>* p = &FontHolder;
+    ASSERT_THROW(p->Get("Anything");, std::runtime_error);
     
 }
 
