@@ -33,14 +33,15 @@ configure_file(${CMAKE_SOURCE_DIR}/src/pathconfig.h.in
 
 # release compiler flags
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall")
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall")
 
 # coverage target and compiler flags
 if (CMAKE_COMPILER_IS_GNUCXX AND GCOVR_PATH AND GCOV)
     
     append_coverage_compiler_flags()
     set(TEST_COMPILER_FLAGS "-O0 -fno-default-inline -fno-inline -fno-elide-constructors -save-temps")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TEST_COMPILER_FLAGS}")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${TEST_COMPILER_FLAGS}")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${TEST_COMPILER_FLAGS}")
+    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} ${TEST_COMPILER_FLAGS}")
      
     setup_target_for_coverage_gcovr_html(
         NAME coverage
@@ -51,6 +52,15 @@ if (CMAKE_COMPILER_IS_GNUCXX AND GCOVR_PATH AND GCOV)
                 "${CMAKE_SOURCE_DIR}/test/*")
     
     add_dependencies(coverage tests)
+    
+    file(GLOB_RECURSE GCOV_FILES CONFIGURE_DEPENDS ${PROJECT_BINARY_DIR}
+            *.gcda *.gcno)
+    
+    add_custom_target(coverage-clean
+        COMMAND rm -f ${GCOV_FILES};
+        COMMAND ${CMAKE_MAKE_PROGRAM} clean WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR};
+        COMMENT "Removing build and gcov files."
+    )
     
 endif ()
 

@@ -401,6 +401,7 @@ function(setup_target_for_coverage_gcovr_html)
     endforeach()
 
     add_custom_target(${Coverage_NAME}
+
         # Run tests
         ${Coverage_EXECUTABLE} ${Coverage_EXECUTABLE_ARGS}
 
