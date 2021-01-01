@@ -65,6 +65,14 @@ inline const DelayEvent simulateCtrlC() {
                               false);
 }
 
+inline const DelayEvent simulateOtherPress() {
+    return simulateKeyPressed(sf::Keyboard::D,
+                              false,
+                              false,
+                              false,
+                              false);
+}
+
 inline const DelayEvent simulateCtrlC(bool isPolled) {
     auto event = simulateCtrlC();
     event.isPolled = isPolled;
