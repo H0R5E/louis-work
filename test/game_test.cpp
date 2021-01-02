@@ -236,7 +236,7 @@ TEST (GameTest, TestDrawStatePlaying) {
     test_game.EventLoop();
     MockSound *mockPointer = dynamic_cast<MockSound*>(
         test_game.getCommandPtr()->getSoundComponentPtr()->getSoundPtr());
-    ASSERT_EQ(mockPointer->status, Status::Playing);
+    ASSERT_EQ(mockPointer->status, sf::Sound::Status::Playing);
     
 }
 
@@ -252,6 +252,6 @@ TEST (GameTest, TestPlayStateStopped) {
     test_game.EventLoop();
     MockSound *mockPointer = dynamic_cast<MockSound*>(
         test_game.getCommandPtr()->getSoundComponentPtr()->getSoundPtr());
-    ASSERT_EQ(mockPointer->status, Status::Stopped);
+    ASSERT_EQ(mockPointer->status, sf::Sound::Status::Stopped);
     
 }

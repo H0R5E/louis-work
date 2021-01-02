@@ -140,20 +140,20 @@ public:
         if (!bufferSet) {
             return;
         }
-        status = Status::Playing;
+        status = sf::Sound::Status::Playing;
         isReset = false;
     }
     void pause () override {
-        if (status == Status::Stopped) {
+        if (status == sf::Sound::Status::Stopped) {
             return;
         }
-        status = Status::Paused;
+        status = sf::Sound::Status::Paused;
     }
     void stop () override {
-        if (status == Status::Stopped) {
+        if (status == sf::Sound::Status::Stopped) {
             return;
         };
-        status = Status::Stopped;
+        status = sf::Sound::Status::Stopped;
         isReset = true;
     }
     void setBuffer (const sf::SoundBuffer &buffer) override {
@@ -162,7 +162,10 @@ public:
     void setLoop (bool loop) override {
         isLooping = loop;
     }
-    Status status {Status::Stopped};
+    sf::Sound::Status getStatus () const override {
+        return status;
+    };
+    sf::Sound::Status status {sf::Sound::Status::Stopped};
     bool bufferSet {false};
     bool isPlaying {false};
     bool isPaused {false};

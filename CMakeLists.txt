@@ -19,7 +19,7 @@ enable_testing()
 # code coverage
 include(CodeCoverage)
 find_program(GCOVR_PATH gcovr)
-set(GCOV TRUE)
+#set(GCOV TRUE)
 
 # output structure
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
@@ -67,6 +67,7 @@ endif ()
 # path to source code
 add_subdirectory(app)
 add_subdirectory(src)
+add_subdirectory(vendor)
 
 # discover test files
 file(GLOB test_SRC CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/test/*.cpp"

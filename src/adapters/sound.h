@@ -11,6 +11,7 @@ public:
     virtual void stop () = 0;
     virtual void setBuffer (const sf::SoundBuffer &buffer) = 0;
     virtual void setLoop (bool loop) = 0;
+    virtual sf::Sound::Status getStatus () const = 0;
     virtual ~Sound () = default;
 };
 
@@ -33,6 +34,9 @@ public:
     };
     virtual void setLoop (bool loop) override {
         sf::Sound::setLoop(loop);
+    };
+    virtual sf::Sound::Status getStatus () const override {
+        return sf::Sound::getStatus();
     };
 };
 
