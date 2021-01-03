@@ -10,6 +10,7 @@ using fPtrType = std::unique_ptr<Command> (*) ();
 
 // Forward declaration
 std::unique_ptr<Command> makeSingleLetterSiren ();
+std::unique_ptr<Command> makeSingleLetterSpoken ();
 
 class CommandFactory {
 public:
@@ -25,5 +26,5 @@ public:
     }
 private:
     std::unique_ptr<Command> force_command;
-    fPtrType myCommand {&makeSingleLetterSiren};
+    fPtrType myCommand {&makeSingleLetterSpoken};
 };

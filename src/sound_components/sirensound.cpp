@@ -12,6 +12,7 @@ void SirenSound::start (const sf::Event& event,
     
 }
 
-void SirenSound::stop() {
+bool SirenSound::stop() {
     sound->stop();
+    return true;
 }

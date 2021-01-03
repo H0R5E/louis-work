@@ -24,11 +24,12 @@ void Command::Update ( Service& service ) {
 bool Command::Stop () {
     
     auto is_completed = draw_component->isCompleted();
+    bool is_stopped {true};
     
     if (sound_component && is_completed) {
-        sound_component->stop();
+        is_stopped = sound_component->stop();
     }
     
-    return is_completed;
+    return is_completed & is_stopped;
     
 }

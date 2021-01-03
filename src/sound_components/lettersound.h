@@ -3,9 +3,11 @@
 
 #include "component.h"
 
-class SirenSound: public SoundComponent {
+class LetterSound: public SoundComponent {
 public:
     void start (const sf::Event& event,
                 Service& service) override;
     bool stop () override;
+private:
+    sf::SoundBuffer buffer;
 };

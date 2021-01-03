@@ -1,4 +1,5 @@
 
+#include <string_view>
 #include <vector>
 
 #include "voice.h"
@@ -19,24 +20,22 @@ int espeakCallBack (short* wav, int numsamples, espeak_EVENT* events){
 
 Voice::Voice () {
     
-    int buflength = 200;
     samplerate = espeak_Initialize(AUDIO_OUTPUT_RETRIEVAL, buflength, NULL, 0);
     espeak_SetSynthCallback(&espeakCallBack);
-    espeak_SetVoiceByName("ar");
+    espeak_SetVoiceByName("en-GB-x-rp");
     
 }
 
-sf::SoundBuffer Voice::getBuffer () {
+sf::SoundBuffer Voice::getBuffer (const char s[]) {
     
-    int buflength = 200;
     int options = 0;
     unsigned int position = 0;
     espeak_POSITION_TYPE position_type = espeak_POSITION_TYPE::POS_WORD;
     unsigned int end_position = 0;
-    unsigned int flags = espeakCHARS_AUTO;
+    unsigned int flags = espeakCHARS_AUTO | espeakPHONEMES;
     std::vector<short> user_data;
-   
-    espeak_Synth("A",
+    
+    espeak_Synth(s,
                  buflength,
                  position,
                  position_type,
@@ -44,6 +43,7 @@ sf::SoundBuffer Voice::getBuffer () {
                  flags,
                  NULL,
                  &user_data);
+    
     espeak_Synchronize ();
     
     sf::SoundBuffer buffer {}; 

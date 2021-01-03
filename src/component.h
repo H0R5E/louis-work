@@ -24,7 +24,7 @@ public:
     virtual void start (const sf::Event& event,
                         Service& service) = 0;
     virtual void update (Service& service) {}
-    virtual void stop () = 0;
+    virtual bool stop () = 0;
     Sound* getSoundPtr () {
         return sound.get();
     }
