@@ -3,28 +3,28 @@
 
 #include <memory>
 
-#include "command.h"
+#include "scene.h"
 
 
-using fPtrType = std::unique_ptr<Command> (*) ();
+using fPtrType = std::unique_ptr<Scene> (*) ();
 
 // Forward declaration
-std::unique_ptr<Command> makeSingleLetterSiren ();
-std::unique_ptr<Command> makeSingleLetterSpoken ();
+//std::unique_ptr<Scene> makeSingleLetterSiren ();
+std::unique_ptr<Scene> makeSingleLetterSpoken ();
 
-class CommandFactory {
+class SceneFactory {
 public:
-    CommandFactory () = default;
-    CommandFactory (std::unique_ptr<Command>&& command) :
-        force_command(std::move(command)) {}
-    std::unique_ptr<Command> makeCommand () {
-        if (force_command) {
-            return std::move(force_command);
+    SceneFactory () = default;
+    SceneFactory (std::unique_ptr<Scene>&& scene) :
+        force_scene(std::move(scene)) {}
+    std::unique_ptr<Scene> makeScene () {
+        if (force_scene) {
+            return std::move(force_scene);
         }
-        auto newCommand = myCommand();
-        return newCommand;
+        auto newScene = myScene();
+        return newScene;
     }
 private:
-    std::unique_ptr<Command> force_command;
-    fPtrType myCommand {&makeSingleLetterSpoken};
+    std::unique_ptr<Scene> force_scene;
+    fPtrType myScene {&makeSingleLetterSpoken};
 };

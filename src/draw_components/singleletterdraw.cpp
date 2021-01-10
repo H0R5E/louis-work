@@ -2,11 +2,21 @@
 #include "singleletterdraw.h"
 #include "service.h"
 
-void SingleLetterDraw::start (const sf::Event& event,
-                              Service& service ) {
+
+void SingleLetterDraw::set_active_event(const sf::Event& event,
+                                        Service& service) {
     
-    char letter {static_cast<char>(event.text.unicode)};
-        
+    auto convert = static_cast<char>(event.text.unicode);
+    letter = std::make_unique<char>(convert);
+    
+}
+
+void SingleLetterDraw::set_active_event(Service& service) {
+    letter = nullptr;
+}
+
+void SingleLetterDraw::draw (Service& service) {
+    
     auto width = sf::VideoMode::getDesktopMode().width;
     auto height = sf::VideoMode::getDesktopMode().height;
     
@@ -14,7 +24,7 @@ void SingleLetterDraw::start (const sf::Event& event,
     auto& letter_font = service.getFont("JetBrainsMono-Light");
     
     text.setFont(letter_font); 
-    text.setString(letter);
+    text.setString(*letter);
     text.setCharacterSize(120); // in pixels, not points!
     text.setFillColor(sf::Color::Yellow);
     
@@ -27,10 +37,14 @@ void SingleLetterDraw::start (const sf::Event& event,
     auto window = service.getWindowPtr();
     window->clear(sf::Color::Black);
     window->draw(text);
-    window->display();
     
     clock.restart();
+    should_draw = false;
     
+}
+
+bool SingleLetterDraw::redraw() {
+    return should_draw;
 }
 
 bool SingleLetterDraw::isCompleted () {

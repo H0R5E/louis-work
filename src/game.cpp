@@ -14,8 +14,8 @@ Game::Game(std::unique_ptr<Window>&& window,
 
 Game::Game (std::unique_ptr<Window> && window,
             std::unique_ptr<SoundMakerBase>&& sound_maker,
-            std::unique_ptr<Command> && command ) :
-        factory(std::move(command)),
+            std::unique_ptr<Scene> && scene ) :
+        factory(std::move(scene)),
         sound_maker(std::move(sound_maker)),
         window(std::move(window)) {
     
@@ -33,8 +33,6 @@ void Game::initResources () {
     current_state = &StateHolder::start;
     current_state->Enter(*this);
     current_state->skipEvents = false;
-    
-    command = factory.makeCommand();
     
 }
 
@@ -107,14 +105,19 @@ void Game::EventLoop() {
             current_state->Enter(*this);
         }
         
+        window->display();
         sf::sleep(sf::seconds(fps));
         
     }
     
 }
 
-Command* Game::getCommandPtr() {
-    return command.get();
+void Game::setScene() {
+    scene = factory.makeScene();
+}
+
+Scene* Game::getScenePtr() {
+    return scene.get();
 }
 
 State* Game::getCurrentState() {

@@ -1,7 +1,8 @@
 
 #include "playstate.h"
 
-#include "command.h"
+#include "service.h"
+#include "scene.h"
 #include "stateholder.h"
 
 State* PlayState::HandleKeyPressed (const sf::Event& event,
@@ -20,8 +21,8 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
                                      Service& service) {
     
      if (event.text.unicode < 128) {
-         auto command = service.getCommandPtr();
-         command->Execute(event, service);
+         auto scene = service.getScenePtr();
+         scene->Modify(event, service);
          return &StateHolder::draw;
      }
     
@@ -34,6 +35,7 @@ void PlayState::Enter (Service& service) {
     
     auto window = service.getWindowPtr();
     window->clear(sf::Color::Black);
-    window->display();
+    
+    service.setScene();
     
 }

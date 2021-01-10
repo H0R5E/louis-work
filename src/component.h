@@ -10,9 +10,11 @@
 class DrawComponent {
 public:
     virtual ~DrawComponent () = default;
-    virtual void start (const sf::Event& event,
-                        Service& service) = 0;
-    virtual void update (Service& service) {};
+    virtual void set_active_event (const sf::Event& event,
+                                   Service& service) = 0;
+    virtual void set_active_event (Service& service) = 0;
+    virtual void draw (Service& service) = 0;
+    virtual bool redraw () = 0;
     virtual bool isCompleted () = 0;
 protected:
     sf::Clock clock;
@@ -21,10 +23,12 @@ protected:
 class SoundComponent {
 public:
     virtual ~SoundComponent () = default;
-    virtual void start (const sf::Event& event,
-                        Service& service) = 0;
-    virtual void update (Service& service) {}
-    virtual bool stop () = 0;
+    virtual void set_active_event (const sf::Event& event,
+                                   Service& service) = 0;
+    virtual void set_active_event (Service& service) = 0;
+    virtual void play (Service& service) = 0;
+    virtual bool replay () = 0;
+    virtual bool isCompleted () = 0;
     Sound* getSoundPtr () {
         return sound.get();
     }

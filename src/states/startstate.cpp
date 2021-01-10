@@ -77,8 +77,6 @@ void StartState::Enter (Service& service) {
     
     window->draw(text);
     
-    window->display();
-    
 }
 
 State * StartState::Update (Service& service) {

@@ -1,7 +1,7 @@
 
 #include "waitstate.h"
 
-#include "command.h"
+#include "scene.h"
 #include "service.h"
 #include "stateholder.h"
 
@@ -19,12 +19,12 @@ State* WaitState::HandleKeyPressed (const sf::Event& event,
 
 State* WaitState::Update (Service& service) {
     
-    auto command = service.getCommandPtr();
+    auto scene = service.getScenePtr();
     
-    if (command->Stop()) {
+    if (scene->Ready()) {
         return &StateHolder::play;
     } else {
-        command->Update(service);
+        scene->Update(service);
     }
     
     return nullptr;

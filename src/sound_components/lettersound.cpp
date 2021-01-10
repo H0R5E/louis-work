@@ -5,11 +5,10 @@
 #include "service.h"
 #include "voice.h"
 
-void LetterSound::start (const sf::Event& event,
-                        Service& service) {
+void LetterSound::set_active_event (const sf::Event& event,
+                                    Service& service ) {
     
     Voice voice {};
-    sound = service.makeSoundPtr();
     
     if (((event.text.unicode > 47) && (event.text.unicode < 58)) ||
         ((event.text.unicode > 64) && (event.text.unicode < 91)) ||
@@ -30,12 +29,25 @@ void LetterSound::start (const sf::Event& event,
         
     }
     
+}
+
+void LetterSound::set_active_event ( Service& service ) {
+}
+
+void LetterSound::play (Service& service) {
+    
+    sound = service.makeSoundPtr();
     sound->setBuffer(buffer);
     sound->play();
+    should_replay = false;
     
 }
 
-bool LetterSound::stop() {
+bool LetterSound::replay() {
+    return should_replay;
+}
+
+bool LetterSound::isCompleted() {
     if (sound->getStatus() == sf::Sound::Status::Playing) {
         return false;
     } else {

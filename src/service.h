@@ -10,12 +10,13 @@
 #include "window.h"
 
 // Forward declare
-class Command;
+class Scene;
 
 class Service {
 public:
     virtual ~Service () = default;
-    virtual Command* getCommandPtr () = 0; 
+    virtual void setScene () = 0;
+    virtual Scene* getScenePtr () = 0; 
     virtual sf::Font& getFont (std::string_view name) = 0;
     virtual sf::SoundBuffer& getSoundBuffer (std::string_view name) = 0;
     virtual Window* getWindowPtr () = 0;

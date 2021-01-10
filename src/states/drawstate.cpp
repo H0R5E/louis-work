@@ -1,7 +1,8 @@
 
 #include "drawstate.h"
 
-#include "command.h"
+#include "service.h"
+#include "scene.h"
 #include "stateholder.h"
 
 State* DrawState::HandleKeyPressed (const sf::Event& event,
@@ -19,9 +20,10 @@ State* DrawState::HandleKeyPressed (const sf::Event& event,
 State* DrawState::HandleKeyReleased (const sf::Event& event,
                                      Service& service ) {
     
-    auto command = service.getCommandPtr();
+    auto scene = service.getScenePtr();
+    scene->Modify(service);
     
-    if (command->Stop()) {
+    if (scene->Ready()) {
         return &StateHolder::play;
     } else {
         return &StateHolder::wait;
@@ -31,8 +33,8 @@ State* DrawState::HandleKeyReleased (const sf::Event& event,
 
 State* DrawState::Update (Service& service) {
     
-    auto command = service.getCommandPtr();
-    command->Update(service);
+    auto scene = service.getScenePtr();
+    scene->Update(service);
     return nullptr;
     
 }
