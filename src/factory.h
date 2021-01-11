@@ -1,30 +1,25 @@
 
 #pragma once
 
+#include <iostream>
 #include <memory>
 
 #include "scene.h"
 
 
-using fPtrType = std::unique_ptr<Scene> (*) ();
+using fPtrType = std::unique_ptr<Scene> (*) (Service& service);
 
 // Forward declaration
-//std::unique_ptr<Scene> makeSingleLetterSiren ();
-std::unique_ptr<Scene> makeSingleLetterSpoken ();
+std::unique_ptr<Scene> makeSingleLetterSiren (Service& service);
+std::unique_ptr<Scene> makeSingleLetterSpoken (Service& service);
 
 class SceneFactory {
 public:
     SceneFactory () = default;
-    SceneFactory (std::unique_ptr<Scene>&& scene) :
-        force_scene(std::move(scene)) {}
-    std::unique_ptr<Scene> makeScene () {
-        if (force_scene) {
-            return std::move(force_scene);
-        }
-        auto newScene = myScene();
-        return newScene;
-    }
+    SceneFactory (fPtrType&& sceneFPtr) :
+        force_scene(sceneFPtr) {}
+    std::unique_ptr<Scene> makeScene (Service& service);
 private:
-    std::unique_ptr<Scene> force_scene;
-    fPtrType myScene {&makeSingleLetterSpoken};
+    fPtrType force_scene {nullptr};
+    fPtrType myScene {&makeSingleLetterSiren};
 };

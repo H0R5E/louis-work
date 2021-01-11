@@ -7,6 +7,8 @@
 
 class LetterSound: public SoundComponent {
 public:
+    LetterSound (Service& service) :
+        SoundComponent (service) {}
     void set_active_event (const sf::Event& event,
                            Service& service) override;
     void set_active_event (Service& service) override;

@@ -36,6 +36,4 @@ void PlayState::Enter (Service& service) {
     auto window = service.getWindowPtr();
     window->clear(sf::Color::Black);
     
-    service.setScene();
-    
 }

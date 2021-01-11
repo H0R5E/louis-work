@@ -20,7 +20,7 @@ public:
          std::unique_ptr<SoundMakerBase>&& sound_maker);
     Game(std::unique_ptr<Window>&& window,
          std::unique_ptr<SoundMakerBase>&& sound_maker,
-         std::unique_ptr<Scene>&& scene);
+         fPtrType&& sceneFPtr);
     void EventLoop ();
     void setScene () override;
     Scene* getScenePtr () override;

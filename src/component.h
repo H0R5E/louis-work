@@ -9,6 +9,8 @@
 
 class DrawComponent {
 public:
+    DrawComponent () = delete;
+    DrawComponent (Service& service) {};
     virtual ~DrawComponent () = default;
     virtual void set_active_event (const sf::Event& event,
                                    Service& service) = 0;
@@ -22,6 +24,8 @@ protected:
 
 class SoundComponent {
 public:
+    SoundComponent () = delete;
+    SoundComponent (Service& service) {};
     virtual ~SoundComponent () = default;
     virtual void set_active_event (const sf::Event& event,
                                    Service& service) = 0;
