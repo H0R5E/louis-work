@@ -29,6 +29,8 @@ void LetterSound::set_active_event (const sf::Event& event,
         
     }
     
+    should_replay = true;
+    
 }
 
 void LetterSound::set_active_event ( Service& service ) {
@@ -40,11 +42,19 @@ void LetterSound::play (Service& service) {
     sound->setBuffer(buffer);
     sound->play();
     should_replay = false;
+    clock.restart();
     
 }
 
 bool LetterSound::replay() {
+    
+    auto elapsed = clock.getElapsedTime();
+    
+    if (elapsed.asSeconds() > 1.0f)
+        return true;
+    
     return should_replay;
+    
 }
 
 bool LetterSound::isCompleted() {

@@ -21,5 +21,5 @@ public:
     std::unique_ptr<Scene> makeScene (Service& service);
 private:
     fPtrType force_scene {nullptr};
-    fPtrType myScene {&makeSingleLetterSiren};
+    fPtrType myScene {&makeSingleLetterSpoken};
 };
