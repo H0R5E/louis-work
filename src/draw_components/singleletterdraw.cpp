@@ -8,6 +8,7 @@ void SingleLetterDraw::set_active_event(const sf::Event& event,
     
     auto convert = static_cast<char>(event.text.unicode);
     letter = std::make_unique<char>(convert);
+    should_draw = true;
     
 }
 
@@ -53,7 +54,7 @@ bool SingleLetterDraw::isCompleted () {
     
     if (elapsed.asSeconds() < 0.5f)
         return false;
-        
+    
     return true;
     
 }

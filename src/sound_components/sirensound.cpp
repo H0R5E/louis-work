@@ -9,6 +9,10 @@ SirenSound::SirenSound (Service& service) :
     sound->setBuffer(sound_buffer);
 }
 
+void SirenSound::set_active_event ( const sf::Event& event, Service& service ) {
+    should_replay = true;
+}
+
 void SirenSound::play (Service& service) {
     sound->play();
     should_replay = false;
