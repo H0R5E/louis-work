@@ -25,7 +25,7 @@ bool Scene::Ready () {
     auto draw_completed = draw_component->isCompleted();
     bool sound_completed {true};
     
-    if (sound_component && draw_completed) {
+    if (sound_component) {
         sound_completed = sound_component->isCompleted();
     }
     

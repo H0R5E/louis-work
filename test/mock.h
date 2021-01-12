@@ -73,6 +73,12 @@ inline const DelayEvent simulateOtherPress() {
                               false);
 }
 
+inline const DelayEvent simulateOtherPress(int delay) {
+    auto event = simulateOtherPress();
+    event.delay = delay;
+    return event;
+}
+
 inline const DelayEvent simulateCtrlC(bool isPolled) {
     auto event = simulateCtrlC();
     event.isPolled = isPolled;
@@ -142,12 +148,14 @@ public:
         }
         status = sf::Sound::Status::Playing;
         isReset = false;
+        clock.restart();
     }
     void pause () override {
         if (status == sf::Sound::Status::Stopped) {
             return;
         }
         status = sf::Sound::Status::Paused;
+        elapsedTime += clock.getElapsedTime();
     }
     void stop () override {
         if (status == sf::Sound::Status::Stopped) {
@@ -157,12 +165,22 @@ public:
         isReset = true;
     }
     void setBuffer (const sf::SoundBuffer &buffer) override {
+        this->buffer = sf::SoundBuffer(buffer);
         bufferSet = true;
     }
     void setLoop (bool loop) override {
         isLooping = loop;
+        if (!loop) {
+            clock.restart();
+        }
     }
     sf::Sound::Status getStatus () const override {
+        if (!isLooping) {
+            auto totalTime = clock.getElapsedTime() + elapsedTime;
+            if (totalTime > buffer.getDuration()) {
+                return sf::Sound::Status::Stopped;
+            }
+        }
         return status;
     };
     sf::Sound::Status status {sf::Sound::Status::Stopped};
@@ -171,4 +189,8 @@ public:
     bool isPaused {false};
     bool isLooping {false};
     bool isReset {true};
+private:
+    sf::SoundBuffer buffer;
+    sf::Clock clock;
+    sf::Time elapsedTime {sf::seconds(0.0f)};
 };
