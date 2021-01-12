@@ -8,6 +8,7 @@
 
 class Scene {
 public:
+    Scene () = default;
     Scene (std::unique_ptr<DrawComponent>&& draw_component,
            std::unique_ptr<SoundComponent>&& sound_component) :
         draw_component(std::move(draw_component)),

@@ -2,9 +2,12 @@
 #pragma once
 
 #include <chrono>
+#include <memory>
 #include <queue>
 #include <thread>
 
+#include "scene.h"
+#include "service.h"
 #include "sound.h"
 #include "window.h"
 
@@ -87,6 +90,7 @@ inline const DelayEvent simulateCtrlC(bool isPolled) {
 
 class MockWindow : public Window {
 public:
+    MockWindow () = default;
     MockWindow (std::queue<DelayEvent> eventQueue) : 
         eventQueue {eventQueue} {}
     virtual void close () override {
@@ -193,4 +197,29 @@ private:
     sf::SoundBuffer buffer;
     sf::Clock clock;
     sf::Time elapsedTime {sf::seconds(0.0f)};
+};
+
+class MockService : public Service {
+public:
+    void setScene () override {}
+    Scene* getScenePtr () override {
+        return scene.get();
+    }
+    sf::Font& getFont (std::string_view name) override {
+        return font;
+    }
+    sf::SoundBuffer& getSoundBuffer (std::string_view name) override {
+        return buffer;
+    }
+    Window* getWindowPtr () override {
+        return window.get();
+    }
+    std::unique_ptr<Sound> makeSoundPtr () override {
+        return std::make_unique<MockSound>();
+    }
+private:
+    sf::SoundBuffer buffer {};
+    sf::Font font {};
+    std::unique_ptr<Scene> scene {std::make_unique<Scene>()};
+    std::unique_ptr<Window> window {std::make_unique<MockWindow>()};
 };
