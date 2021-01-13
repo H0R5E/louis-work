@@ -23,11 +23,11 @@ public:
          fPtrType&& sceneFPtr);
     void EventLoop ();
     void setScene () override;
-    Scene* getScenePtr () override;
     State* getCurrentState ();
     sf::Font& getFont (std::string_view name) override;
+    Scene& getScene () override;
     sf::SoundBuffer& getSoundBuffer (std::string_view name) override;
-    Window* getWindowPtr () override;
+    Window& getWindow () override;
     std::unique_ptr<Sound> makeSoundPtr () override;
 private:
     void initResources ();

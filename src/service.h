@@ -16,9 +16,9 @@ class Service {
 public:
     virtual ~Service () = default;
     virtual void setScene () = 0;
-    virtual Scene* getScenePtr () = 0; 
+    virtual Scene& getScene () = 0; 
     virtual sf::Font& getFont (std::string_view name) = 0;
     virtual sf::SoundBuffer& getSoundBuffer (std::string_view name) = 0;
-    virtual Window* getWindowPtr () = 0;
+    virtual Window& getWindow () = 0;
     virtual std::unique_ptr<Sound> makeSoundPtr () = 0;
 };

@@ -202,8 +202,8 @@ private:
 class MockService : public Service {
 public:
     void setScene () override {}
-    Scene* getScenePtr () override {
-        return scene.get();
+    Scene& getScene () override {
+        return *scene;
     }
     sf::Font& getFont (std::string_view name) override {
         return font;
@@ -211,8 +211,8 @@ public:
     sf::SoundBuffer& getSoundBuffer (std::string_view name) override {
         return buffer;
     }
-    Window* getWindowPtr () override {
-        return window.get();
+    Window& getWindow () override {
+        return *window;
     }
     std::unique_ptr<Sound> makeSoundPtr () override {
         return std::make_unique<MockSound>();

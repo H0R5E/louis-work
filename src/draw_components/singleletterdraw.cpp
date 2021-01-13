@@ -35,9 +35,9 @@ void SingleLetterDraw::draw (Service& service) {
                    textRect.top + textRect.height / 2.0f);
     text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f));
     
-    auto window = service.getWindowPtr();
-    window->clear(sf::Color::Black);
-    window->draw(text);
+    auto& window = service.getWindow();
+    window.clear(sf::Color::Black);
+    window.draw(text);
     
     clock.restart();
     should_draw = false;

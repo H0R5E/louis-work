@@ -21,8 +21,8 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
                                      Service& service) {
     
      if (event.text.unicode < 128) {
-         auto scene = service.getScenePtr();
-         scene->Modify(event, service);
+         auto& scene = service.getScene();
+         scene.Modify(event, service);
          return &StateHolder::draw;
      }
     
@@ -33,7 +33,7 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
 
 void PlayState::Enter (Service& service) {
     
-    auto window = service.getWindowPtr();
-    window->clear(sf::Color::Black);
+    auto& window = service.getWindow();
+    window.clear(sf::Color::Black);
     
 }

@@ -22,23 +22,23 @@ public:
                                      sf::VideoMode::getDesktopMode().height),
                        "Louis' Work",
                        sf::Style::Fullscreen) {};
-    virtual void close () override {
+    void close () override {
         sf::RenderWindow::close();
     };
-    virtual bool isOpen () override {
+    bool isOpen () override {
         return sf::RenderWindow::isOpen();
     };
-    virtual bool pollEvent (sf::Event &event) override {
+    bool pollEvent (sf::Event &event) override {
         return sf::RenderWindow::pollEvent(event);
     };
-    virtual void clear (
+    void clear (
                 const sf::Color &color=sf::Color(0, 0, 0, 255)) override {
         sf::RenderWindow::clear(color);
     };
-    virtual void draw (const sf::Drawable &drawable) override {
+    void draw (const sf::Drawable &drawable) override {
         sf::RenderWindow::draw(drawable);
     };
-    virtual void display () override {
+    void display () override {
         sf::RenderWindow::display();
     };
 };

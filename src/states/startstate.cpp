@@ -9,8 +9,8 @@ State* StartState::HandleKeyPressed (const sf::Event& event,
     
     // Using Ctrl + C to exit
     if (event.key.control && event.key.code == sf::Keyboard::C) {
-        auto window = service.getWindowPtr();
-        window->close();
+        auto& window = service.getWindow();
+        window.close();
     }
     
     return nullptr;
@@ -29,8 +29,8 @@ void StartState::Enter (Service& service) {
     
     skipEvents = true;
     
-    auto window = service.getWindowPtr();
-    window->clear(sf::Color::Blue);
+    auto& window = service.getWindow();
+    window.clear(sf::Color::Blue);
     
     auto width = sf::VideoMode::getDesktopMode().width;
     auto height = sf::VideoMode::getDesktopMode().height;
@@ -50,7 +50,7 @@ void StartState::Enter (Service& service) {
                    textRect.top + textRect.height / 2.0f);
     text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f));
     
-    window->draw(text);
+    window.draw(text);
     
     text.setFont(menu_font); 
     text.setString("Press Any Key to Start");
@@ -63,7 +63,7 @@ void StartState::Enter (Service& service) {
                    textRect.top + textRect.height / 2.0f);
     text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f + 80.0f));
     
-    window->draw(text);
+    window.draw(text);
     
     text.setString("Press Ctrl-C to Quit");
     text.setCharacterSize(30); // in pixels, not points!
@@ -75,7 +75,7 @@ void StartState::Enter (Service& service) {
                    textRect.top + textRect.height / 2.0f);
     text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f + 120.0f));
     
-    window->draw(text);
+    window.draw(text);
     
 }
 

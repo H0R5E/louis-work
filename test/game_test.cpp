@@ -35,9 +35,8 @@ TEST (GameTest, TestStartStateExit) {
                     &makeSingleLetterSpoken};
     ASSERT_NO_THROW(test_game.EventLoop());
 
-    MockWindow *mockPointer = dynamic_cast<MockWindow*>(
-                                                test_game.getWindowPtr());
-    ASSERT_EQ(true, mockPointer->isClosed);
+    MockWindow& window = dynamic_cast<MockWindow&>(test_game.getWindow());
+    ASSERT_EQ(true, window.isClosed);
     
 }
 
@@ -49,9 +48,8 @@ TEST (GameTest, TestStartStateDraw) {
                     std::make_unique<SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
-    MockWindow *mockPointer = dynamic_cast<MockWindow*>(
-                                                test_game.getWindowPtr());
-    ASSERT_EQ(3, mockPointer->nDraws);
+    MockWindow& window = dynamic_cast<MockWindow&>(test_game.getWindow());
+    ASSERT_EQ(3, window.nDraws);
     
 }
 
@@ -77,10 +75,9 @@ TEST (GameTest, TestPlayStateScene) {
                     std::make_unique<SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
-    ASSERT_TRUE(test_game.getScenePtr() != nullptr);
+    ASSERT_NO_THROW(test_game.getScene());
     
 }
-
 
 TEST (GameTest, TestPlayStateClear) { 
     
@@ -90,9 +87,8 @@ TEST (GameTest, TestPlayStateClear) {
                     std::make_unique<SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
-    MockWindow *mockPointer = dynamic_cast<MockWindow*>(
-                                                test_game.getWindowPtr());
-    ASSERT_TRUE(mockPointer->isClear);
+    MockWindow& window = dynamic_cast<MockWindow&>(test_game.getWindow());
+    ASSERT_TRUE(window.isClear);
     
 }
 
@@ -159,9 +155,8 @@ TEST (GameTest, TestDrawStateDraw) {
                     std::make_unique<SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
-    MockWindow *mockPointer = dynamic_cast<MockWindow*>(
-                                                test_game.getWindowPtr());
-    ASSERT_GT(mockPointer->nDraws, 0);
+    MockWindow& window = dynamic_cast<MockWindow&>(test_game.getWindow());
+    ASSERT_GT(window.nDraws, 0);
     
 }
 
@@ -249,7 +244,7 @@ TEST (GameTest, TestDrawStatePlaying) {
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
     MockSound *mockPointer = dynamic_cast<MockSound*>(
-        test_game.getScenePtr()->getSoundComponentPtr()->getSoundPtr());
+        test_game.getScene().getSoundComponentPtr()->getSoundPtr());
     ASSERT_EQ(mockPointer->status, sf::Sound::Status::Playing);
     
 }
@@ -265,7 +260,7 @@ TEST (GameTest, TestPlayStateSoundStopped) {
                     &makeSingleLetterSiren};
     test_game.EventLoop();
     MockSound *mockPointer = dynamic_cast<MockSound*>(
-        test_game.getScenePtr()->getSoundComponentPtr()->getSoundPtr());
+        test_game.getScene().getSoundComponentPtr()->getSoundPtr());
     ASSERT_EQ(mockPointer->status, sf::Sound::Status::Stopped);
     
 }

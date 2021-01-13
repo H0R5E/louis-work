@@ -20,10 +20,10 @@ State* DrawState::HandleKeyPressed (const sf::Event& event,
 State* DrawState::HandleKeyReleased (const sf::Event& event,
                                      Service& service ) {
     
-    auto scene = service.getScenePtr();
-    scene->Modify(service);
+    auto& scene = service.getScene();
+    scene.Modify(service);
     
-    if (scene->Ready()) {
+    if (scene.Ready()) {
         return &StateHolder::play;
     } else {
         return &StateHolder::wait;
@@ -33,8 +33,8 @@ State* DrawState::HandleKeyReleased (const sf::Event& event,
 
 State* DrawState::Update (Service& service) {
     
-    auto scene = service.getScenePtr();
-    scene->Update(service);
+    auto& scene = service.getScene();
+    scene.Update(service);
     return nullptr;
     
 }

@@ -114,16 +114,16 @@ void Game::EventLoop() {
     
 }
 
+State* Game::getCurrentState() {
+    return current_state;
+}
+
 void Game::setScene() {
     scene = factory.makeScene(*this);
 }
 
-Scene* Game::getScenePtr() {
-    return scene.get();
-}
-
-State* Game::getCurrentState() {
-    return current_state;
+Scene& Game::getScene() {
+    return *scene;
 }
 
 sf::Font& Game::getFont ( std::string_view name ) {
@@ -134,8 +134,8 @@ sf::SoundBuffer& Game::getSoundBuffer ( std::string_view name ) {
     return buffer_holder.Get(name);
 }
 
-Window* Game::getWindowPtr() {
-    return window.get();
+Window& Game::getWindow() {
+    return *window;
 }
 
 std::unique_ptr<Sound> Game::makeSoundPtr () {

@@ -19,12 +19,12 @@ State* WaitState::HandleKeyPressed (const sf::Event& event,
 
 State* WaitState::Update (Service& service) {
     
-    auto scene = service.getScenePtr();
+    auto& scene = service.getScene();
     
-    if (scene->Ready()) {
+    if (scene.Ready()) {
         return &StateHolder::play;
     } else {
-        scene->Update(service);
+        scene.Update(service);
     }
     
     return nullptr;
