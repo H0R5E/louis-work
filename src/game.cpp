@@ -34,8 +34,6 @@ void Game::initResources () {
     current_state->Enter(*this);
     current_state->skipEvents = false;
     
-    setScene();
-    
 }
 
 void Game::EventLoop() {

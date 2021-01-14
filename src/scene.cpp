@@ -1,6 +1,17 @@
 
 #include "scene.h"
 
+Scene::Scene (std::unique_ptr<DrawComponent>&& draw_component,
+              std::unique_ptr<SoundComponent>&& sound_component,
+              Service& service) :
+        draw_component(std::move(draw_component)),
+        sound_component(std::move(sound_component)) {
+    
+    auto& window = service.getWindow();
+    window.clear(sf::Color::Black);
+    
+}
+
 void Scene::Modify ( const sf::Event& event, Service& service ) {
     
     draw_component->set_active_event(event, service);

@@ -32,8 +32,4 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
 }
 
 void PlayState::Enter (Service& service) {
-    
-    auto& window = service.getWindow();
-    window.clear(sf::Color::Black);
-    
 }

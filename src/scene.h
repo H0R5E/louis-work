@@ -10,9 +10,8 @@ class Scene {
 public:
     Scene () = default;
     Scene (std::unique_ptr<DrawComponent>&& draw_component,
-           std::unique_ptr<SoundComponent>&& sound_component) :
-        draw_component(std::move(draw_component)),
-        sound_component(std::move(sound_component)) {}
+           std::unique_ptr<SoundComponent>&& sound_component,
+           Service& service);
     void Modify(const sf::Event& event, 
                 Service& service);
     void Modify(Service& service);

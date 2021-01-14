@@ -12,6 +12,7 @@ using fPtrType = std::unique_ptr<Scene> (*) (Service& service);
 // Forward declaration
 std::unique_ptr<Scene> makeSingleLetterSiren (Service& service);
 std::unique_ptr<Scene> makeSingleLetterSpoken (Service& service);
+std::unique_ptr<Scene> makeTypeWriterSpoken (Service& service);
 
 class SceneFactory {
 public:
@@ -21,5 +22,5 @@ public:
     std::unique_ptr<Scene> makeScene (Service& service);
 private:
     fPtrType force_scene {nullptr};
-    fPtrType myScene {&makeSingleLetterSpoken};
+    fPtrType myScene {&makeTypeWriterSpoken};
 };

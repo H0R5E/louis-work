@@ -21,6 +21,7 @@ State* StartState::HandleTextEntered (const sf::Event& event,
                                       Service& service) {
     
     // Avoid CtrlC
+    service.setScene();
     return &StateHolder::play;
     
 }
