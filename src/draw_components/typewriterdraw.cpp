@@ -1,7 +1,16 @@
 
-#include <sstream>
-
 #include "typewriterdraw.h"
+
+TypeWriterDraw::TypeWriterDraw ( Service& service ) :
+        DrawComponent (service) {
+    
+    auto& letter_font = service.getFont("JetBrainsMono-Light");
+    text.setFont(letter_font);
+    text.setCharacterSize(120); // in pixels, not points!
+    text.setFillColor(sf::Color::Yellow);
+    
+}
+
 
 void TypeWriterDraw::set_active_event (const sf::Event& event,
                                        Service& service) {
@@ -22,26 +31,21 @@ void TypeWriterDraw::draw ( Service& service ) {
         return;
     }
     
-    std::ostringstream sentence;
-    for (auto const& cptr: draw_letters) {
-        sentence << cptr;
-    }
-    
     auto width = sf::VideoMode::getDesktopMode().width;
     auto height = sf::VideoMode::getDesktopMode().height;
     
-    sf::Text text;
-    auto& letter_font = service.getFont("JetBrainsMono-Light");
+    text.setString(draw_letters);
     
-    text.setFont(letter_font); 
-    text.setString(sentence.str());
-    text.setCharacterSize(120); // in pixels, not points!
-    text.setFillColor(sf::Color::Yellow);
-    
-    //center text
+    // center text
     sf::FloatRect textRect = text.getLocalBounds();
-    text.setOrigin(textRect.left + textRect.width / 2.0f,
-                   textRect.top + textRect.height / 2.0f);
+    
+    if (!yorigin || reset_yorigin) {
+        yorigin = std::make_unique<float>(textRect.top +
+                                                        textRect.height / 2.0f);
+        reset_yorigin = false;
+    }
+    
+    text.setOrigin(textRect.left + textRect.width / 2.0f, *yorigin);
     text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f));
     
     auto& window = service.getWindow();
@@ -57,10 +61,11 @@ bool TypeWriterDraw::redraw() {
         return false;
     }
     
+    char letter_copy {*active_letter};
+    
     // new letter added
     if (force_draw) {
-        char letter_copy = *active_letter;
-        draw_letters.push_back(letter_copy);
+        add_letter(letter_copy);
         force_draw = false;
         return true;
     }
@@ -71,8 +76,7 @@ bool TypeWriterDraw::redraw() {
     if (elapsed.asSeconds() < 0.5f)
         return false;
     
-    char letter_copy = *active_letter;
-    draw_letters.push_back(letter_copy);
+    add_letter(letter_copy);
     
     return true;
 }
@@ -85,5 +89,24 @@ bool TypeWriterDraw::isCompleted () {
         return false;
     
     return true;
+    
+}
+
+
+void TypeWriterDraw::add_letter(const char& letter) {
+    
+    auto width = sf::VideoMode::getDesktopMode().width;
+    
+    auto check_sentence = draw_letters + letter;
+    text.setString(check_sentence);
+    
+    sf::FloatRect textRect = text.getLocalBounds();
+    
+    if (textRect.width > width) {
+        draw_letters += "\n";
+        reset_yorigin = true;
+    }
+    
+    draw_letters += letter;
     
 }

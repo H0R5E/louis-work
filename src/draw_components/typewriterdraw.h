@@ -1,14 +1,13 @@
 
 #pragma once
 
-#include <vector>
+#include <string>
 
 #include "component.h"
 
 class TypeWriterDraw : public DrawComponent {
 public:
-    TypeWriterDraw (Service& service) :
-        DrawComponent (service) {}
+    TypeWriterDraw (Service& service);
     void set_active_event (const sf::Event& event,
                            Service& service) override;
     void set_active_event (Service& service) override;
@@ -16,7 +15,11 @@ public:
     bool redraw () override;
     bool isCompleted () override;
 private:
+    void add_letter(const char& letter);
+    sf::Text text;
     std::unique_ptr<char> active_letter;
-    std::vector<char> draw_letters;
+    std::string draw_letters {};
+    std::unique_ptr<float> yorigin;
     bool force_draw {false};
+    bool reset_yorigin {false};
 };

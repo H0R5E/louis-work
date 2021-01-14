@@ -32,4 +32,7 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
 }
 
 void PlayState::Enter (Service& service) {
+    if (!service.hasScene()) {
+        service.setScene();
+    }
 }

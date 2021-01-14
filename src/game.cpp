@@ -116,6 +116,14 @@ State* Game::getCurrentState() {
     return current_state;
 }
 
+bool Game::hasScene() {
+    if (scene) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 void Game::setScene() {
     scene = factory.makeScene(*this);
 }

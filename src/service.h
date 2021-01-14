@@ -15,6 +15,7 @@ class Scene;
 class Service {
 public:
     virtual ~Service () = default;
+    virtual bool hasScene () = 0;
     virtual void setScene () = 0;
     virtual Scene& getScene () = 0; 
     virtual sf::Font& getFont (std::string_view name) = 0;

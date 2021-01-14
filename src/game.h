@@ -22,10 +22,11 @@ public:
          std::unique_ptr<SoundMakerBase>&& sound_maker,
          fPtrType&& sceneFPtr);
     void EventLoop ();
-    void setScene () override;
     State* getCurrentState ();
-    sf::Font& getFont (std::string_view name) override;
+    bool hasScene () override;
+    void setScene () override;
     Scene& getScene () override;
+    sf::Font& getFont (std::string_view name) override;
     sf::SoundBuffer& getSoundBuffer (std::string_view name) override;
     Window& getWindow () override;
     std::unique_ptr<Sound> makeSoundPtr () override;
