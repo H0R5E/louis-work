@@ -19,6 +19,8 @@ State* StartState::HandleKeyPressed (const sf::Event& event,
 
 State* StartState::HandleTextEntered (const sf::Event& event,
                                       Service& service) {
+    service.setScene();
+    service.clearLetters();
     return &StateHolder::play;
 }
 

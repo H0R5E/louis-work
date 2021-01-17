@@ -44,6 +44,7 @@ void Game::EventLoop() {
     while ( window->isOpen() ) {
         
         sf::Event event;
+        bool break_loop {false};
         
         // while there are pending events...
         while (window->pollEvent(event)) {
@@ -64,6 +65,7 @@ void Game::EventLoop() {
                     if (check_state) {
                         current_state = check_state;
                         current_state->Enter(*this);
+                        break_loop = true;
                     }
                     
                     break;
@@ -76,6 +78,7 @@ void Game::EventLoop() {
                     if (check_state) {
                         current_state = check_state;
                         current_state->Enter(*this);
+                        break_loop = true;
                     }
                     
                     break;
@@ -88,6 +91,7 @@ void Game::EventLoop() {
                     if (check_state) {
                         current_state = check_state;
                         current_state->Enter(*this);
+                        break_loop = true;
                     }
                 
                 // we don't process other types of events
@@ -96,10 +100,14 @@ void Game::EventLoop() {
                 
             }
             
+            if (!current_state->skipEvents && break_loop) {
+                break;
+            }
+            
         }
         
         check_state = current_state->Update(*this);
-        
+            
         if (check_state) {
             current_state = check_state;
             current_state->Enter(*this);
@@ -112,11 +120,11 @@ void Game::EventLoop() {
     
 }
 
-State* Game::getCurrentState() {
+State* Game::getCurrentState() const {
     return current_state;
 }
 
-bool Game::hasScene() {
+bool Game::hasScene() const {
     if (scene) {
         return true;
     } else {
@@ -128,22 +136,34 @@ void Game::setScene() {
     scene = factory.makeScene(*this);
 }
 
-Scene& Game::getScene() {
+Scene& Game::getScene() const {
     return *scene;
 }
 
-sf::Font& Game::getFont ( std::string_view name ) {
+const sf::Font& Game::getFont ( std::string_view name ) const {
     return font_holder.Get(name);
 }
 
-sf::SoundBuffer& Game::getSoundBuffer ( std::string_view name ) {
+const sf::SoundBuffer& Game::getSoundBuffer ( std::string_view name ) const {
     return buffer_holder.Get(name);
 }
 
-Window& Game::getWindow() {
+Window& Game::getWindow() const {
     return *window;
 }
 
-std::unique_ptr<Sound> Game::makeSoundPtr () {
+void Game::storeLetter(const char letter) {
+    letter_store.push_back(letter);
+}
+
+const std::vector<char>& Game::getLetters() const {
+    return letter_store;
+}
+
+void Game::clearLetters() {
+    letter_store.clear();
+}
+
+std::unique_ptr<Sound> Game::makeSoundPtr () const {
     return sound_maker->Get();
 }

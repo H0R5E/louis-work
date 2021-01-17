@@ -201,25 +201,34 @@ private:
 
 class MockService : public Service {
 public:
+    bool hasScene () const override {
+        return true;
+    }
     void setScene () override {}
-    Scene& getScene () override {
+    Scene& getScene () const override {
         return *scene;
     }
-    sf::Font& getFont (std::string_view name) override {
+    const sf::Font& getFont (std::string_view name) const override {
         return font;
     }
-    sf::SoundBuffer& getSoundBuffer (std::string_view name) override {
+    const sf::SoundBuffer& getSoundBuffer (std::string_view name) const override {
         return buffer;
     }
-    Window& getWindow () override {
+    Window& getWindow () const override {
         return *window;
     }
-    std::unique_ptr<Sound> makeSoundPtr () override {
+    std::unique_ptr<Sound> makeSoundPtr () const override {
         return std::make_unique<MockSound>();
     }
+    void storeLetter (const char letter) override {}
+    const std::vector<char>& getLetters () const override {
+        return letter_store;
+    }
+    void clearLetters () override {}
 private:
     sf::SoundBuffer buffer {};
     sf::Font font {};
     std::unique_ptr<Scene> scene {std::make_unique<Scene>()};
     std::unique_ptr<Window> window {std::make_unique<MockWindow>()};
+    std::vector<char> letter_store {};
 };

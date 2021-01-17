@@ -2,6 +2,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 class Window {
 public:
@@ -31,8 +32,8 @@ public:
     bool pollEvent (sf::Event &event) override {
         return sf::RenderWindow::pollEvent(event);
     };
-    void clear (
-                const sf::Color &color=sf::Color(0, 0, 0, 255)) override {
+    void clear (const sf::Color &color=sf::Color(0, 0, 0, 255)) override {
+        std::cout << "Window::clear" << std::endl;
         sf::RenderWindow::clear(color);
     };
     void draw (const sf::Drawable &drawable) override {

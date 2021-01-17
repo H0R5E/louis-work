@@ -38,5 +38,5 @@ public:
     }
 protected:
     sf::Clock clock;
-    std::unique_ptr<Sound> sound;
+    std::unique_ptr<Sound> sound {nullptr};
 };

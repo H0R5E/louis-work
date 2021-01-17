@@ -58,9 +58,15 @@ bool LetterSound::replay() {
 }
 
 bool LetterSound::isCompleted() {
+    
+    if (!sound) {
+        return true;
+    }
+    
     if (sound->getStatus() == sf::Sound::Status::Playing) {
         return false;
     } else {
         return true;
     }
+    
 }

@@ -5,6 +5,8 @@
 #include "scene.h"
 #include "stateholder.h"
 
+#include <iostream>
+
 State* DrawState::HandleKeyPressed (const sf::Event& event,
                                     Service& service) {
     
@@ -20,6 +22,7 @@ State* DrawState::HandleKeyPressed (const sf::Event& event,
 State* DrawState::HandleKeyReleased (const sf::Event& event,
                                      Service& service ) {
     
+    std::cout << "DrawState::HandleKeyReleased" << std::endl;
     auto& scene = service.getScene();
     scene.Modify(service);
     
@@ -32,7 +35,7 @@ State* DrawState::HandleKeyReleased (const sf::Event& event,
 }
 
 State* DrawState::Update (Service& service) {
-    
+    std::cout << "DrawState::Update" << std::endl;
     auto& scene = service.getScene();
     scene.Update(service);
     return nullptr;

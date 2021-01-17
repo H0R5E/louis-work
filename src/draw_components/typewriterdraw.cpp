@@ -1,6 +1,8 @@
 
 #include "typewriterdraw.h"
 
+#include <iostream>
+
 TypeWriterDraw::TypeWriterDraw ( Service& service ) :
         DrawComponent (service) {
     
@@ -15,8 +17,10 @@ TypeWriterDraw::TypeWriterDraw ( Service& service ) :
 void TypeWriterDraw::set_active_event (const sf::Event& event,
                                        Service& service) {
     
+    std::cout << "TypeWriterDraw::set_active_event" << std::endl;
     auto convert = static_cast<char>(event.text.unicode);
     active_letter = std::make_unique<char>(convert);
+    service.storeLetter(*active_letter);
     force_draw = true;
     
 }
@@ -26,6 +30,9 @@ void TypeWriterDraw::set_active_event(Service& service) {
 }
 
 void TypeWriterDraw::draw ( Service& service ) {
+    
+    std::cout << "TypeWriterDraw::draw" << std::endl;
+    std::cout << draw_letters.size() << std::endl;
     
     if (draw_letters.size() == 0) {
         return;
@@ -51,10 +58,14 @@ void TypeWriterDraw::draw ( Service& service ) {
     auto& window = service.getWindow();
     window.clear(sf::Color::Black);
     window.draw(text);
+    std::cout << "Drawing: " <<
+        static_cast<std::string>(text.getString()) << std::endl;
     
 }
 
 bool TypeWriterDraw::redraw() {
+    
+    std::cout << "TypeWriterDraw::redraw" << std::endl;
     
     // no active letter
     if (!active_letter) {
@@ -92,8 +103,9 @@ bool TypeWriterDraw::isCompleted () {
     
 }
 
-
 void TypeWriterDraw::add_letter(const char& letter) {
+    
+    std::cout << "TypeWriterDraw::add_letter" << std::endl;
     
     auto width = sf::VideoMode::getDesktopMode().width;
     

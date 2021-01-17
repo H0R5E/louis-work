@@ -18,6 +18,10 @@ void SingleLetterDraw::set_active_event(Service& service) {
 
 void SingleLetterDraw::draw (Service& service) {
     
+    if (!letter) {
+        return;
+    }
+    
     auto width = sf::VideoMode::getDesktopMode().width;
     auto height = sf::VideoMode::getDesktopMode().height;
     

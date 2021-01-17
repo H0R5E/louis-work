@@ -9,20 +9,17 @@
 
 std::unique_ptr<Scene> makeSingleLetterSiren (Service& service) {
     return std::make_unique<Scene>(std::make_unique<SingleLetterDraw>(service),
-                                   std::make_unique<SirenSound>(service),
-                                   service);
+                                   std::make_unique<SirenSound>(service));
 };
 
 std::unique_ptr<Scene> makeSingleLetterSpoken (Service& service) {
     return std::make_unique<Scene>(std::make_unique<SingleLetterDraw>(service),
-                                   std::make_unique<LetterSound>(service),
-                                   service);
+                                   std::make_unique<LetterSound>(service));
 };
 
 std::unique_ptr<Scene> makeTypeWriterSpoken (Service& service) {
     return std::make_unique<Scene>(std::make_unique<TypeWriterDraw>(service),
-                                   std::make_unique<LetterSound>(service),
-                                   service);
+                                   std::make_unique<LetterSound>(service));
 };
 
 std::unique_ptr<Scene> SceneFactory::makeScene (Service& service) {

@@ -5,6 +5,8 @@
 #include "service.h"
 #include "stateholder.h"
 
+#include <iostream>
+
 State* WaitState::HandleKeyPressed (const sf::Event& event,
                                     Service& service) {
     
@@ -18,6 +20,8 @@ State* WaitState::HandleKeyPressed (const sf::Event& event,
 }
 
 State* WaitState::Update (Service& service) {
+    
+    std::cout << "WaitState::Update" << std::endl;
     
     auto& scene = service.getScene();
     

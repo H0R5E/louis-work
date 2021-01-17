@@ -5,6 +5,8 @@
 #include "scene.h"
 #include "stateholder.h"
 
+#include <iostream>
+
 State* PlayState::HandleKeyPressed (const sf::Event& event,
                                     Service& service) {
     
@@ -32,7 +34,10 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
 }
 
 void PlayState::Enter (Service& service) {
-    if (!service.hasScene()) {
-        service.setScene();
-    }
+    
+    std::cout << "PlayState::Enter" << std::endl;
+    std::cout << service.getLetters().size() << std::endl;
+    auto& scene = service.getScene();
+    scene.Initialize(service);
+    
 }
