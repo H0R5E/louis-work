@@ -1,10 +1,11 @@
 
 #include "typewriterdraw.h"
+#include "service.h"
+#include "window.h"
 
 #include <iostream>
 
-TypeWriterDraw::TypeWriterDraw ( Service& service ) :
-        DrawComponent (service) {
+void TypeWriterDraw::init ( Service& service ) {
     
     auto& letter_font = service.getFont("JetBrainsMono-Light");
     text.setFont(letter_font);
@@ -13,11 +14,10 @@ TypeWriterDraw::TypeWriterDraw ( Service& service ) :
     
 }
 
-
-void TypeWriterDraw::set_active_event (const sf::Event& event,
-                                       Service& service) {
+void TypeWriterDraw::setActiveEvent (const sf::Event& event,
+                                     Service& service) {
     
-    std::cout << "TypeWriterDraw::set_active_event" << std::endl;
+    std::cout << "TypeWriterDraw::setActiveEvent" << std::endl;
     auto convert = static_cast<char>(event.text.unicode);
     active_letter = std::make_unique<char>(convert);
     service.storeLetter(*active_letter);
@@ -25,47 +25,13 @@ void TypeWriterDraw::set_active_event (const sf::Event& event,
     
 }
 
-void TypeWriterDraw::set_active_event(Service& service) {
+void TypeWriterDraw::setActiveEvent(Service& service) {
     active_letter = nullptr;
 }
 
-void TypeWriterDraw::draw ( Service& service ) {
+bool TypeWriterDraw::update() {
     
-    std::cout << "TypeWriterDraw::draw" << std::endl;
-    std::cout << draw_letters.size() << std::endl;
-    
-    if (draw_letters.size() == 0) {
-        return;
-    }
-    
-    auto width = sf::VideoMode::getDesktopMode().width;
-    auto height = sf::VideoMode::getDesktopMode().height;
-    
-    text.setString(draw_letters);
-    
-    // center text
-    sf::FloatRect textRect = text.getLocalBounds();
-    
-    if (!yorigin || reset_yorigin) {
-        yorigin = std::make_unique<float>(textRect.top +
-                                                        textRect.height / 2.0f);
-        reset_yorigin = false;
-    }
-    
-    text.setOrigin(textRect.left + textRect.width / 2.0f, *yorigin);
-    text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f));
-    
-    auto& window = service.getWindow();
-    window.clear(sf::Color::Black);
-    window.draw(text);
-    std::cout << "Drawing: " <<
-        static_cast<std::string>(text.getString()) << std::endl;
-    
-}
-
-bool TypeWriterDraw::redraw() {
-    
-    std::cout << "TypeWriterDraw::redraw" << std::endl;
+    std::cout << "TypeWriterDraw::update" << std::endl;
     
     // no active letter
     if (!active_letter) {
@@ -100,6 +66,46 @@ bool TypeWriterDraw::isCompleted () {
         return false;
     
     return true;
+    
+}
+
+void TypeWriterDraw::operator() ( Service& service ) {
+    
+    std::cout << "TypeWriterDraw::draw" << std::endl;
+    
+    if (background) {
+        auto& window = service.getWindow();
+        window.clear(*background);
+    };
+    
+    std::cout << draw_letters.size() << std::endl;
+    
+    if (draw_letters.size() == 0) {
+        return;
+    }
+    
+    auto width = sf::VideoMode::getDesktopMode().width;
+    auto height = sf::VideoMode::getDesktopMode().height;
+    
+    text.setString(draw_letters);
+    
+    // center text
+    sf::FloatRect textRect = text.getLocalBounds();
+    
+    if (!yorigin || reset_yorigin) {
+        yorigin = std::make_unique<float>(textRect.top +
+                                                        textRect.height / 2.0f);
+        reset_yorigin = false;
+    }
+    
+    text.setOrigin(textRect.left + textRect.width / 2.0f, *yorigin);
+    text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f));
+    
+    auto& window = service.getWindow();
+    window.clear(sf::Color::Black);
+    window.draw(text);
+    std::cout << "Drawing: " <<
+        static_cast<std::string>(text.getString()) << std::endl;
     
 }
 

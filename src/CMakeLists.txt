@@ -35,7 +35,7 @@ target_link_libraries(scene PRIVATE component service ${CONAN_LIBS})
 
 add_library(stateholder stateholder.cpp stateholder.h)
 target_include_directories(stateholder PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(stateholder PUBLIC gamestates PRIVATE state)
+target_link_libraries(stateholder PUBLIC gamestates sound PRIVATE state)
 
 add_library(voice voice.cpp voice.h)
 target_include_directories(voice PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

@@ -8,6 +8,7 @@
 #include <iostream>
 
 State* DrawState::HandleKeyPressed (const sf::Event& event,
+                                    Component& scene,
                                     Service& service) {
     
     // Using Ctrl + C to exit
@@ -20,13 +21,14 @@ State* DrawState::HandleKeyPressed (const sf::Event& event,
 }
 
 State* DrawState::HandleKeyReleased (const sf::Event& event,
+                                     Component& scene,
                                      Service& service ) {
     
     std::cout << "DrawState::HandleKeyReleased" << std::endl;
-    auto& scene = service.getScene();
-    scene.Modify(service);
     
-    if (scene.Ready()) {
+    scene.setActiveEvent(service);
+    
+    if (scene.isCompleted()) {
         return &StateHolder::play;
     } else {
         return &StateHolder::wait;
@@ -34,10 +36,8 @@ State* DrawState::HandleKeyReleased (const sf::Event& event,
     
 }
 
-State* DrawState::Update (Service& service) {
+State* DrawState::Update (Component& scene, Service& service) {
     std::cout << "DrawState::Update" << std::endl;
-    auto& scene = service.getScene();
-    scene.Update(service);
+    scene(service);
     return nullptr;
-    
 }

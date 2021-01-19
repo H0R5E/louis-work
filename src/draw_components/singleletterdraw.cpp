@@ -1,10 +1,10 @@
 
 #include "singleletterdraw.h"
 #include "service.h"
+#include "window.h"
 
-
-void SingleLetterDraw::set_active_event(const sf::Event& event,
-                                        Service& service) {
+void SingleLetterDraw::setActiveEvent(const sf::Event& event,
+                                      Service& service) {
     
     auto convert = static_cast<char>(event.text.unicode);
     letter = std::make_unique<char>(convert);
@@ -12,11 +12,31 @@ void SingleLetterDraw::set_active_event(const sf::Event& event,
     
 }
 
-void SingleLetterDraw::set_active_event(Service& service) {
+void SingleLetterDraw::setActiveEvent(Service& service) {
     letter = nullptr;
 }
 
-void SingleLetterDraw::draw (Service& service) {
+bool SingleLetterDraw::update() {
+    return should_draw;
+}
+
+bool SingleLetterDraw::isCompleted () {
+    
+    auto elapsed = clock.getElapsedTime();
+    
+    if (elapsed.asSeconds() < 0.5f)
+        return false;
+    
+    return true;
+    
+}
+
+void SingleLetterDraw::operator() (Service& service) {
+    
+    if (background) {
+        auto& window = service.getWindow();
+        window.clear(*background);
+    };
     
     if (!letter) {
         return;
@@ -47,20 +67,3 @@ void SingleLetterDraw::draw (Service& service) {
     should_draw = false;
     
 }
-
-bool SingleLetterDraw::redraw() {
-    return should_draw;
-}
-
-bool SingleLetterDraw::isCompleted () {
-    
-    auto elapsed = clock.getElapsedTime();
-    
-    if (elapsed.asSeconds() < 0.5f)
-        return false;
-    
-    return true;
-    
-}
-
-

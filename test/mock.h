@@ -6,6 +6,8 @@
 #include <queue>
 #include <thread>
 
+#include "game.h"
+#include "singleletterdraw.h"
 #include "scene.h"
 #include "service.h"
 #include "sound.h"
@@ -201,13 +203,6 @@ private:
 
 class MockService : public Service {
 public:
-    bool hasScene () const override {
-        return true;
-    }
-    void setScene () override {}
-    Scene& getScene () const override {
-        return *scene;
-    }
     const sf::Font& getFont (std::string_view name) const override {
         return font;
     }
@@ -217,18 +212,34 @@ public:
     Window& getWindow () const override {
         return *window;
     }
-    std::unique_ptr<Sound> makeSoundPtr () const override {
-        return std::make_unique<MockSound>();
-    }
     void storeLetter (const char letter) override {}
     const std::vector<char>& getLetters () const override {
         return letter_store;
     }
     void clearLetters () override {}
+    std::unique_ptr<Component> makeScenePtr () override {
+        return std::make_unique<SingleLetterDraw>(*this);
+    }
+    std::unique_ptr<Sound> makeSoundPtr () const override {
+        return std::make_unique<MockSound>();
+    }
 private:
     sf::SoundBuffer buffer {};
     sf::Font font {};
-    std::unique_ptr<Scene> scene {std::make_unique<Scene>()};
     std::unique_ptr<Window> window {std::make_unique<MockWindow>()};
     std::vector<char> letter_store {};
+};
+
+class MockGame : public Game {
+public:
+    MockGame(std::unique_ptr<Window>&& window,
+             std::unique_ptr<SoundMakerBase>&& sound_maker) :
+             Game(std::move(window), std::move(sound_maker)) {}
+    MockGame(std::unique_ptr<Window>&& window,
+             std::unique_ptr<SoundMakerBase>&& sound_maker,
+             fPtrType&& sceneFPtr)  :
+             Game(std::move(window), std::move(sound_maker), *sceneFPtr) {}
+    Component* getScenePtr () {
+        return scene.get();
+    }
 };

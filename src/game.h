@@ -4,10 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
-// Forward declare
 #include "factory.h"
 #include "resourceholder.h"
-#include "scene.h"
 #include "service.h"
 #include "sound.h"
 #include "state.h"
@@ -23,9 +21,6 @@ public:
          fPtrType&& sceneFPtr);
     void EventLoop ();
     State* getCurrentState () const;
-    bool hasScene () const override;
-    void setScene () override;
-    Scene& getScene () const override;
     const sf::Font& getFont (std::string_view name) const override;
     const sf::SoundBuffer& getSoundBuffer
                                         (std::string_view name) const override;
@@ -33,7 +28,10 @@ public:
     void storeLetter (const char letter) override;
     const std::vector<char>& getLetters () const override;
     void clearLetters () override;
+    std::unique_ptr<Component> makeScenePtr () override;
     std::unique_ptr<Sound> makeSoundPtr () const override;
+protected:
+    std::unique_ptr<Component> scene {nullptr};
 private:
     void initResources ();
     SceneFactory factory;
@@ -42,6 +40,5 @@ private:
     ResourceHolder<sf::Font> font_holder {};
     ResourceHolder<sf::SoundBuffer> buffer_holder {};
     State* current_state;
-    std::unique_ptr<Scene> scene {nullptr};
     std::vector<char> letter_store {};
 };

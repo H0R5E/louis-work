@@ -4,22 +4,22 @@
 #include <iostream>
 #include <memory>
 
-#include "scene.h"
+#include "component.h"
 
 
-using fPtrType = std::unique_ptr<Scene> (*) (Service& service);
+using fPtrType = std::unique_ptr<Component> (*) (Service& service);
 
 // Forward declaration
-std::unique_ptr<Scene> makeSingleLetterSiren (Service& service);
-std::unique_ptr<Scene> makeSingleLetterSpoken (Service& service);
-std::unique_ptr<Scene> makeTypeWriterSpoken (Service& service);
+std::unique_ptr<Component> makeSingleLetterSiren (Service& service);
+std::unique_ptr<Component> makeSingleLetterSpoken (Service& service);
+std::unique_ptr<Component> makeTypeWriterSpoken (Service& service);
 
 class SceneFactory {
 public:
     SceneFactory () = default;
     SceneFactory (fPtrType&& sceneFPtr) :
         force_scene(sceneFPtr) {}
-    std::unique_ptr<Scene> makeScene (Service& service);
+    std::unique_ptr<Component> makeScene (Service& service);
 private:
     fPtrType force_scene {nullptr};
     fPtrType myScene {&makeTypeWriterSpoken};

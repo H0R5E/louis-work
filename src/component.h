@@ -4,39 +4,49 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 
-#include "service.h"
 #include "sound.h"
 
-class DrawComponent {
+// Forward declare
+class Service;
+
+class Component {
 public:
-    DrawComponent () = delete;
-    DrawComponent (Service& service) {};
-    virtual ~DrawComponent () = default;
-    virtual void set_active_event (const sf::Event& event,
-                                   Service& service) = 0;
-    virtual void set_active_event (Service& service) = 0;
-    virtual void draw (Service& service) = 0;
-    virtual bool redraw () = 0;
+    Component () = delete;
+    Component (Service& service) {};
+    Component (Service& service,
+               std::unique_ptr<sf::Color>&& background) :
+        background(std::move(background)) {};
+    virtual void setActiveEvent (const sf::Event& event,
+                                 Service& service) = 0;
+    virtual void setActiveEvent (Service& service) = 0;
+    virtual bool update () = 0;
     virtual bool isCompleted () = 0;
+    virtual void operator () (Service& service) = 0;
+    virtual ~Component () = default;
 protected:
+    std::unique_ptr<sf::Color> background {nullptr};
     sf::Clock clock;
 };
 
-class SoundComponent {
+class DrawComponent : public Component {
 public:
-    SoundComponent () = delete;
-    SoundComponent (Service& service) {};
-    virtual ~SoundComponent () = default;
-    virtual void set_active_event (const sf::Event& event,
-                                   Service& service) = 0;
-    virtual void set_active_event (Service& service) = 0;
-    virtual void play (Service& service) = 0;
-    virtual bool replay () = 0;
-    virtual bool isCompleted () = 0;
+    DrawComponent (Service& service) :
+        Component (service) {}
+    DrawComponent (Service& service,
+                   std::unique_ptr<sf::Color>&& background) :
+        Component(service, std::move(background)) {}
+};
+
+class SoundComponent : public Component {
+public:
+    SoundComponent (Service& service) :
+        Component (service) {}
+    SoundComponent (Service& service,
+                    std::unique_ptr<sf::Color>&& background) :
+        Component(service, std::move(background)) {};
     Sound* getSoundPtr () {
         return sound.get();
     }
 protected:
-    sf::Clock clock;
     std::unique_ptr<Sound> sound {nullptr};
 };

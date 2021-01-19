@@ -8,13 +8,16 @@
 class SingleLetterDraw : public DrawComponent {
 public:
     SingleLetterDraw (Service& service) :
-        DrawComponent (service) {}
-    void set_active_event (const sf::Event& event,
-                           Service& service) override;
-    void set_active_event (Service& service) override;
-    void draw (Service& service) override;
-    bool redraw () override;
+        DrawComponent (service) {};
+    SingleLetterDraw (Service& service,
+                      std::unique_ptr<sf::Color>&& background) :
+        DrawComponent(service, std::move(background)) {};
+    void setActiveEvent (const sf::Event& event,
+                         Service& service) override;
+    void setActiveEvent (Service& service) override;
+    bool update () override;
     bool isCompleted () override;
+    void operator () (Service& service) override;
 private:
     std::unique_ptr<char> letter;
     bool should_draw {true};

@@ -8,6 +8,7 @@
 class WaitState : public State {
 public:
     State* HandleKeyPressed (const sf::Event& event,
+                             Component& scene,
                              Service& service) override;
-    State* Update (Service& service) override;
+    State* Update (Component& scene, Service& service) override;
 };

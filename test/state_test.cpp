@@ -12,12 +12,13 @@ protected:
     Game game {std::make_unique<MockWindow>(eventQueue),
                std::make_unique<SoundMaker<MockSound>>()};;
     sf::Event event {simulateTextEntered(10)};
+    SingleLetterDraw scene {SingleLetterDraw(game)};
 };
 
 TEST_F (StateTest, HandleKeyPressed) { 
     
     State state;
-    auto test = state.HandleKeyPressed(event, game);
+    auto test = state.HandleKeyPressed(event, scene, game);
     ASSERT_TRUE(!test);
     
 }
@@ -25,7 +26,7 @@ TEST_F (StateTest, HandleKeyPressed) {
 TEST_F (StateTest, HandleTextEntered) { 
     
     State state;
-    auto test = state.HandleTextEntered(event, game);
+    auto test = state.HandleTextEntered(event, scene, game);
     ASSERT_TRUE(!test);
     
 }
@@ -33,7 +34,7 @@ TEST_F (StateTest, HandleTextEntered) {
 TEST_F (StateTest, HandleKeyReleased) { 
     
     State state;
-    auto test = state.HandleKeyReleased(event, game);
+    auto test = state.HandleKeyReleased(event, scene, game);
     ASSERT_TRUE(!test);
     
 }
@@ -41,7 +42,7 @@ TEST_F (StateTest, HandleKeyReleased) {
 TEST_F (StateTest, Update) { 
     
     State state;
-    auto test = state.Update(game);
+    auto test = state.Update(scene, game);
     ASSERT_TRUE(!test);
     
 }

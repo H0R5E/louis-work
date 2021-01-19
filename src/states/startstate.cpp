@@ -3,8 +3,10 @@
 
 #include "service.h"
 #include "stateholder.h"
+#include "window.h"
 
 State* StartState::HandleKeyPressed (const sf::Event& event,
+                                     Component& scene,
                                      Service& service) {
     
     // Using Ctrl + C to exit
@@ -18,13 +20,18 @@ State* StartState::HandleKeyPressed (const sf::Event& event,
 }
 
 State* StartState::HandleTextEntered (const sf::Event& event,
+                                      Component& scene,
                                       Service& service) {
-    service.setScene();
-    service.clearLetters();
     return &StateHolder::play;
 }
 
-void StartState::Enter (Service& service) {
+State* StartState::Update (Component& scene,
+                           Service& service) {
+    skipEvents = false;
+    return nullptr;
+}
+
+std::unique_ptr<Component> StartState::Enter (Service& service) {
     
     skipEvents = true;
     
@@ -76,10 +83,6 @@ void StartState::Enter (Service& service) {
     
     window.draw(text);
     
-}
-
-State * StartState::Update (Service& service) {
-    skipEvents = false;
     return nullptr;
+    
 }
-

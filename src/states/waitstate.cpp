@@ -8,6 +8,7 @@
 #include <iostream>
 
 State* WaitState::HandleKeyPressed (const sf::Event& event,
+                                    Component& scene,
                                     Service& service) {
     
     // Using Ctrl + C to exit
@@ -19,16 +20,14 @@ State* WaitState::HandleKeyPressed (const sf::Event& event,
     
 }
 
-State* WaitState::Update (Service& service) {
+State* WaitState::Update (Component& scene, Service& service) {
     
     std::cout << "WaitState::Update" << std::endl;
     
-    auto& scene = service.getScene();
-    
-    if (scene.Ready()) {
+    if (scene.isCompleted()) {
         return &StateHolder::play;
     } else {
-        scene.Update(service);
+        scene(service);
     }
     
     return nullptr;

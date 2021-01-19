@@ -1,6 +1,9 @@
 #pragma once
 
+#include <memory>
 #include <SFML/Graphics.hpp>
+
+#include "component.h"
 
 // Forward declare
 class Service;
@@ -10,11 +13,17 @@ public:
     bool skipEvents {false};
     virtual ~State () {};
     virtual State* HandleKeyPressed (const sf::Event& event,
-                                     Service& service) {return nullptr;};
+                                     Component& scene,
+                                     Service& service) {return nullptr;}
     virtual State* HandleTextEntered (const sf::Event& event,
-                                      Service& service) {return nullptr;};
+                                      Component& scene,
+                                      Service& service) {return nullptr;}
     virtual State* HandleKeyReleased (const sf::Event& event,
-                                      Service& service) {return nullptr;};
-    virtual State* Update (Service& service) {return nullptr;};
-    virtual void Enter (Service& service) {};
+                                      Component& scene,
+                                      Service& service) {return nullptr;}
+    virtual State* Update (Component& scene,
+                           Service& service) {return nullptr;}
+    virtual std::unique_ptr<Component> Enter (Service& service) {
+        return nullptr;
+    }
 };

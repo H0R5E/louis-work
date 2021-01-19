@@ -31,7 +31,12 @@ void Game::initResources () {
     buffer_holder.Load("Alarm_or_siren");
     
     current_state = &StateHolder::start;
-    current_state->Enter(*this);
+    auto new_scene = current_state->Enter(*this);
+                        
+    if (new_scene) {
+        scene = std::move(new_scene);
+    }
+    
     current_state->skipEvents = false;
     
 }
@@ -60,6 +65,7 @@ void Game::EventLoop() {
                 case sf::Event::KeyPressed:
                     
                     check_state = current_state->HandleKeyPressed(event,
+                                                                  *scene,
                                                                   *this);
                     
                     if (check_state) {
@@ -73,12 +79,20 @@ void Game::EventLoop() {
                 case sf::Event::TextEntered:
                     
                     check_state = current_state->HandleTextEntered(event,
+                                                                   *scene,
                                                                    *this);
                     
                     if (check_state) {
+                        
                         current_state = check_state;
-                        current_state->Enter(*this);
+                        auto new_scene = current_state->Enter(*this);
+                        
+                        if (new_scene) {
+                            scene = std::move(new_scene);
+                        }
+                        
                         break_loop = true;
+                        
                     }
                     
                     break;
@@ -86,11 +100,18 @@ void Game::EventLoop() {
                 case sf::Event::KeyReleased:
                     
                     check_state = current_state->HandleKeyReleased(event,
+                                                                   *scene,
                                                                    *this);
                     
                     if (check_state) {
+                        
                         current_state = check_state;
-                        current_state->Enter(*this);
+                        auto new_scene = current_state->Enter(*this);
+                        
+                        if (new_scene) {
+                            scene = std::move(new_scene);
+                        }
+                        
                         break_loop = true;
                     }
                 
@@ -106,11 +127,17 @@ void Game::EventLoop() {
             
         }
         
-        check_state = current_state->Update(*this);
+        check_state = current_state->Update(*scene, *this);
             
         if (check_state) {
+            
             current_state = check_state;
-            current_state->Enter(*this);
+            auto new_scene = current_state->Enter(*this);
+            
+            if (new_scene) {
+                scene = std::move(new_scene);
+            }
+            
         }
         
         window->display();
@@ -122,22 +149,6 @@ void Game::EventLoop() {
 
 State* Game::getCurrentState() const {
     return current_state;
-}
-
-bool Game::hasScene() const {
-    if (scene) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-void Game::setScene() {
-    scene = factory.makeScene(*this);
-}
-
-Scene& Game::getScene() const {
-    return *scene;
 }
 
 const sf::Font& Game::getFont ( std::string_view name ) const {
@@ -162,6 +173,10 @@ const std::vector<char>& Game::getLetters() const {
 
 void Game::clearLetters() {
     letter_store.clear();
+}
+
+std::unique_ptr<Component> Game::makeScenePtr() {
+    return factory.makeScene(*this);
 }
 
 std::unique_ptr<Sound> Game::makeSoundPtr () const {

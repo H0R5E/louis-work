@@ -3,24 +3,36 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 
-#include "service.h"
 #include "component.h"
+#include "service.h"
 
-class Scene {
+class Scene : public Component {
 public:
-    Scene () = default;
-    Scene (std::unique_ptr<DrawComponent>&& draw_component,
-           std::unique_ptr<SoundComponent>&& sound_component);
-    void Initialize(Service& service);
-    void Modify(const sf::Event& event, 
-                Service& service);
-    void Modify(Service& service);
-    bool Ready();
-    void Update (Service& service);
+    Scene (Service& service,
+           std::unique_ptr<DrawComponent>&& draw_component,
+           std::unique_ptr<SoundComponent>&& sound_component) :
+        Component(service),
+        draw_component(std::move(draw_component)),
+        sound_component(std::move(sound_component)) {}
+    Scene (Service& service,
+           std::unique_ptr<DrawComponent>&& draw_component,
+           std::unique_ptr<SoundComponent>&& sound_component,
+           std::unique_ptr<sf::Color>&& background) :
+        Component(service, std::move(background)),
+        draw_component(std::move(draw_component)),
+        sound_component(std::move(sound_component)) {}
+    void setActiveEvent (const sf::Event& event,
+                         Service& service) override;
+    void setActiveEvent (Service& service) override;
+    bool update () override;
+    bool isCompleted () override;
+    void operator () (Service& service) override;
     SoundComponent* getSoundComponentPtr () {
         return sound_component.get();
     }
 private:
     std::unique_ptr<DrawComponent> draw_component;
     std::unique_ptr<SoundComponent> sound_component;
+    bool redraw {true};
+    bool replay {true};
 };

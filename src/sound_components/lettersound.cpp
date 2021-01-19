@@ -5,8 +5,8 @@
 #include "service.h"
 #include "voice.h"
 
-void LetterSound::set_active_event (const sf::Event& event,
-                                    Service& service ) {
+void LetterSound::setActiveEvent (const sf::Event& event,
+                                  Service& service ) {
     
     Voice voice {};
     
@@ -33,20 +33,10 @@ void LetterSound::set_active_event (const sf::Event& event,
     
 }
 
-void LetterSound::set_active_event ( Service& service ) {
+void LetterSound::setActiveEvent ( Service& service ) {
 }
 
-void LetterSound::play (Service& service) {
-    
-    sound = service.makeSoundPtr();
-    sound->setBuffer(buffer);
-    sound->play();
-    should_replay = false;
-    clock.restart();
-    
-}
-
-bool LetterSound::replay() {
+bool LetterSound::update() {
     
     auto elapsed = clock.getElapsedTime();
     
@@ -68,5 +58,15 @@ bool LetterSound::isCompleted() {
     } else {
         return true;
     }
+    
+}
+
+void LetterSound::operator() (Service& service) {
+    
+    sound = service.makeSoundPtr();
+    sound->setBuffer(buffer);
+    sound->play();
+    should_replay = false;
+    clock.restart();
     
 }

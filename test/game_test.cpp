@@ -71,11 +71,11 @@ TEST (GameTest, TestPlayStateScene) {
     std::queue<DelayEvent> eventQueue;
     eventQueue.push(simulateTextEntered(10));
     eventQueue.push(simulateOtherPress());
-    Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
-                    &makeSingleLetterSpoken};
+    MockGame test_game {std::make_unique<MockWindow>(eventQueue),
+                        std::make_unique<SoundMaker<MockSound>>(),
+                        &makeSingleLetterSpoken};
     test_game.EventLoop();
-    ASSERT_NO_THROW(test_game.getScene());
+    ASSERT_TRUE(test_game.getScenePtr() != nullptr);
     
 }
 
@@ -256,12 +256,13 @@ TEST (GameTest, TestDrawStatePlaying) {
     std::queue<DelayEvent> eventQueue;
     eventQueue.push(simulateTextEntered(10));
     eventQueue.push(simulateTextEntered(10));
-    Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
-                    &makeSingleLetterSpoken};
+    MockGame test_game {std::make_unique<MockWindow>(eventQueue),
+                        std::make_unique<SoundMaker<MockSound>>(),
+                        &makeSingleLetterSpoken};
     test_game.EventLoop();
+    Scene* scenePtr = dynamic_cast<Scene*>(test_game.getScenePtr());
     MockSound *mockPointer = dynamic_cast<MockSound*>(
-        test_game.getScene().getSoundComponentPtr()->getSoundPtr());
+        scenePtr->getSoundComponentPtr()->getSoundPtr());
     ASSERT_EQ(mockPointer->status, sf::Sound::Status::Playing);
     
 }
@@ -272,12 +273,13 @@ TEST (GameTest, TestPlayStateSoundStopped) {
     eventQueue.push(simulateTextEntered(10));
     eventQueue.push(simulateTextEntered(10));
     eventQueue.push(simulateKeyReleased(1));
-    Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
-                    &makeSingleLetterSiren};
+    MockGame test_game {std::make_unique<MockWindow>(eventQueue),
+                        std::make_unique<SoundMaker<MockSound>>(),
+                        &makeSingleLetterSiren};
     test_game.EventLoop();
+    Scene* scenePtr = dynamic_cast<Scene*>(test_game.getScenePtr());
     MockSound *mockPointer = dynamic_cast<MockSound*>(
-        test_game.getScene().getSoundComponentPtr()->getSoundPtr());
+        scenePtr->getSoundComponentPtr()->getSoundPtr());
     ASSERT_EQ(mockPointer->status, sf::Sound::Status::Stopped);
     
 }

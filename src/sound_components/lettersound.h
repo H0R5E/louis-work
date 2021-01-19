@@ -8,13 +8,16 @@
 class LetterSound: public SoundComponent {
 public:
     LetterSound (Service& service) :
-        SoundComponent (service) {}
-    void set_active_event (const sf::Event& event,
-                           Service& service) override;
-    void set_active_event (Service& service) override;
-    void play (Service& service) override;
-    bool replay () override;
+        SoundComponent(service) {}
+    LetterSound (Service& service,
+                 std::unique_ptr<sf::Color>&& background) :
+        SoundComponent(service, std::move(background)) {}
+    void setActiveEvent (const sf::Event& event,
+                         Service& service) override;
+    void setActiveEvent (Service& service) override;
+    bool update () override;
     bool isCompleted () override;
+    void operator () (Service& service) override;
 private:
     sf::SoundBuffer buffer;
     bool should_replay {true};

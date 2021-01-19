@@ -8,6 +8,7 @@
 #include <iostream>
 
 State* PlayState::HandleKeyPressed (const sf::Event& event,
+                                    Component& scene,
                                     Service& service) {
     
     // Using Ctrl + C to exit
@@ -20,11 +21,11 @@ State* PlayState::HandleKeyPressed (const sf::Event& event,
 }
 
 State* PlayState::HandleTextEntered (const sf::Event& event,
+                                     Component& scene,
                                      Service& service) {
     
      if (event.text.unicode < 128) {
-         auto& scene = service.getScene();
-         scene.Modify(event, service);
+         scene.setActiveEvent(event, service);
          return &StateHolder::draw;
      }
     
@@ -33,11 +34,14 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
     
 }
 
-void PlayState::Enter (Service& service) {
+std::unique_ptr<Component> PlayState::Enter (Service& service) {
     
     std::cout << "PlayState::Enter" << std::endl;
     std::cout << service.getLetters().size() << std::endl;
-    auto& scene = service.getScene();
-    scene.Initialize(service);
+    
+    auto new_scene = service.makeScenePtr();
+    (*new_scene)(service);
+    
+    return new_scene;
     
 }

@@ -2,24 +2,17 @@
 #include "sirensound.h"
 #include "service.h"
 
-SirenSound::SirenSound (Service& service) :
-    SoundComponent(service) {
+void SirenSound::init (Service& service) {
     auto& sound_buffer = service.getSoundBuffer("Alarm_or_siren");
     sound = service.makeSoundPtr();
     sound->setBuffer(sound_buffer);
 }
 
-void SirenSound::set_active_event ( const sf::Event& event, Service& service ) {
+void SirenSound::setActiveEvent ( const sf::Event& event, Service& service ) {
     should_replay = true;
 }
 
-void SirenSound::play (Service& service) {
-    sound->play();
-    should_replay = false;
-    clock.restart();
-}
-
-bool SirenSound::replay() {
+bool SirenSound::update() {
     return should_replay;
 }
 
@@ -33,4 +26,10 @@ bool SirenSound::isCompleted() {
     sound->stop();
     return true;
     
+}
+
+void SirenSound::operator() (Service& service) {
+    sound->play();
+    should_replay = false;
+    clock.restart();
 }
