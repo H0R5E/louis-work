@@ -19,6 +19,6 @@ public:
     bool isCompleted () override;
     void operator () (Service& service) override;
 private:
-    sf::SoundBuffer buffer;
-    bool should_replay {true};
+    std::unique_ptr<sf::SoundBuffer> buffer;
+    bool clearBuffer {false}; 
 };

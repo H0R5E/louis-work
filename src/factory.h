@@ -12,10 +12,11 @@ using fPtrType = std::unique_ptr<Component> (*) (Service& service);
 template<typename T>
 fPtrType componentMaker () {
     
-    std::unique_ptr<Component> f1 = [](Service& service) {
+    auto f1 = [](Service& service) -> std::unique_ptr<Component> {
         return std::make_unique<T>(service,
                                    std::make_unique<sf::Color>(
-                                                sf::Color::Black)); };
+                                                sf::Color::Black));
+    };
     
     return f1;
     

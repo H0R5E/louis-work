@@ -50,6 +50,6 @@ TEST_F (StateTest, Update) {
 TEST_F (StateTest, Enter) { 
     
     State state;
-    ASSERT_NO_THROW(state.Enter(game));
+    ASSERT_NO_THROW(state.Enter(&scene, game));
     
 }

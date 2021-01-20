@@ -30,6 +30,8 @@ void Scene::setActiveEvent ( Service& service ) {
 
 bool Scene::isCompleted () {
     
+    std::cout << "Scene::isCompleted()" << std::endl;
+    
     auto draw_completed = draw_component->isCompleted();
     bool sound_completed {true};
     
@@ -49,7 +51,6 @@ bool Scene::update () {
     
     if (draw_component->update()) {
         update = true;
-        redraw = true;
     }
     
     if (sound_component->update()) {
@@ -70,11 +71,7 @@ void Scene::operator () ( Service& service ) {
         window.clear(*background);
     };
     
-    if (redraw) {
-        std::cout << "Scene::operator: Drawing" << std::endl;
-        (*draw_component)(service);
-        redraw = false;
-    }
+    (*draw_component)(service);
     
     if (replay) {
         (*sound_component)(service);

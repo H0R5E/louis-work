@@ -12,11 +12,11 @@ public:
         SoundComponent(service, std::move(background)) {init(service);}
     void setActiveEvent (const sf::Event& event,
                          Service& service) override;
-    void setActiveEvent (Service& service) override {}
+    void setActiveEvent (Service& service) override;
     bool update () override;
     bool isCompleted () override;
     void operator () (Service& service) override;
 private:
     void init (Service& service);
-    bool should_replay {true};
+    bool should_replay {false};
 };

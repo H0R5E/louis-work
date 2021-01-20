@@ -23,32 +23,37 @@ void LetterSound::setActiveEvent (const sf::Event& event,
             word[i] = toupper(word[i]);
         }
         
-        buffer = voice.getBuffer(word);
+        buffer = std::make_unique<sf::SoundBuffer>(voice.getBuffer(word));
     
     } else {
         
         char word[9] = "[[V:mm]]";
-        buffer = voice.getBuffer(word);
+        buffer = std::make_unique<sf::SoundBuffer>(voice.getBuffer(word));
         
     }
     
-    should_replay = true;
+    clearBuffer = false;
     
 }
 
 void LetterSound::setActiveEvent ( Service& service ) {
+    clearBuffer = true;
 }
 
 bool LetterSound::update() {
     
     std::cout << "LetterSound::update" << std::endl;
     
+    if (!buffer) {
+        return false;
+    }
+    
     auto elapsed = clock.getElapsedTime();
     
     if (elapsed.asSeconds() > 1.0f)
         return true;
     
-    return should_replay;
+    return false;
     
 }
 
@@ -61,9 +66,17 @@ bool LetterSound::isCompleted() {
     }
     
     if (sound->getStatus() == sf::Sound::Status::Playing) {
+        
         return false;
+        
     } else {
+        
+        if (clearBuffer) {
+            buffer = nullptr;
+        }
+        
         return true;
+        
     }
     
 }
@@ -77,14 +90,13 @@ void LetterSound::operator() (Service& service) {
         window.clear(*background);
     };
     
-    if (!update()) {
+    if (!buffer) {
         return;
     }
     
     sound = service.makeSoundPtr();
-    sound->setBuffer(buffer);
+    sound->setBuffer(*buffer);
     sound->play();
-    should_replay = false;
     clock.restart();
     
 }

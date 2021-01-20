@@ -33,6 +33,5 @@ public:
 private:
     std::unique_ptr<DrawComponent> draw_component;
     std::unique_ptr<SoundComponent> sound_component;
-    bool redraw {true};
     bool replay {true};
 };
