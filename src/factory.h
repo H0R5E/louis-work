@@ -9,10 +9,19 @@
 
 using fPtrType = std::unique_ptr<Component> (*) (Service& service);
 
+template<typename T>
+fPtrType componentMaker () {
+    
+    std::unique_ptr<Component> f1 = [](Service& service) {
+        return std::make_unique<T>(service,
+                                   std::make_unique<sf::Color>(
+                                                sf::Color::Black)); };
+    
+    return f1;
+    
+};
+
 // Forward declaration
-std::unique_ptr<Component> basicSingleLetter (Service& service);
-std::unique_ptr<Component> basicTypeWriter (Service& service);
-std::unique_ptr<Component> basicLetterSound (Service& service);
 std::unique_ptr<Component> makeSingleLetterSiren (Service& service);
 std::unique_ptr<Component> makeSingleLetterSpoken (Service& service);
 std::unique_ptr<Component> makeTypeWriterSpoken (Service& service);
