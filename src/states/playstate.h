@@ -13,5 +13,6 @@ public:
     State* HandleTextEntered (const sf::Event& event,
                               Component& scene,
                               Service& service) override;
-    std::unique_ptr<Component> Enter (Service& service) override;
+    std::unique_ptr<Component> Enter (Component* scene, 
+                                      Service& service) override;
 };

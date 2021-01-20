@@ -4,6 +4,7 @@
 #include "service.h"
 #include "scene.h"
 #include "stateholder.h"
+#include "window.h"
 
 #include <iostream>
 
@@ -24,8 +25,12 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
                                      Component& scene,
                                      Service& service) {
     
+    std::cout << "PlayState::HandleTextEntered" << std::endl;
+    
      if (event.text.unicode < 128) {
          scene.setActiveEvent(event, service);
+         auto convert = static_cast<char>(event.text.unicode);
+         service.storeLetter(convert);
          return &StateHolder::draw;
      }
     
@@ -34,13 +39,22 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
     
 }
 
-std::unique_ptr<Component> PlayState::Enter (Service& service) {
+std::unique_ptr<Component> PlayState::Enter (Component* scene,
+                                             Service& service) {
     
     std::cout << "PlayState::Enter" << std::endl;
     std::cout << service.getLetters().size() << std::endl;
     
-    auto new_scene = service.makeScenePtr();
-    (*new_scene)(service);
+    std::unique_ptr<Component> new_scene {nullptr};
+    
+    if (!scene) {
+        new_scene = service.makeScenePtr();
+        (*new_scene)(service);
+    } else {
+        (*scene)(service);
+    }
+   
+    service.getWindow().display();
     
     return new_scene;
     

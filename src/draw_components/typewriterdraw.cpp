@@ -7,6 +7,7 @@
 
 void TypeWriterDraw::init ( Service& service ) {
     
+    std::cout << "TypeWriterDraw::init" << std::endl;
     auto& letter_font = service.getFont("JetBrainsMono-Light");
     text.setFont(letter_font);
     text.setCharacterSize(120); // in pixels, not points!
@@ -20,7 +21,6 @@ void TypeWriterDraw::setActiveEvent (const sf::Event& event,
     std::cout << "TypeWriterDraw::setActiveEvent" << std::endl;
     auto convert = static_cast<char>(event.text.unicode);
     active_letter = std::make_unique<char>(convert);
-    service.storeLetter(*active_letter);
     force_draw = true;
     
 }
@@ -102,7 +102,6 @@ void TypeWriterDraw::operator() ( Service& service ) {
     text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f));
     
     auto& window = service.getWindow();
-    window.clear(sf::Color::Black);
     window.draw(text);
     std::cout << "Drawing: " <<
         static_cast<std::string>(text.getString()) << std::endl;

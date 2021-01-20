@@ -13,5 +13,6 @@ public:
                               Component& scene,
                               Service& service) override;
     State* Update (Component& scene, Service& service) override;
-    std::unique_ptr<Component> Enter (Service& service) override;
+    std::unique_ptr<Component> Enter (Component* scene,
+                                      Service& service) override;
 };

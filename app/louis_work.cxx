@@ -8,7 +8,8 @@
 int main() {
     
     Game my_game {std::make_unique<WindowAdapter>(),
-                  std::make_unique<SoundMaker<>>()};
+                  std::make_unique<SoundMaker<>>(),
+                  &basicLetterSound};
     
     try {
        my_game.EventLoop();

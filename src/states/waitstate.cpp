@@ -4,6 +4,7 @@
 #include "scene.h"
 #include "service.h"
 #include "stateholder.h"
+#include "window.h"
 
 #include <iostream>
 
@@ -26,8 +27,9 @@ State* WaitState::Update (Component& scene, Service& service) {
     
     if (scene.isCompleted()) {
         return &StateHolder::play;
-    } else {
+    } else if (scene.update()) {
         scene(service);
+        service.getWindow().display();
     }
     
     return nullptr;

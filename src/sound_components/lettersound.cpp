@@ -4,6 +4,9 @@
 #include "lettersound.h"
 #include "service.h"
 #include "voice.h"
+#include "window.h"
+
+#include <iostream>
 
 void LetterSound::setActiveEvent (const sf::Event& event,
                                   Service& service ) {
@@ -38,6 +41,8 @@ void LetterSound::setActiveEvent ( Service& service ) {
 
 bool LetterSound::update() {
     
+    std::cout << "LetterSound::update" << std::endl;
+    
     auto elapsed = clock.getElapsedTime();
     
     if (elapsed.asSeconds() > 1.0f)
@@ -48,6 +53,8 @@ bool LetterSound::update() {
 }
 
 bool LetterSound::isCompleted() {
+    
+    std::cout << "LetterSound::isCompleted" << std::endl;
     
     if (!sound) {
         return true;
@@ -62,6 +69,17 @@ bool LetterSound::isCompleted() {
 }
 
 void LetterSound::operator() (Service& service) {
+    
+    std::cout << "LetterSound::operator()" << std::endl;
+    
+    if (background) {
+        auto& window = service.getWindow();
+        window.clear(*background);
+    };
+    
+    if (!update()) {
+        return;
+    }
     
     sound = service.makeSoundPtr();
     sound->setBuffer(buffer);

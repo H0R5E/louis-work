@@ -31,7 +31,7 @@ void Game::initResources () {
     buffer_holder.Load("Alarm_or_siren");
     
     current_state = &StateHolder::start;
-    auto new_scene = current_state->Enter(*this);
+    auto new_scene = current_state->Enter(scene.get(), *this);
                         
     if (new_scene) {
         scene = std::move(new_scene);
@@ -69,9 +69,17 @@ void Game::EventLoop() {
                                                                   *this);
                     
                     if (check_state) {
+                        
                         current_state = check_state;
-                        current_state->Enter(*this);
+                        auto new_scene = current_state->Enter(scene.get(),
+                                                              *this);
+                        
+                        if (new_scene) {
+                            scene = std::move(new_scene);
+                        }
+                        
                         break_loop = true;
+                        
                     }
                     
                     break;
@@ -85,7 +93,8 @@ void Game::EventLoop() {
                     if (check_state) {
                         
                         current_state = check_state;
-                        auto new_scene = current_state->Enter(*this);
+                        auto new_scene = current_state->Enter(scene.get(),
+                                                              *this);
                         
                         if (new_scene) {
                             scene = std::move(new_scene);
@@ -106,7 +115,8 @@ void Game::EventLoop() {
                     if (check_state) {
                         
                         current_state = check_state;
-                        auto new_scene = current_state->Enter(*this);
+                        auto new_scene = current_state->Enter(scene.get(),
+                                                              *this);
                         
                         if (new_scene) {
                             scene = std::move(new_scene);
@@ -132,7 +142,8 @@ void Game::EventLoop() {
         if (check_state) {
             
             current_state = check_state;
-            auto new_scene = current_state->Enter(*this);
+            auto new_scene = current_state->Enter(scene.get(),
+                                                  *this);
             
             if (new_scene) {
                 scene = std::move(new_scene);
@@ -140,7 +151,6 @@ void Game::EventLoop() {
             
         }
         
-        window->display();
         sf::sleep(sf::seconds(fps));
         
     }

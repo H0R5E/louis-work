@@ -10,6 +10,9 @@
 using fPtrType = std::unique_ptr<Component> (*) (Service& service);
 
 // Forward declaration
+std::unique_ptr<Component> basicSingleLetter (Service& service);
+std::unique_ptr<Component> basicTypeWriter (Service& service);
+std::unique_ptr<Component> basicLetterSound (Service& service);
 std::unique_ptr<Component> makeSingleLetterSiren (Service& service);
 std::unique_ptr<Component> makeSingleLetterSpoken (Service& service);
 std::unique_ptr<Component> makeTypeWriterSpoken (Service& service);

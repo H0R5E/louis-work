@@ -31,7 +31,8 @@ State* StartState::Update (Component& scene,
     return nullptr;
 }
 
-std::unique_ptr<Component> StartState::Enter (Service& service) {
+std::unique_ptr<Component> StartState::Enter (Component* scene,
+                                              Service& service) {
     
     skipEvents = true;
     
@@ -82,6 +83,7 @@ std::unique_ptr<Component> StartState::Enter (Service& service) {
     text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f + 120.0f));
     
     window.draw(text);
+    window.display();
     
     return nullptr;
     

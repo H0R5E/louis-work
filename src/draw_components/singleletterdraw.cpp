@@ -3,6 +3,8 @@
 #include "service.h"
 #include "window.h"
 
+#include <iostream>
+
 void SingleLetterDraw::setActiveEvent(const sf::Event& event,
                                       Service& service) {
     
@@ -22,7 +24,11 @@ bool SingleLetterDraw::update() {
 
 bool SingleLetterDraw::isCompleted () {
     
+    std::cout << "SingleLetterDraw::isCompleted" << std::endl;
+    
     auto elapsed = clock.getElapsedTime();
+    
+    std::cout << "elapsed: " << elapsed.asSeconds() << std::endl;
     
     if (elapsed.asSeconds() < 0.5f)
         return false;
@@ -32,6 +38,9 @@ bool SingleLetterDraw::isCompleted () {
 }
 
 void SingleLetterDraw::operator() (Service& service) {
+    
+    std::cout << "SingleLetterDraw::operator()" << std::endl;
+    
     
     if (background) {
         auto& window = service.getWindow();
@@ -60,7 +69,6 @@ void SingleLetterDraw::operator() (Service& service) {
     text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f));
     
     auto& window = service.getWindow();
-    window.clear(sf::Color::Black);
     window.draw(text);
     
     clock.restart();

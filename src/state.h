@@ -23,7 +23,8 @@ public:
                                       Service& service) {return nullptr;}
     virtual State* Update (Component& scene,
                            Service& service) {return nullptr;}
-    virtual std::unique_ptr<Component> Enter (Service& service) {
+    virtual std::unique_ptr<Component> Enter (Component* scene, 
+                                              Service& service) {
         return nullptr;
     }
 };

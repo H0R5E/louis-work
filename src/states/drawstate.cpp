@@ -4,6 +4,7 @@
 #include "service.h"
 #include "scene.h"
 #include "stateholder.h"
+#include "window.h"
 
 #include <iostream>
 
@@ -37,7 +38,13 @@ State* DrawState::HandleKeyReleased (const sf::Event& event,
 }
 
 State* DrawState::Update (Component& scene, Service& service) {
+    
     std::cout << "DrawState::Update" << std::endl;
-    scene(service);
+    
+    if (scene.update()) {
+        scene(service);
+        service.getWindow().display();
+    }
+    
     return nullptr;
 }
