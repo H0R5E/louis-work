@@ -12,6 +12,7 @@ void Scene::setActiveEvent ( const sf::Event& event, Service& service ) {
     
     if (sound_component) {
         sound_component->setActiveEvent(event, service);
+        replay = true;
     }
     
 }
@@ -24,6 +25,7 @@ void Scene::setActiveEvent ( Service& service ) {
     
     if (sound_component) {
         sound_component->setActiveEvent(service);
+        replay = false;
     }
     
 }

@@ -41,7 +41,6 @@ void SingleLetterDraw::operator() (Service& service) {
     
     std::cout << "SingleLetterDraw::operator()" << std::endl;
     
-    
     if (background) {
         auto& window = service.getWindow();
         window.clear(*background);

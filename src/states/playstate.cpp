@@ -43,7 +43,7 @@ std::unique_ptr<Component> PlayState::Enter (Component* scene,
                                              Service& service) {
     
     std::cout << "PlayState::Enter" << std::endl;
-    std::cout << service.getLetters().size() << std::endl;
+    std::cout << "Letters stored: " << service.getLetters().size() << std::endl;
     
     std::unique_ptr<Component> new_scene {nullptr};
     

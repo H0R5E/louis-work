@@ -78,7 +78,7 @@ void TypeWriterDraw::operator() ( Service& service ) {
         window.clear(*background);
     };
     
-    std::cout << draw_letters.size() << std::endl;
+    std::cout << "Letters drawn: " << draw_letters.size() << std::endl;
     
     if (draw_letters.size() == 0) {
         return;

@@ -104,7 +104,7 @@ public:
             eventQueue.pop();
             isPolled = false;
         };
-        
+        std::cout << "eventQueue.size(): " << eventQueue.size() << std::endl;
         if (isClosed || eventQueue.size() == 0) {
             return false;
         } else {

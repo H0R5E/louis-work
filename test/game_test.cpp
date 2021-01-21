@@ -260,10 +260,21 @@ TEST (GameTest, TestDrawStatePlaying) {
                         std::make_unique<SoundMaker<MockSound>>(),
                         &makeSingleLetterSpoken};
     test_game.EventLoop();
+    
     Scene* scenePtr = dynamic_cast<Scene*>(test_game.getScenePtr());
-    MockSound *mockPointer = dynamic_cast<MockSound*>(
+    
+    if (scenePtr == nullptr) {
+        FAIL() << "scenePtr is NULL";
+    }
+    
+    MockSound *soundPtr = dynamic_cast<MockSound*>(
         scenePtr->getSoundComponentPtr()->getSoundPtr());
-    ASSERT_EQ(mockPointer->status, sf::Sound::Status::Playing);
+    
+    if (soundPtr == nullptr) {
+        FAIL() << "soundPtr is NULL";
+    }
+    
+    ASSERT_EQ(soundPtr->getStatus(), sf::Sound::Status::Playing);
     
 }
 
@@ -278,8 +289,18 @@ TEST (GameTest, TestPlayStateSoundStopped) {
                         &makeSingleLetterSiren};
     test_game.EventLoop();
     Scene* scenePtr = dynamic_cast<Scene*>(test_game.getScenePtr());
-    MockSound *mockPointer = dynamic_cast<MockSound*>(
+    
+    if (scenePtr == nullptr) {
+        FAIL() << "scenePtr is NULL";
+    }
+    
+    MockSound *soundPtr = dynamic_cast<MockSound*>(
         scenePtr->getSoundComponentPtr()->getSoundPtr());
-    ASSERT_EQ(mockPointer->status, sf::Sound::Status::Stopped);
+    
+    if (soundPtr == nullptr) {
+        FAIL() << "soundPtr is NULL";
+    }
+    
+    ASSERT_EQ(soundPtr->getStatus(), sf::Sound::Status::Stopped);
     
 }
