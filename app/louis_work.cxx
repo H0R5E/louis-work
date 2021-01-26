@@ -9,12 +9,7 @@ int main() {
     
     Game my_game {std::make_unique<WindowAdapter>(),
                   std::make_unique<SoundMaker<>>()};
-    
-    try {
-       my_game.EventLoop();
-    } catch (...) {
-       return 1;
-    }
+    my_game.EventLoop();
     
     return 0;
     

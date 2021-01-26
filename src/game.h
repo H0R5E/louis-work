@@ -11,6 +11,8 @@
 #include "state.h"
 #include "window.h"
 
+using uniqueComponent = std::unique_ptr<Component>;
+
 class Game : public Service {
 public:
     Game() = delete;
@@ -26,14 +28,15 @@ public:
                                         (std::string_view name) const override;
     Window& getWindow () const override;
     void storeLetter (const char letter) override;
-    const std::vector<char>& getLetters () const override;
+    const std::string getWord () const override;
     void clearLetters () override;
-    std::unique_ptr<Component> makeScenePtr () override;
+    uniqueComponent makeScenePtr () override;
     std::unique_ptr<Sound> makeSoundPtr () const override;
 protected:
-    std::unique_ptr<Component> scene {nullptr};
+    std::vector<uniqueComponent> scenes {};
 private:
     void initResources ();
+    void updateScene ();
     SceneFactory factory;
     std::unique_ptr<SoundMakerBase> sound_maker;
     std::unique_ptr<Window> window;

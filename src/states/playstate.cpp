@@ -39,23 +39,22 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
     
 }
 
-std::unique_ptr<Component> PlayState::Enter (Component* scene,
-                                             Service& service) {
+void PlayState::Enter (uniqueComponentVector& scenes,
+                       Service& service) {
     
     std::cout << "PlayState::Enter" << std::endl;
-    std::cout << "Letters stored: " << service.getLetters().size() << std::endl;
+    std::cout << "Letters stored: " << service.getWord().size() << std::endl;
     
-    std::unique_ptr<Component> new_scene {nullptr};
-    
-    if (!scene) {
-        new_scene = service.makeScenePtr();
+    if (scenes.size() == 0) {
+        auto new_scene = service.makeScenePtr();
         (*new_scene)(service);
+        scenes.push_back(std::move(new_scene));
     } else {
-        (*scene)(service);
+        (*scenes[0])(service);
     }
    
     service.getWindow().display();
     
-    return new_scene;
+    return;
     
 }

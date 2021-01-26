@@ -7,18 +7,23 @@
 #include "game.h"
 
 class StateTest : public ::testing::Test {
+public:
+    StateTest () {
+        auto comp = std::make_unique<SingleLetterDraw>(game);
+        scenes.push_back(std::move(comp));
+    }
 protected:
     std::queue<DelayEvent> eventQueue {};
     Game game {std::make_unique<MockWindow>(eventQueue),
                std::make_unique<SoundMaker<MockSound>>()};;
     sf::Event event {simulateTextEntered(10)};
-    SingleLetterDraw scene {SingleLetterDraw(game)};
+    uniqueComponentVector scenes {};
 };
 
 TEST_F (StateTest, HandleKeyPressed) { 
     
     State state;
-    auto test = state.HandleKeyPressed(event, scene, game);
+    auto test = state.HandleKeyPressed(event, *(scenes[0]), game);
     ASSERT_TRUE(!test);
     
 }
@@ -26,7 +31,7 @@ TEST_F (StateTest, HandleKeyPressed) {
 TEST_F (StateTest, HandleTextEntered) { 
     
     State state;
-    auto test = state.HandleTextEntered(event, scene, game);
+    auto test = state.HandleTextEntered(event, *(scenes[0]), game);
     ASSERT_TRUE(!test);
     
 }
@@ -34,7 +39,7 @@ TEST_F (StateTest, HandleTextEntered) {
 TEST_F (StateTest, HandleKeyReleased) { 
     
     State state;
-    auto test = state.HandleKeyReleased(event, scene, game);
+    auto test = state.HandleKeyReleased(event, *(scenes[0]), game);
     ASSERT_TRUE(!test);
     
 }
@@ -42,7 +47,7 @@ TEST_F (StateTest, HandleKeyReleased) {
 TEST_F (StateTest, Update) { 
     
     State state;
-    auto test = state.Update(scene, game);
+    auto test = state.Update(*(scenes[0]), game);
     ASSERT_TRUE(!test);
     
 }
@@ -50,6 +55,6 @@ TEST_F (StateTest, Update) {
 TEST_F (StateTest, Enter) { 
     
     State state;
-    ASSERT_NO_THROW(state.Enter(&scene, game));
+    ASSERT_NO_THROW(state.Enter(scenes, game));
     
 }

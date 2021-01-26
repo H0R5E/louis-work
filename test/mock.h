@@ -213,7 +213,7 @@ public:
         return *window;
     }
     void storeLetter (const char letter) override {}
-    const std::vector<char>& getLetters () const override {
+    const std::string getWord () const override {
         return letter_store;
     }
     void clearLetters () override {}
@@ -227,7 +227,7 @@ private:
     sf::SoundBuffer buffer {};
     sf::Font font {};
     std::unique_ptr<Window> window {std::make_unique<MockWindow>()};
-    std::vector<char> letter_store {};
+    std::string letter_store {};
 };
 
 class MockGame : public Game {
@@ -240,6 +240,6 @@ public:
              fPtrType&& sceneFPtr)  :
              Game(std::move(window), std::move(sound_maker), *sceneFPtr) {}
     Component* getScenePtr () {
-        return scene.get();
+        return scenes[0].get();
     }
 };

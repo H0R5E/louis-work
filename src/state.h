@@ -5,12 +5,13 @@
 
 #include "component.h"
 
+using uniqueComponentVector = std::vector<std::unique_ptr<Component>>;
+
 // Forward declare
 class Service;
 
 class State {
 public:
-    bool skipEvents {false};
     virtual ~State () {};
     virtual State* HandleKeyPressed (const sf::Event& event,
                                      Component& scene,
@@ -23,8 +24,7 @@ public:
                                       Service& service) {return nullptr;}
     virtual State* Update (Component& scene,
                            Service& service) {return nullptr;}
-    virtual std::unique_ptr<Component> Enter (Component* scene, 
-                                              Service& service) {
-        return nullptr;
-    }
+    virtual void Enter (uniqueComponentVector& scenes,
+                        Service& service) {return;}
+    bool skipEvents {false};
 };

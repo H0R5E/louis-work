@@ -19,7 +19,7 @@ enable_testing()
 # code coverage
 include(CodeCoverage)
 find_program(GCOVR_PATH gcovr)
-#set(GCOV TRUE)
+set(GCOV TRUE)
 
 # output structure
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
