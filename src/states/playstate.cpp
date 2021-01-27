@@ -22,12 +22,14 @@ State* PlayState::HandleKeyPressed (const sf::Event& event,
 }
 
 State* PlayState::HandleTextEntered (const sf::Event& event,
-                                     Component& scene,
+                                     uniqueComponentVector& scenes,
                                      Service& service) {
     
     std::cout << "PlayState::HandleTextEntered" << std::endl;
     
     if (event.text.unicode < 128) {
+        
+        auto& scene = *(scenes[0]);
         
         scene.setActiveEvent(event, service);
         auto convert = static_cast<char>(event.text.unicode);

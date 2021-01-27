@@ -11,15 +11,24 @@ bool LouisDraw::update() {
     
     std::cout << "elapsed: " << elapsed.asSeconds() << std::endl;
     
-    if (elapsed.asSeconds() < 0.5f || drawn_it)
+    if (elapsed.asSeconds() < 0.5f) {
         return false;
+    } else if (!draw_it) {
+        draw_it = true;
+        return true;
+    }
     
-    return true;
+    return false;
+    
 }
 
 bool LouisDraw::isCompleted () {
     
     std::cout << "LouisDraw::isCompleted" << std::endl;
+    
+    if (aborted) {
+        return true;
+    }
     
     auto elapsed = clock.getElapsedTime();
     
@@ -32,6 +41,10 @@ bool LouisDraw::isCompleted () {
     
 }
 
+void LouisDraw::abort () {
+    aborted = true;
+}
+
 void LouisDraw::operator() (Service& service) {
     
     std::cout << "LouisDraw::operator()" << std::endl;
@@ -41,12 +54,9 @@ void LouisDraw::operator() (Service& service) {
         window.clear(*background);
     };
     
-    auto elapsed = clock.getElapsedTime();
-    
-    std::cout << "elapsed: " << elapsed.asSeconds() << std::endl;
-    
-    if (elapsed.asSeconds() < 0.5f)
+    if (!draw_it) {
         return;
+    }
     
     auto width = sf::VideoMode::getDesktopMode().width;
     auto height = sf::VideoMode::getDesktopMode().height;
@@ -69,6 +79,5 @@ void LouisDraw::operator() (Service& service) {
     window.draw(text);
     
     clock.restart();
-    drawn_it = true;
     
 }

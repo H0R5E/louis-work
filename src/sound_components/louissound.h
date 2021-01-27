@@ -15,10 +15,11 @@ public:
     void setActiveEvent (const sf::Event& event,
                          Service& service) override {}
     void setActiveEvent (Service& service) override {}
-    bool update () override {return false};
+    bool update () override;
     bool isCompleted () override;
     void operator () (Service& service) override;
 private:
     std::unique_ptr<sf::SoundBuffer> buffer;
-    bool clearBuffer {false}; 
+    bool clearBuffer {false};
+    bool say_it {false};
 };

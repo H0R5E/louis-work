@@ -31,7 +31,7 @@ TEST_F (StateTest, HandleKeyPressed) {
 TEST_F (StateTest, HandleTextEntered) { 
     
     State state;
-    auto test = state.HandleTextEntered(event, *(scenes[0]), game);
+    auto test = state.HandleTextEntered(event, scenes, game);
     ASSERT_TRUE(!test);
     
 }

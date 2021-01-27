@@ -15,6 +15,7 @@ State* SpecialState::HandleKeyPressed (const sf::Event& event,
     
     // Using Ctrl + C to exit
     if (event.key.control && event.key.code == sf::Keyboard::C) {
+        scene.abort();
         return &StateHolder::start;
     }
     

@@ -21,6 +21,7 @@ public:
     virtual void setActiveEvent (Service& service) = 0;
     virtual bool update () = 0;
     virtual bool isCompleted () = 0;
+    virtual void abort () {}
     virtual void operator () (Service& service) = 0;
     virtual ~Component () = default;
 protected:

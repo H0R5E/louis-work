@@ -24,8 +24,11 @@ State* StartState::HandleKeyPressed (const sf::Event& event,
 }
 
 State* StartState::HandleTextEntered (const sf::Event& event,
-                                      Component& scene,
+                                      uniqueComponentVector& scenes,
                                       Service& service) {
+    auto new_scene = service.makeScenePtr();
+    scenes.push_back(std::move(new_scene));
+    service.clearLetters();
     return &StateHolder::play;
 }
 

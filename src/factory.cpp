@@ -7,11 +7,14 @@
 #include "typewriterdraw.h"
 
 #include "lettersound.h"
+#include "louissound.h"
 #include "sirensound.h"
 
 std::unique_ptr<Component> makeLouisSpecial (Service& service) {
-    return std::make_unique<LouisDraw>(service,
-                                       std::make_unique<sf::Color>(
+    return std::make_unique<Scene>(service,
+                                   std::make_unique<LouisDraw>(service),
+                                   std::make_unique<LouisSound>(service),
+                                   std::make_unique<sf::Color>(
                                                             sf::Color::Black));
 };
 

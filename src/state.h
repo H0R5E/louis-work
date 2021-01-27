@@ -17,7 +17,7 @@ public:
                                      Component& scene,
                                      Service& service) {return nullptr;}
     virtual State* HandleTextEntered (const sf::Event& event,
-                                      Component& scene,
+                                      uniqueComponentVector& scenes,
                                       Service& service) {return nullptr;}
     virtual State* HandleKeyReleased (const sf::Event& event,
                                       Component& scene,

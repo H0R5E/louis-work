@@ -114,8 +114,9 @@ void Game::EventLoop() {
                 case sf::Event::TextEntered:
                     
                     check_state = current_state->HandleTextEntered(event,
-                                                                   *(scenes[0]),
+                                                                   scenes,
                                                                    *this);
+                    updateScene();
                     
                     if (check_state) {
                         

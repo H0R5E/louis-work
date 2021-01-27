@@ -8,6 +8,23 @@
 
 #include <iostream>
 
+bool LouisSound::update() {
+    
+    auto elapsed = clock.getElapsedTime();
+    
+    std::cout << "elapsed: " << elapsed.asSeconds() << std::endl;
+    
+    if (elapsed.asSeconds() < 0.5f) {
+        return false;
+    } else if (!say_it) {
+        say_it = true;
+        return true;
+    }
+    
+    return false;
+    
+}
+
 bool LouisSound::isCompleted() {
     
     std::cout << "LouisSound::isCompleted" << std::endl;
@@ -41,9 +58,14 @@ void LouisSound::operator() (Service& service) {
         window.clear(*background);
     };
     
-    if (!buffer) {
+    if (!say_it) {
         return;
     }
+    
+    Voice voice {};
+    
+    char word[6] = "LOUIS";
+    buffer = std::make_unique<sf::SoundBuffer>(voice.getBuffer(word));
     
     sound = service.makeSoundPtr();
     sound->setBuffer(*buffer);
