@@ -5,9 +5,13 @@
 #include "stateholder.h"
 #include "window.h"
 
+#include <iostream>
+
 State* StartState::HandleKeyPressed (const sf::Event& event,
                                      Component& scene,
                                      Service& service) {
+    
+    std::cout << "StartState::HandleKeyPressed" << std::endl;
     
     // Using Ctrl + C to exit
     if (event.key.control && event.key.code == sf::Keyboard::C) {

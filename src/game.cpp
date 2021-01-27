@@ -38,8 +38,8 @@ void Game::initResources () {
     scenes.push_back(std::move(dummy));
     
     current_state = &StateHolder::start;
-    current_state->skipEvents = false;
     current_state->Enter(scenes, *this);
+    current_state->skipEvents = false;
     
 }
 
@@ -59,9 +59,9 @@ void Game::updateScene () {
         throw std::runtime_error("Tried to delete scene before completed");
     }
     
-    for (auto iter = scenes.begin(); iter != scenes.end() - 1; ++iter) {
-        scenes.erase(iter);
-    }
+    uniqueComponent new_scene = std::move(scenes.back());
+    scenes.clear();
+    scenes.push_back(std::move(new_scene));
     
     assert (scenes.size() == 1);
     
