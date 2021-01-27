@@ -59,7 +59,12 @@ void Game::updateScene () {
         throw std::runtime_error("Tried to delete scene before completed");
     }
     
+    // Start the new scene
     uniqueComponent new_scene = std::move(scenes.back());
+    (*new_scene)(*this);
+    getWindow().display();
+    
+    // Replace the old scenes
     scenes.clear();
     scenes.push_back(std::move(new_scene));
     
@@ -76,8 +81,6 @@ void Game::EventLoop() {
         
         sf::Event event;
         bool break_loop {false};
-        
-        updateScene();
         
         // while there are pending events...
         while (window->pollEvent(event)) {
@@ -100,6 +103,7 @@ void Game::EventLoop() {
                         
                         current_state = check_state;
                         current_state->Enter(scenes, *this);
+                        updateScene();
                         
                         break_loop = true;
                         
@@ -117,6 +121,7 @@ void Game::EventLoop() {
                         
                         current_state = check_state;
                         current_state->Enter(scenes, *this);
+                        updateScene();
                         
                         break_loop = true;
                         
@@ -134,6 +139,7 @@ void Game::EventLoop() {
                         
                         current_state = check_state;
                         current_state->Enter(scenes, *this);
+                        updateScene();
                         
                         break_loop = true;
                     }
@@ -150,12 +156,14 @@ void Game::EventLoop() {
             
         }
         
-        check_state = current_state->Update(*(scenes[0]), *this);
+        check_state = current_state->Update(scenes, *this);
+        updateScene();
             
         if (check_state) {
             
             current_state = check_state;
             current_state->Enter(scenes, *this);
+            updateScene();
             
         }
         

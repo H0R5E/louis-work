@@ -21,15 +21,27 @@ State* WaitState::HandleKeyPressed (const sf::Event& event,
     
 }
 
-State* WaitState::Update (Component& scene, Service& service) {
+State* WaitState::Update (uniqueComponentVector& scenes, Service& service) {
     
     std::cout << "WaitState::Update" << std::endl;
     
+    auto& scene = *(scenes[0]);
+    
     if (scene.isCompleted()) {
-        return &StateHolder::play;
+        
+        auto word = service.getWord();
+        
+        if (word == "louis") {
+            return &StateHolder::special;
+        } else {
+            return &StateHolder::play;
+        }
+        
     } else if (scene.update()) {
+        
         scene(service);
         service.getWindow().display();
+    
     }
     
     return nullptr;

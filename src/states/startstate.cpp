@@ -29,7 +29,7 @@ State* StartState::HandleTextEntered (const sf::Event& event,
     return &StateHolder::play;
 }
 
-State* StartState::Update (Component& scene,
+State* StartState::Update (uniqueComponentVector& scenes,
                            Service& service) {
     skipEvents = false;
     return nullptr;

@@ -47,7 +47,7 @@ TEST_F (StateTest, HandleKeyReleased) {
 TEST_F (StateTest, Update) { 
     
     State state;
-    auto test = state.Update(*(scenes[0]), game);
+    auto test = state.Update(scenes, game);
     ASSERT_TRUE(!test);
     
 }

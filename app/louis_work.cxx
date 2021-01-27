@@ -4,6 +4,7 @@
 #include "sound.h"
 #include "window.h"
 #include "game.h"
+#include "louisdraw.h"
 
 int main() {
     

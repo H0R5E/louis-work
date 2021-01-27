@@ -30,16 +30,26 @@ State* DrawState::HandleKeyReleased (const sf::Event& event,
     scene.setActiveEvent(service);
     
     if (scene.isCompleted()) {
-        return &StateHolder::play;
+        
+        auto word = service.getWord();
+        
+        if (word == "louis") {
+            return &StateHolder::special;
+        } else {
+            return &StateHolder::play;
+        }
+        
     } else {
         return &StateHolder::wait;
     }
     
 }
 
-State* DrawState::Update (Component& scene, Service& service) {
+State* DrawState::Update (uniqueComponentVector& scenes, Service& service) {
     
     std::cout << "DrawState::Update" << std::endl;
+    
+    auto& scene = *(scenes[0]);
     
     if (scene.update()) {
         scene(service);

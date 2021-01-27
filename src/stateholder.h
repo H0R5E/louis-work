@@ -5,6 +5,7 @@
 #include "playstate.h"
 #include "drawstate.h"
 #include "waitstate.h"
+#include "specialstate.h"
 
 class StateHolder {
 public:
@@ -12,5 +13,6 @@ public:
     static PlayState play;
     static DrawState draw;
     static WaitState wait;
+    static SpecialState special;
 };
 

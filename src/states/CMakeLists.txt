@@ -15,8 +15,13 @@ add_library(waitstate waitstate.cpp waitstate.h)
 target_include_directories(waitstate PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(waitstate PRIVATE service scene stateholder ${CONAN_LIBS})
 
+add_library(specialstate specialstate.cpp specialstate.h)
+target_include_directories(specialstate PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(specialstate PRIVATE service scene stateholder ${CONAN_LIBS})
+
 add_library(gamestates INTERFACE)
 target_link_libraries(gamestates INTERFACE startstate
                                            playstate
                                            drawstate
-                                           waitstate)
+                                           waitstate
+                                           specialstate)

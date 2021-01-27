@@ -27,11 +27,15 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
     
     std::cout << "PlayState::HandleTextEntered" << std::endl;
     
-     if (event.text.unicode < 128) {
-         scene.setActiveEvent(event, service);
-         auto convert = static_cast<char>(event.text.unicode);
-         service.storeLetter(convert);
-         return &StateHolder::draw;
+    if (event.text.unicode < 128) {
+        
+        scene.setActiveEvent(event, service);
+        auto convert = static_cast<char>(event.text.unicode);
+        service.storeLetter(convert);
+        
+        auto word = service.getWord();
+        return &StateHolder::draw;
+        
      }
     
     // Just return null for now as not yet transitioning states
@@ -45,14 +49,7 @@ void PlayState::Enter (uniqueComponentVector& scenes,
     std::cout << "PlayState::Enter" << std::endl;
     std::cout << "Letters stored: " << service.getWord().size() << std::endl;
     
-    if (scenes.size() == 0) {
-        auto new_scene = service.makeScenePtr();
-        (*new_scene)(service);
-        scenes.push_back(std::move(new_scene));
-    } else {
-        (*scenes[0])(service);
-    }
-   
+    (*scenes[0])(service);
     service.getWindow().display();
     
     return;

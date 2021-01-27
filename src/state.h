@@ -22,7 +22,7 @@ public:
     virtual State* HandleKeyReleased (const sf::Event& event,
                                       Component& scene,
                                       Service& service) {return nullptr;}
-    virtual State* Update (Component& scene,
+    virtual State* Update (uniqueComponentVector& scenes,
                            Service& service) {return nullptr;}
     virtual void Enter (uniqueComponentVector& scenes,
                         Service& service) {return;}
