@@ -2,7 +2,7 @@
 #include "factory.h"
 #include "scene.h"
 
-#include "louisdraw.h"
+#include "specialdraw.h"
 #include "singleletterdraw.h"
 #include "typewriterdraw.h"
 
@@ -10,9 +10,10 @@
 #include "louissound.h"
 #include "sirensound.h"
 
-std::unique_ptr<Component> makeLouisSpecial (Service& service) {
+std::unique_ptr<Component> makeSpecial (Service& service,
+                                        std::string_view word) {
     return std::make_unique<Scene>(service,
-                                   std::make_unique<LouisDraw>(service),
+                                   std::make_unique<SpecialDraw>(service, word),
                                    std::make_unique<LouisSound>(service),
                                    std::make_unique<sf::Color>(
                                                             sf::Color::Black));

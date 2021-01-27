@@ -22,7 +22,8 @@ fPtrType componentMaker () {
 };
 
 // Forward declaration
-std::unique_ptr<Component> makeLouisSpecial (Service& service);
+std::unique_ptr<Component> makeSpecial (Service& service,
+                                        std::string_view word);
 std::unique_ptr<Component> makeSingleLetterSiren (Service& service);
 std::unique_ptr<Component> makeSingleLetterSpoken (Service& service);
 std::unique_ptr<Component> makeTypeWriterSpoken (Service& service);
