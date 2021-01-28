@@ -165,6 +165,7 @@ public:
     }
     void stop () override {
         if (status == sf::Sound::Status::Stopped) {
+            std::cout << "Got here" << std::endl;
             return;
         };
         status = sf::Sound::Status::Stopped;

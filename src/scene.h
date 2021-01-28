@@ -26,6 +26,7 @@ public:
     void setActiveEvent (Service& service) override;
     bool update () override;
     bool isCompleted () override;
+    void abort () override;
     void operator () (Service& service) override;
     SoundComponent* getSoundComponentPtr () {
         return sound_component.get();

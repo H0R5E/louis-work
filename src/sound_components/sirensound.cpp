@@ -31,12 +31,17 @@ bool SirenSound::isCompleted() {
     
     auto elapsed = clock.getElapsedTime();
     
-    if (elapsed.asSeconds() < 0.75f)
+    if (elapsed.asSeconds() < 0.75f && !aborted)
         return false;
     
     sound->stop();
     return true;
     
+}
+
+void SirenSound::abort () {
+    std::cout << "SirenSound::abort()" << std::endl;
+    aborted = true;
 }
 
 void SirenSound::operator() (Service& service) {

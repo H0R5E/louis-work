@@ -3,6 +3,7 @@
 #include "stateholder.h"
 
 #include <assert.h> 
+#include <iostream>
 #include <sstream>
 #include <stdexcept>
 
@@ -44,6 +45,9 @@ void Game::initResources () {
 }
 
 void Game::updateScene () {
+    
+    std::cout << "Game::updateScene" << std::endl;
+    std::cout << "scenes.size(): " << scenes.size() << std::endl;
     
     if (scenes.size() == 1) {
         return;

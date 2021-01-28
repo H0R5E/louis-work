@@ -45,6 +45,15 @@ bool Scene::isCompleted () {
     
 }
 
+void Scene::abort () {
+    
+    std::cout << "Scene::abort" << std::endl;
+    
+    draw_component->abort();
+    sound_component->abort();
+    
+}
+
 bool Scene::update () {
     
     std::cout << "Scene::update" << std::endl;

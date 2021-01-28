@@ -26,15 +26,24 @@ bool SingleLetterDraw::isCompleted () {
     
     std::cout << "SingleLetterDraw::isCompleted" << std::endl;
     
+    if (aborted) {
+        return true;
+    }
+    
     auto elapsed = clock.getElapsedTime();
     
     std::cout << "elapsed: " << elapsed.asSeconds() << std::endl;
     
-    if (elapsed.asSeconds() < 0.5f)
+    if (elapsed.asSeconds() < 0.5f) {
         return false;
+    }
     
     return true;
     
+}
+
+void SingleLetterDraw::abort () {
+    aborted = true;
 }
 
 void SingleLetterDraw::operator() (Service& service) {

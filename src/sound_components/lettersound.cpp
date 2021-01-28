@@ -81,6 +81,13 @@ bool LetterSound::isCompleted() {
     
 }
 
+void LetterSound::abort () {
+    std::cout << "LetterSound::abort" << std::endl;
+    if (sound) {
+        sound->stop();
+    }
+}
+
 void LetterSound::operator() (Service& service) {
     
     std::cout << "LetterSound::operator()" << std::endl;

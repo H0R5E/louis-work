@@ -15,8 +15,10 @@ public:
     void setActiveEvent (Service& service) override;
     bool update () override;
     bool isCompleted () override;
+    void abort () override;
     void operator () (Service& service) override;
 private:
     void init (Service& service);
     bool should_replay {false};
+    bool aborted {false};
 };
