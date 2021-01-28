@@ -5,13 +5,15 @@
 
 #include "component.h"
 
-class LouisSound: public SoundComponent {
+class SpecialSound: public SoundComponent {
 public:
-    LouisSound (Service& service) :
-        SoundComponent(service) {}
-    LouisSound (Service& service,
-                std::unique_ptr<sf::Color>&& background) :
-        SoundComponent(service, std::move(background)) {}
+    SpecialSound (Service& service,
+                 std::string_view word) :
+        SoundComponent (service), word(word) {}
+    SpecialSound (Service& service,
+                 std::string word,
+                 std::unique_ptr<sf::Color>&& background) :
+        SoundComponent(service, std::move(background)), word(word) {}
     void setActiveEvent (const sf::Event& event,
                          Service& service) override {}
     void setActiveEvent (Service& service) override {}
@@ -19,6 +21,7 @@ public:
     bool isCompleted () override;
     void operator () (Service& service) override;
 private:
+    std::string word;
     std::unique_ptr<sf::SoundBuffer> buffer;
     bool clearBuffer {false};
     bool say_it {false};

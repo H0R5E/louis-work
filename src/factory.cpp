@@ -2,19 +2,20 @@
 #include "factory.h"
 #include "scene.h"
 
-#include "specialdraw.h"
 #include "singleletterdraw.h"
+#include "specialdraw.h"
 #include "typewriterdraw.h"
 
 #include "lettersound.h"
-#include "louissound.h"
 #include "sirensound.h"
+#include "specialsound.h"
 
 std::unique_ptr<Component> makeSpecial (Service& service,
                                         std::string_view word) {
     return std::make_unique<Scene>(service,
                                    std::make_unique<SpecialDraw>(service, word),
-                                   std::make_unique<LouisSound>(service),
+                                   std::make_unique<SpecialSound>(service,
+                                                                  word),
                                    std::make_unique<sf::Color>(
                                                             sf::Color::Black));
 };

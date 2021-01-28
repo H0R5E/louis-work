@@ -49,7 +49,7 @@ void SpecialState::Enter (uniqueComponentVector& scenes,
     
     auto word = service.getWord();
     
-    if (word == "louis") {
+    if (special_words.find(word) != special_words.end()) {
         auto new_scene = makeSpecial(service, word);
         scenes.push_back(std::move(new_scene));
     }

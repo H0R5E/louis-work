@@ -34,7 +34,7 @@ State* DrawState::HandleKeyReleased (const sf::Event& event,
         
         auto word = service.getWord();
         
-        if (word == "louis") {
+        if (special_words.find(word) != special_words.end()) {
             return &StateHolder::special;
         } else {
             return &StateHolder::play;

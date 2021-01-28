@@ -35,7 +35,7 @@ bool SpecialDraw::isCompleted () {
     
     std::cout << "elapsed: " << elapsed.asSeconds() << std::endl;
     
-    if (elapsed.asSeconds() < 5.0f)
+    if (elapsed.asSeconds() < 2.0f)
         return false;
     
     return true;

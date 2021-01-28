@@ -1,14 +1,14 @@
 
 #include <cstring>
 
-#include "louissound.h"
+#include "specialsound.h"
 #include "service.h"
 #include "voice.h"
 #include "window.h"
 
 #include <iostream>
 
-bool LouisSound::update() {
+bool SpecialSound::update() {
     
     auto elapsed = clock.getElapsedTime();
     
@@ -25,9 +25,9 @@ bool LouisSound::update() {
     
 }
 
-bool LouisSound::isCompleted() {
+bool SpecialSound::isCompleted() {
     
-    std::cout << "LouisSound::isCompleted" << std::endl;
+    std::cout << "SpecialSound::isCompleted" << std::endl;
     
     if (!sound) {
         return true;
@@ -49,9 +49,9 @@ bool LouisSound::isCompleted() {
     
 }
 
-void LouisSound::operator() (Service& service) {
+void SpecialSound::operator() (Service& service) {
     
-    std::cout << "LouisSound::operator()" << std::endl;
+    std::cout << "SpecialSound::operator()" << std::endl;
     
     if (background) {
         auto& window = service.getWindow();
@@ -64,8 +64,13 @@ void LouisSound::operator() (Service& service) {
     
     Voice voice {};
     
-    char word[6] = "LOUIS";
-    buffer = std::make_unique<sf::SoundBuffer>(voice.getBuffer(word));
+    std::string out {word};
+    
+    std::for_each(out.begin(), out.end(), [](char & c) {
+        c = ::toupper(c);
+    });
+    
+    buffer = std::make_unique<sf::SoundBuffer>(voice.getBuffer(&out[0]));
     
     sound = service.makeSoundPtr();
     sound->setBuffer(*buffer);

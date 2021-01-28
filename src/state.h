@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <unordered_set>
 #include <SFML/Graphics.hpp>
 
 #include "component.h"
@@ -27,4 +28,7 @@ public:
     virtual void Enter (uniqueComponentVector& scenes,
                         Service& service) {return;}
     bool skipEvents {false};
+    std::unordered_set<std::string> special_words {"louis", 
+                                                   "mummy",
+                                                   "daddy"};
 };
