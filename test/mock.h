@@ -134,11 +134,13 @@ public:
     }
     virtual void draw (const sf::Drawable &drawable) override {
         nDraws++;
+        last_drawn = &drawable;
     }
     virtual void display () override {};
     int nDraws {0};
     bool isClear {false};
     bool isClosed {false};
+    const sf::Drawable* last_drawn {nullptr};
 private:
     std::queue<DelayEvent> eventQueue; 
     bool isPolled {false};
@@ -243,4 +245,28 @@ public:
     Component* getScenePtr () {
         return scenes[0].get();
     }
+    void clearScenes () {
+        scenes.clear();
+    }
+    void addScene(std::unique_ptr<Component>&& scene) {
+        scenes.push_back(std::move(scene));
+    }
+    void updateScene () {
+        Game::updateScene();
+    }
+};
+
+class NotComplete : public Component {
+public:
+    NotComplete (Service& service) :
+        Component(service) {}
+    NotComplete (Service& service,
+                 std::unique_ptr<sf::Color>&& background) :
+        Component(service, std::move(background)) {}
+    void setActiveEvent (const sf::Event& event,
+                         Service& service) override {}
+    void setActiveEvent (Service& service) override {}
+    bool update () override {return true;}
+    bool isCompleted () override {return false;}
+    void operator () (Service& service) override {};
 };

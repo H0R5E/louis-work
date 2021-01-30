@@ -6,11 +6,16 @@
 #include "sound.h"
 #include "factory.h"
 
-TEST (SceneFactoryTest, init) { 
+TEST (FactoryTest, makeSpecial) { 
+    MockService service {};
+    auto special = makeSpecial (service, "TEST");
+}
+
+TEST (FactoryTest, SceneFactoryinit) { 
     ASSERT_NO_THROW(SceneFactory());
 }
 
-TEST (SceneFactoryTest, makeCommand) { 
+TEST (FactoryTest, SceneFactorymakeScene) { 
     
     std::queue<DelayEvent> eventQueue;
     Game test_game {std::make_unique<MockWindow>(eventQueue),

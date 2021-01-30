@@ -34,17 +34,9 @@ bool SpecialSound::isCompleted() {
     }
     
     if (sound->getStatus() == sf::Sound::Status::Playing) {
-        
         return false;
-        
     } else {
-        
-        if (clearBuffer) {
-            buffer = nullptr;
-        }
-        
         return true;
-        
     }
     
 }

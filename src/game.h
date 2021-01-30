@@ -34,9 +34,9 @@ public:
     std::unique_ptr<Sound> makeSoundPtr () const override;
 protected:
     std::vector<uniqueComponent> scenes {};
+    void updateScene ();
 private:
     void initResources ();
-    void updateScene ();
     SceneFactory factory;
     std::unique_ptr<SoundMakerBase> sound_maker;
     std::unique_ptr<Window> window;

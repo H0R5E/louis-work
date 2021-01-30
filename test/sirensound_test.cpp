@@ -14,6 +14,19 @@ TEST (SirenSoundTest, PlayLetter) {
     
 }
 
+
+TEST (SirenSoundTest, PlayBackground) { 
+    
+    MockService service {};
+    SirenSound test {service,
+                     std::make_unique<sf::Color>(sf::Color::Black)};
+    test.setActiveEvent(simulateTextEntered(50), service);
+    test(service);
+    ASSERT_TRUE(!test.isCompleted());
+    
+}
+
+
 TEST (SirenSoundTest, PlayLetterStop) { 
     
     MockService service {};

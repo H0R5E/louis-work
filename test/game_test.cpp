@@ -16,6 +16,27 @@ TEST (GameTest, TestConstruct) {
     
 }
 
+TEST (GameTest, TestNoScenes) {
+    
+    std::queue<DelayEvent> eventQueue;
+    MockGame test_game {std::make_unique<MockWindow>(eventQueue),
+                        std::make_unique<SoundMaker<MockSound>>()};
+    test_game.clearScenes();
+    ASSERT_THROW(test_game.updateScene();, std::runtime_error);
+}
+
+TEST (GameTest, TestSceneNotComplete) {
+    
+    std::queue<DelayEvent> eventQueue;
+    MockGame test_game {std::make_unique<MockWindow>(eventQueue),
+                        std::make_unique<SoundMaker<MockSound>>()};
+    test_game.addScene(std::make_unique<NotComplete>(test_game));
+    test_game.updateScene();
+    test_game.addScene(std::make_unique<NotComplete>(test_game));
+    ASSERT_THROW(test_game.updateScene();, std::runtime_error);
+    
+}
+
 TEST (GameTest, TestStartStateEnter) {
     
     std::queue<DelayEvent> eventQueue;

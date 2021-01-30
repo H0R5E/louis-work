@@ -23,6 +23,5 @@ public:
 private:
     std::string word;
     std::unique_ptr<sf::SoundBuffer> buffer;
-    bool clearBuffer {false};
     bool say_it {false};
 };

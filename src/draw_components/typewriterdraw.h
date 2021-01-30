@@ -17,6 +17,7 @@ public:
     void setActiveEvent (Service& service) override;
     bool update () override;
     bool isCompleted () override;
+    void abort () override;
     void operator () (Service& service) override;
 private:
     void init (Service& service);
@@ -27,4 +28,5 @@ private:
     std::unique_ptr<float> yorigin;
     bool force_draw {false};
     bool reset_yorigin {false};
+    bool aborted {false};
 };

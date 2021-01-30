@@ -60,6 +60,10 @@ bool TypeWriterDraw::update() {
 
 bool TypeWriterDraw::isCompleted () {
     
+    if (aborted) {
+        return true;
+    }
+    
     auto elapsed = clock.getElapsedTime();
     
     if (elapsed.asSeconds() < 0.5f)
@@ -67,6 +71,10 @@ bool TypeWriterDraw::isCompleted () {
     
     return true;
     
+}
+
+void TypeWriterDraw::abort () {
+    aborted = true;
 }
 
 void TypeWriterDraw::operator() ( Service& service ) {
