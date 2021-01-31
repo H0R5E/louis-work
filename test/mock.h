@@ -137,6 +137,9 @@ public:
         last_drawn = &drawable;
     }
     virtual void display () override {};
+    void setEventQueue (std::queue<DelayEvent> eventQueue) {
+        this->eventQueue = eventQueue;
+    }
     int nDraws {0};
     bool isClear {false};
     bool isClosed {false};
@@ -267,6 +270,14 @@ public:
                          Service& service) override {}
     void setActiveEvent (Service& service) override {}
     bool update () override {return true;}
-    bool isCompleted () override {return false;}
+    bool isCompleted () override {
+        if (aborted) {
+            return true;
+        } else {
+            return false;
+        }}
+    void abort () override {aborted = true;}
     void operator () (Service& service) override {};
+private:
+    bool aborted {false};
 };

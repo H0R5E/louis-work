@@ -195,6 +195,28 @@ TEST (GameTest, TestDrawStateToStart) {
     
 }
 
+TEST (GameTest, TestDrawStateToSpecial) { 
+    
+    std::queue<DelayEvent> eventQueue;
+    eventQueue.push(simulateTextEntered(10));
+    eventQueue.push(simulateTextEntered(108));
+    eventQueue.push(simulateKeyReleased(1));
+    eventQueue.push(simulateTextEntered(111));
+    eventQueue.push(simulateKeyReleased(1));
+    eventQueue.push(simulateTextEntered(117));
+    eventQueue.push(simulateKeyReleased(1));
+    eventQueue.push(simulateTextEntered(105));
+    eventQueue.push(simulateKeyReleased(1));
+    eventQueue.push(simulateTextEntered(115));
+    eventQueue.push(simulateKeyReleased(1));
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
+                    std::make_unique<SoundMaker<MockSound>>(),
+                    &makeSingleLetterSpoken};
+    test_game.EventLoop();
+    ASSERT_EQ(&StateHolder::special, test_game.getCurrentState());
+    
+}
+
 TEST (GameTest, TestPlayStateClearSecond) { 
     
     std::queue<DelayEvent> eventQueue;
@@ -241,6 +263,21 @@ TEST (GameTest, TestDrawStateToWait) {
     
 }
 
+TEST (GameTest, TestWaitStateUpdate) { 
+    
+    std::queue<DelayEvent> eventQueue;
+    eventQueue.push(simulateTextEntered(10));
+    eventQueue.push(simulateTextEntered(10));
+    eventQueue.push(simulateKeyReleased());
+    eventQueue.push(simulateOtherPress());
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
+                    std::make_unique<SoundMaker<MockSound>>(),
+                    componentMaker<NotComplete>()};
+    test_game.EventLoop();
+    ASSERT_EQ(&StateHolder::wait, test_game.getCurrentState());
+    
+}
+
 TEST (GameTest, TestWaitStateToPlay) { 
     
     std::queue<DelayEvent> eventQueue;
@@ -268,6 +305,29 @@ TEST (GameTest, TestWaitStateToStart) {
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
     ASSERT_EQ(&StateHolder::start, test_game.getCurrentState());
+    
+}
+
+TEST (GameTest, TestWaitStateToSpecial) { 
+    
+    std::queue<DelayEvent> eventQueue;
+    eventQueue.push(simulateTextEntered(10));
+    eventQueue.push(simulateTextEntered(108));
+    eventQueue.push(simulateKeyReleased(1));
+    eventQueue.push(simulateTextEntered(111));
+    eventQueue.push(simulateKeyReleased(1));
+    eventQueue.push(simulateTextEntered(117));
+    eventQueue.push(simulateKeyReleased(1));
+    eventQueue.push(simulateTextEntered(105));
+    eventQueue.push(simulateKeyReleased(1));
+    eventQueue.push(simulateTextEntered(115));
+    eventQueue.push(simulateKeyReleased());
+    eventQueue.push(simulateOtherPress(1));
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
+                    std::make_unique<SoundMaker<MockSound>>(),
+                    &makeSingleLetterSpoken};
+    test_game.EventLoop();
+    ASSERT_EQ(&StateHolder::special, test_game.getCurrentState());
     
 }
 
