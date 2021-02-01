@@ -195,6 +195,9 @@ public:
         }
         return status;
     };
+    std::unique_ptr<Sound> clone () const override {
+        return std::make_unique<MockSound>(*this);
+    }
     sf::Sound::Status status {sf::Sound::Status::Stopped};
     bool bufferSet {false};
     bool isPlaying {false};

@@ -5,6 +5,13 @@
 
 #include <iostream>
 
+SingleLetterDraw::SingleLetterDraw (const SingleLetterDraw& copy) :
+            DrawComponent(copy) {
+    
+    *this = copy;
+    
+}
+
 void SingleLetterDraw::setActiveEvent(const sf::Event& event,
                                       Service& service) {
     
@@ -81,5 +88,18 @@ void SingleLetterDraw::operator() (Service& service) {
     
     clock.restart();
     should_draw = false;
+    
+}
+
+SingleLetterDraw& SingleLetterDraw::operator = (const SingleLetterDraw& copy) {
+    
+    if (copy.letter) {
+        letter = std::make_unique<char>(*copy.letter);
+    }
+    
+    should_draw = copy.should_draw;
+    aborted = copy.aborted;
+    
+    return *this;
     
 }

@@ -15,6 +15,7 @@ public:
                  std::string word,
                  std::unique_ptr<sf::Color>&& background) :
         DrawComponent(service, std::move(background)), word(word) {}
+    SpecialDraw (const SpecialDraw& copy) = default;
     void setActiveEvent (const sf::Event& event,
                          Service& service) override {}
     void setActiveEvent (Service& service) override {}
