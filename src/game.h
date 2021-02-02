@@ -16,9 +16,9 @@ using uniqueComponent = std::unique_ptr<Component>;
 class Game : public Service {
 public:
     Game() = delete;
-    Game(std::unique_ptr<Window>&& window,
+    Game(std::shared_ptr<Window>&& window,
          std::unique_ptr<SoundMakerBase>&& sound_maker);
-    Game(std::unique_ptr<Window>&& window,
+    Game(std::shared_ptr<Window>&& window,
          std::unique_ptr<SoundMakerBase>&& sound_maker,
          fPtrType&& sceneFPtr);
     void EventLoop ();
@@ -39,7 +39,7 @@ private:
     void initResources ();
     SceneFactory factory;
     std::unique_ptr<SoundMakerBase> sound_maker;
-    std::unique_ptr<Window> window;
+    std::shared_ptr<Window> window;
     ResourceHolder<sf::Font> font_holder {};
     ResourceHolder<sf::SoundBuffer> buffer_holder {};
     State* current_state;

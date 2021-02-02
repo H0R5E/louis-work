@@ -7,7 +7,7 @@
 #include <sstream>
 #include <stdexcept>
 
-Game::Game(std::unique_ptr<Window>&& window,
+Game::Game(std::shared_ptr<Window>&& window,
            std::unique_ptr<SoundMakerBase>&& sound_maker) :
         sound_maker(std::move(sound_maker)),
         window(std::move(window)) {
@@ -17,7 +17,7 @@ Game::Game(std::unique_ptr<Window>&& window,
     
 }
 
-Game::Game (std::unique_ptr<Window> && window,
+Game::Game (std::shared_ptr<Window> && window,
             std::unique_ptr<SoundMakerBase>&& sound_maker,
             fPtrType&& sceneFPtr ) :
         factory(std::move(sceneFPtr)),

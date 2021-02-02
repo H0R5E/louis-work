@@ -22,7 +22,7 @@ public:
       sf::RenderWindow(sf::VideoMode(sf::VideoMode::getDesktopMode().width,
                                      sf::VideoMode::getDesktopMode().height),
                        "Louis' Work",
-                       sf::Style::Fullscreen) {};
+                       sf::Style::Fullscreen) {}
     void close () override {
         sf::RenderWindow::close();
     };

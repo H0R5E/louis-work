@@ -5,7 +5,7 @@
 #include "sound.h"
 #include "window.h"
 #include "game.h"
-#include "specialsound.h"
+#include "sirensound.h"
 
 int main() {
     
@@ -14,11 +14,11 @@ int main() {
                   std::make_unique<SoundMaker<>>()};
     //my_game.EventLoop();
     
-    auto comp = SpecialSound(my_game, "TEST");
-    auto copy = SpecialSound(comp);
+    auto comp = SirenSound(my_game);
+    auto copy = SirenSound(comp);
     
-    comp = SpecialSound(my_game, "TEST", std::make_unique<sf::Color>(sf::Color::Black));
-    copy = SpecialSound(comp);
+    comp = SirenSound(my_game, std::make_unique<sf::Color>(sf::Color::Black));
+    copy = SirenSound(comp);
     comp = std::move(copy);
     
     return 0;
