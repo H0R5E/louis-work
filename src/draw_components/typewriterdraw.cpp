@@ -5,6 +5,11 @@
 
 #include <iostream>
 
+TypeWriterDraw::TypeWriterDraw (const TypeWriterDraw& copy) :
+            DrawComponent(copy) {
+    init_copy(copy);
+}
+
 void TypeWriterDraw::init ( Service& service ) {
     
     std::cout << "TypeWriterDraw::init" << std::endl;
@@ -14,6 +19,25 @@ void TypeWriterDraw::init ( Service& service ) {
     text.setFillColor(sf::Color::Yellow);
     
 }
+
+void TypeWriterDraw::init_copy ( const TypeWriterDraw& copy ) {
+    
+    if (copy.active_letter) {
+        active_letter = std::make_unique<char>(*copy.active_letter);
+    }
+    
+    if (copy.yorigin) {
+        yorigin = std::make_unique<float>(*copy.yorigin);
+    }
+    
+    text = copy.text;
+    draw_letters = copy.draw_letters;
+    force_draw = copy.force_draw;
+    reset_yorigin = copy.reset_yorigin;
+    aborted = copy.aborted;
+    
+}
+
 
 void TypeWriterDraw::setActiveEvent (const sf::Event& event,
                                      Service& service) {
@@ -133,5 +157,13 @@ void TypeWriterDraw::add_letter(const char& letter) {
     }
     
     draw_letters += letter;
+    
+}
+
+TypeWriterDraw& TypeWriterDraw::operator= (const TypeWriterDraw& copy) {
+    
+    DrawComponent::operator= (copy);
+    init_copy(copy);
+    return *this;
     
 }

@@ -8,6 +8,22 @@
 
 #include <iostream>
 
+SpecialSound::SpecialSound (const SpecialSound& copy) :
+            SoundComponent(copy) {
+    init_copy(copy);
+}
+
+void SpecialSound::init_copy ( const SpecialSound& copy ) {
+    
+    if (copy.buffer) {
+        buffer = std::make_unique<sf::SoundBuffer>(*copy.buffer);
+    }
+    
+    word = copy.word;
+    say_it = copy.say_it;
+    
+}
+
 bool SpecialSound::update() {
     
     auto elapsed = clock.getElapsedTime();
@@ -68,5 +84,13 @@ void SpecialSound::operator() (Service& service) {
     sound->setBuffer(*buffer);
     sound->play();
     clock.restart();
+    
+}
+
+SpecialSound& SpecialSound::operator= (const SpecialSound& copy) {
+    
+    SoundComponent::operator= (copy);
+    init_copy(copy);
+    return *this;
     
 }

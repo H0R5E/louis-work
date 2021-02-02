@@ -17,9 +17,7 @@ public:
                std::unique_ptr<sf::Color>&& background) :
         background(std::move(background)) {};
     Component (const Component& copy) {
-        if (copy.background) {
-            background = std::make_unique<sf::Color>(*copy.background);
-        }
+        *this = copy;
     }
     Component (Component&& temp) = default; 	
     virtual void setActiveEvent (const sf::Event& event,
@@ -28,8 +26,14 @@ public:
     virtual bool update () = 0;
     virtual bool isCompleted () = 0;
     virtual void abort () {}
-    virtual void operator () (Service& service) = 0;
-    Component& operator = (Component&& temp) = default;
+    virtual void operator() (Service& service) = 0;
+    Component& operator= (const Component& copy) {
+        if (copy.background) {
+            background = std::make_unique<sf::Color>(*copy.background);
+        }
+        return *this;
+    }
+    Component& operator= (Component&& temp) = default;
     virtual ~Component () = default;
 protected:
     std::unique_ptr<sf::Color> background {nullptr};
@@ -46,7 +50,8 @@ public:
     DrawComponent (const DrawComponent& copy) :
             Component(copy) {}
     DrawComponent (DrawComponent&& temp) = default;
-    DrawComponent& operator = (DrawComponent&& temp) = default;
+    DrawComponent& operator= (const DrawComponent& copy) = default;
+    DrawComponent& operator= (DrawComponent&& temp) = default;
 };
 
 class SoundComponent : public Component {
@@ -58,13 +63,22 @@ public:
         Component(service, std::move(background)) {};
     SoundComponent (const SoundComponent& copy) :
             Component(copy) {
-        sound = copy.sound->clone();
+        if (copy.sound) {
+            sound = copy.sound->clone();
+        };
     }
     SoundComponent (SoundComponent&& temp) = default;
     Sound* getSoundPtr () {
         return sound.get();
     }
-    SoundComponent& operator = (SoundComponent&& temp) = default;
+    SoundComponent& operator= (const SoundComponent& copy) {
+        Component::operator= (copy);
+        if (copy.sound) {
+            sound = copy.sound->clone();
+        }
+        return *this;
+    }
+    SoundComponent& operator= (SoundComponent&& temp) = default;
 protected:
     std::unique_ptr<Sound> sound {nullptr};
 };

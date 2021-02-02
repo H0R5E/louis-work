@@ -8,6 +8,17 @@
 
 #include <iostream>
 
+LetterSound::LetterSound (const LetterSound& copy) :
+            SoundComponent(copy) {
+    
+    if (copy.buffer) {
+        buffer = std::make_unique<sf::SoundBuffer>(*copy.buffer);
+    }
+    
+    clearBuffer = copy.clearBuffer;
+    
+}
+
 void LetterSound::setActiveEvent (const sf::Event& event,
                                   Service& service ) {
     
@@ -105,5 +116,19 @@ void LetterSound::operator() (Service& service) {
     sound->setBuffer(*buffer);
     sound->play();
     clock.restart();
+    
+}
+
+LetterSound& LetterSound::operator= (const LetterSound& copy) {
+    
+    SoundComponent::operator= (copy);
+    
+    if (copy.buffer) {
+        buffer = std::make_unique<sf::SoundBuffer>(*copy.buffer);
+    }
+    
+    clearBuffer = copy.clearBuffer;
+    
+    return *this;
     
 }

@@ -20,10 +20,9 @@ public:
     bool update () override;
     bool isCompleted () override;
     void abort () override;
-    void operator () (Service& service) override;
-    SingleLetterDraw& operator = (const SingleLetterDraw& copy);
-    SingleLetterDraw& operator = (SingleLetterDraw&& temp) = default;
-    bool checkit {false};
+    void operator() (Service& service) override;
+    SingleLetterDraw& operator= (const SingleLetterDraw& copy);
+    SingleLetterDraw& operator= (SingleLetterDraw&& temp) = default;
 private:
     std::unique_ptr<char> letter {nullptr};
     bool should_draw {true};

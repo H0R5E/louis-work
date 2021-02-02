@@ -5,7 +5,7 @@
 #include "sound.h"
 #include "window.h"
 #include "game.h"
-#include "singleletterdraw.h"
+#include "specialsound.h"
 
 int main() {
     
@@ -14,25 +14,12 @@ int main() {
                   std::make_unique<SoundMaker<>>()};
     //my_game.EventLoop();
     
+    auto comp = SpecialSound(my_game, "TEST");
+    auto copy = SpecialSound(comp);
     
-    auto comp = SingleLetterDraw(my_game);
-    auto copy = SingleLetterDraw(comp);
-    
-    comp = SingleLetterDraw(my_game, std::make_unique<sf::Color>(sf::Color::Black));
-    copy = SingleLetterDraw(comp);
-    comp.checkit = true;
-    
-    if (!copy.checkit) {
-        std::cout << "YES" << std::endl;
-    }
-    
+    comp = SpecialSound(my_game, "TEST", std::make_unique<sf::Color>(sf::Color::Black));
+    copy = SpecialSound(comp);
     comp = std::move(copy);
-    
-    if (!comp.checkit) {
-        std::cout << "YES" << std::endl;
-    } else {
-        std::cout << "NO" << std::endl;
-    }
     
     return 0;
     

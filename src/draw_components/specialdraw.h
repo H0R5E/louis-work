@@ -16,6 +16,7 @@ public:
                  std::unique_ptr<sf::Color>&& background) :
         DrawComponent(service, std::move(background)), word(word) {}
     SpecialDraw (const SpecialDraw& copy) = default;
+    SpecialDraw (SpecialDraw&& temp) = default;
     void setActiveEvent (const sf::Event& event,
                          Service& service) override {}
     void setActiveEvent (Service& service) override {}
@@ -23,6 +24,8 @@ public:
     bool isCompleted () override;
     void abort () override;
     void operator () (Service& service) override;
+    SpecialDraw& operator = (const SpecialDraw& copy) = default;
+    SpecialDraw& operator = (SpecialDraw&& temp) = default;
 private:
     void init ();
     std::string word;

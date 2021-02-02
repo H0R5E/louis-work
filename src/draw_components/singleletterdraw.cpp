@@ -8,7 +8,12 @@
 SingleLetterDraw::SingleLetterDraw (const SingleLetterDraw& copy) :
             DrawComponent(copy) {
     
-    *this = copy;
+    if (copy.letter) {
+        letter = std::make_unique<char>(*copy.letter);
+    }
+    
+    should_draw = copy.should_draw;
+    aborted = copy.aborted;
     
 }
 
@@ -91,7 +96,9 @@ void SingleLetterDraw::operator() (Service& service) {
     
 }
 
-SingleLetterDraw& SingleLetterDraw::operator = (const SingleLetterDraw& copy) {
+SingleLetterDraw& SingleLetterDraw::operator= (const SingleLetterDraw& copy) {
+    
+    DrawComponent::operator= (copy);
     
     if (copy.letter) {
         letter = std::make_unique<char>(*copy.letter);
