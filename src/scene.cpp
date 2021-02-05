@@ -1,5 +1,4 @@
 
-#include "helpers.h"
 #include "scene.h"
 #include "window.h"
 
