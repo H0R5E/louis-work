@@ -10,43 +10,42 @@
 #include "sirensound.h"
 #include "specialsound.h"
 
-std::unique_ptr<Component> makeSpecial (Service& service,
+polymorphic_value<Component> makeSpecial (Service& service,
                                         std::string_view word) {
-    return std::make_unique<Scene>(service,
-                                   std::make_unique<SpecialDraw>(service, word),
-                                   std::make_unique<SpecialSound>(service,
-                                                                  word),
-                                   std::make_unique<sf::Color>(
-                                                            sf::Color::Black));
+    return make_polymorphic_value<Component, Scene>(
+            service,
+            make_polymorphic_value<DrawComponent, SpecialDraw>(service, word),
+            make_polymorphic_value<SoundComponent, SpecialSound>(service, word),
+            std::make_unique<sf::Color>(sf::Color::Black));
 };
 
-std::unique_ptr<Component> makeSingleLetterSiren (Service& service) {
-    return std::make_unique<Scene>(service,
-                                   std::make_unique<SingleLetterDraw>(service),
-                                   std::make_unique<SirenSound>(service),
-                                   std::make_unique<sf::Color>(
-                                                            sf::Color::Black));
+polymorphic_value<Component> makeSingleLetterSiren (Service& service) {
+    return make_polymorphic_value<Component, Scene>(
+            service,
+            make_polymorphic_value<DrawComponent, SingleLetterDraw>(service),
+            make_polymorphic_value<SoundComponent, SirenSound>(service),
+            std::make_unique<sf::Color>(sf::Color::Black));
 };
 
-std::unique_ptr<Component> makeSingleLetterSpoken (Service& service) {
-    return std::make_unique<Scene>(service,
-                                   std::make_unique<SingleLetterDraw>(service),
-                                   std::make_unique<LetterSound>(service),
-                                   std::make_unique<sf::Color>(
-                                                            sf::Color::Black));
+polymorphic_value<Component> makeSingleLetterSpoken (Service& service) {
+    return make_polymorphic_value<Component, Scene>(
+            service,
+            make_polymorphic_value<DrawComponent, SingleLetterDraw>(service),
+            make_polymorphic_value<SoundComponent, LetterSound>(service),
+            std::make_unique<sf::Color>(sf::Color::Black));
 };
 
-std::unique_ptr<Component> makeTypeWriterSpoken (Service& service) {
-    return std::make_unique<Scene>(service,
-                                   std::make_unique<TypeWriterDraw>(service),
-                                   std::make_unique<LetterSound>(service),
-                                   std::make_unique<sf::Color>(
-                                                            sf::Color::Black));
+polymorphic_value<Component> makeTypeWriterSpoken (Service& service) {
+    return make_polymorphic_value<Component, Scene>(
+            service,
+            make_polymorphic_value<DrawComponent, TypeWriterDraw>(service),
+            make_polymorphic_value<SoundComponent, LetterSound>(service),
+            std::make_unique<sf::Color>(sf::Color::Black));
 };
 
-std::unique_ptr<Component> SceneFactory::makeScene (Service& service) {
-        
-    std::unique_ptr<Component> newScene;
+polymorphic_value<Component> SceneFactory::makeScene (Service& service) {
+    
+    polymorphic_value<Component> newScene;
     
     if (force_scene) {
         newScene = force_scene(service);

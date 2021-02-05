@@ -14,5 +14,5 @@ public:
     State* HandleKeyReleased (const sf::Event& event,
                               Component& scene,
                               Service& service) override;
-    State* Update (uniqueComponentVector& scenes, Service& service) override;
+    State* Update (polyComponentVector& scenes, Service& service) override;
 };

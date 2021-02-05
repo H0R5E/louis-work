@@ -46,7 +46,7 @@ State* DrawState::HandleKeyReleased (const sf::Event& event,
     
 }
 
-State* DrawState::Update (uniqueComponentVector& scenes, Service& service) {
+State* DrawState::Update (polyComponentVector& scenes, Service& service) {
     
     std::cout << "DrawState::Update" << std::endl;
     

@@ -5,8 +5,11 @@
 #include <SFML/Graphics.hpp>
 
 #include "component.h"
+#include "polymorphic_value.h"
 
-using uniqueComponentVector = std::vector<std::unique_ptr<Component>>;
+using namespace isocpp_p0201;
+
+using polyComponentVector = std::vector<polymorphic_value<Component>>;
 
 // Forward declare
 class Service;
@@ -18,14 +21,14 @@ public:
                                      Component& scene,
                                      Service& service) {return nullptr;}
     virtual State* HandleTextEntered (const sf::Event& event,
-                                      uniqueComponentVector& scenes,
+                                      polyComponentVector& scenes,
                                       Service& service) {return nullptr;}
     virtual State* HandleKeyReleased (const sf::Event& event,
                                       Component& scene,
                                       Service& service) {return nullptr;}
-    virtual State* Update (uniqueComponentVector& scenes,
+    virtual State* Update (polyComponentVector& scenes,
                            Service& service) {return nullptr;}
-    virtual void Enter (uniqueComponentVector& scenes,
+    virtual void Enter (polyComponentVector& scenes,
                         Service& service) {return;}
     bool skipEvents {false};
     std::unordered_set<std::string> special_words {"louis", 

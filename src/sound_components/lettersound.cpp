@@ -112,7 +112,7 @@ void LetterSound::operator() (Service& service) {
         return;
     }
     
-    sound = service.makeSoundPtr();
+    sound = service.makeSoundPValue();
     sound->setBuffer(*buffer);
     sound->play();
     clock.restart();

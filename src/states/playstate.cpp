@@ -22,7 +22,7 @@ State* PlayState::HandleKeyPressed (const sf::Event& event,
 }
 
 State* PlayState::HandleTextEntered (const sf::Event& event,
-                                     uniqueComponentVector& scenes,
+                                     polyComponentVector& scenes,
                                      Service& service) {
     
     std::cout << "PlayState::HandleTextEntered" << std::endl;
@@ -45,7 +45,7 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
     
 }
 
-void PlayState::Enter (uniqueComponentVector& scenes,
+void PlayState::Enter (polyComponentVector& scenes,
                        Service& service) {
     
     std::cout << "PlayState::Enter" << std::endl;

@@ -8,7 +8,7 @@
 void SirenSound::init (Service& service) {
     std::cout << "SirenSound::init" << std::endl;
     auto& sound_buffer = service.getSoundBuffer("Alarm_or_siren");
-    sound = service.makeSoundPtr();
+    sound = service.makeSoundPValue();
     sound->setBuffer(sound_buffer);
 }
 

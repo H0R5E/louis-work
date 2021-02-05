@@ -10,8 +10,8 @@ public:
                              Component& scene,
                              Service& service) override;
     State* HandleTextEntered (const sf::Event& event,
-                              uniqueComponentVector& scenes,
+                              polyComponentVector& scenes,
                               Service& service) override;
-    State* Update (uniqueComponentVector& scenes, Service& service) override;
-    void Enter (uniqueComponentVector& scenes, Service& service) override;
+    State* Update (polyComponentVector& scenes, Service& service) override;
+    void Enter (polyComponentVector& scenes, Service& service) override;
 };

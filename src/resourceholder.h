@@ -12,10 +12,18 @@
 template <typename Resource>
 class ResourceHolder {
 public:
+    ResourceHolder<Resource> () = default;
+    ResourceHolder<Resource> (const ResourceHolder<Resource>& copy) {
+        *this = copy;
+    }
+    ResourceHolder<Resource> (ResourceHolder<Resource>&& temp) = default;
     void Load(std::string_view resourcename);
     Resource& Get(std::string_view resourcename);
     const Resource& Get(std::string_view resourcename) const;
     int Size () const;
+    ResourceHolder<Resource>& operator= (const ResourceHolder<Resource>& copy);
+    ResourceHolder<Resource>& operator= (ResourceHolder<Resource>&& temp)
+                                                                    = default;
 private:
     std::map<std::string_view, std::unique_ptr<Resource>> mResourceMap;
 };
@@ -77,3 +85,24 @@ template<typename Resource>
 int ResourceHolder<Resource>::Size() const {
     return mResourceMap.size();
 }
+
+template<typename Resource>
+ResourceHolder<Resource>& ResourceHolder<Resource>::operator= (
+                                        const ResourceHolder<Resource>& copy) {
+    
+    for (auto const& [key, val] : copy.mResourceMap) {
+        
+        std::unique_ptr<Resource> resource {nullptr};
+        
+        if (val) {
+            resource = std::make_unique<Resource>(*val);
+        }
+        
+        mResourceMap.insert(std::make_pair(key, std::move(resource)));
+    
+    }
+    
+    return *this;
+    
+}
+

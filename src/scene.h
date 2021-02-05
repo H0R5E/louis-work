@@ -4,19 +4,22 @@
 #include <SFML/Graphics.hpp>
 
 #include "component.h"
+#include "polymorphic_value.h"
 #include "service.h"
+
+using namespace isocpp_p0201;
 
 class Scene : public Component {
 public:
     Scene (Service& service,
-           std::unique_ptr<DrawComponent>&& draw_component,
-           std::unique_ptr<SoundComponent>&& sound_component) :
+           polymorphic_value<DrawComponent>&& draw_component,
+           polymorphic_value<SoundComponent>&& sound_component) :
         Component(service),
         draw_component(std::move(draw_component)),
         sound_component(std::move(sound_component)) {}
     Scene (Service& service,
-           std::unique_ptr<DrawComponent>&& draw_component,
-           std::unique_ptr<SoundComponent>&& sound_component,
+           polymorphic_value<DrawComponent>&& draw_component,
+           polymorphic_value<SoundComponent>&& sound_component,
            std::unique_ptr<sf::Color>&& background) :
         Component(service, std::move(background)),
         draw_component(std::move(draw_component)),
@@ -27,12 +30,12 @@ public:
     bool update () override;
     bool isCompleted () override;
     void abort () override;
-    void operator () (Service& service) override;
     SoundComponent* getSoundComponentPtr () {
-        return sound_component.get();
+        return sound_component.operator->();
     }
+    void operator () (Service& service) override;
 private:
-    std::unique_ptr<DrawComponent> draw_component;
-    std::unique_ptr<SoundComponent> sound_component;
+    polymorphic_value<DrawComponent> draw_component;
+    polymorphic_value<SoundComponent> sound_component;
     bool replay {true};
 };

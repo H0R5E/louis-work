@@ -22,7 +22,7 @@ State* WaitState::HandleKeyPressed (const sf::Event& event,
     
 }
 
-State* WaitState::Update (uniqueComponentVector& scenes, Service& service) {
+State* WaitState::Update (polyComponentVector& scenes, Service& service) {
     
     std::cout << "WaitState::Update" << std::endl;
     

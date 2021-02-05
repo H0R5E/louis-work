@@ -5,16 +5,19 @@
 #include <memory>
 
 #include "component.h"
+#include "polymorphic_value.h"
 
-using fPtrType = std::unique_ptr<Component> (*) (Service& service);
+using namespace isocpp_p0201;
+
+using fPtrType = polymorphic_value<Component> (*) (Service& service);
 
 template<typename T>
 fPtrType componentMaker () {
     
-    auto f1 = [](Service& service) -> std::unique_ptr<Component> {
-        return std::make_unique<T>(service,
-                                   std::make_unique<sf::Color>(
-                                                sf::Color::Black));
+    auto f1 = [](Service& service) -> polymorphic_value<Component> {
+        return make_polymorphic_value<Component, T>(
+                            service,
+                            std::make_unique<sf::Color>(sf::Color::Black));
     };
     
     return f1;
@@ -22,18 +25,18 @@ fPtrType componentMaker () {
 };
 
 // Forward declaration
-std::unique_ptr<Component> makeSpecial (Service& service,
-                                        std::string_view word);
-std::unique_ptr<Component> makeSingleLetterSiren (Service& service);
-std::unique_ptr<Component> makeSingleLetterSpoken (Service& service);
-std::unique_ptr<Component> makeTypeWriterSpoken (Service& service);
+polymorphic_value<Component> makeSpecial (Service& service,
+                                          std::string_view word);
+polymorphic_value<Component> makeSingleLetterSiren (Service& service);
+polymorphic_value<Component> makeSingleLetterSpoken (Service& service);
+polymorphic_value<Component> makeTypeWriterSpoken (Service& service);
 
 class SceneFactory {
 public:
     SceneFactory () = default;
     SceneFactory (fPtrType&& sceneFPtr) :
         force_scene(sceneFPtr) {}
-    std::unique_ptr<Component> makeScene (Service& service);
+    polymorphic_value<Component> makeScene (Service& service);
 private:
     fPtrType force_scene {nullptr};
     fPtrType myScene {&makeTypeWriterSpoken};

@@ -1,6 +1,9 @@
 
+#include "helpers.h"
 #include "scene.h"
 #include "window.h"
+
+#include "singleletterdraw.h"
 
 #include <iostream>
 

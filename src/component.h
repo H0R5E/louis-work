@@ -1,10 +1,14 @@
 
 #pragma once
 
+#include <any>
 #include <memory>
 #include <SFML/Graphics.hpp>
 
+#include "polymorphic_value.h"
 #include "sound.h"
+
+using namespace isocpp_p0201;
 
 // Forward declare
 class Service;
@@ -61,24 +65,9 @@ public:
     SoundComponent (Service& service,
                     std::unique_ptr<sf::Color>&& background) :
         Component(service, std::move(background)) {};
-    SoundComponent (const SoundComponent& copy) :
-            Component(copy) {
-        if (copy.sound) {
-            sound = copy.sound->clone();
-        };
-    }
-    SoundComponent (SoundComponent&& temp) = default;
     Sound* getSoundPtr () {
-        return sound.get();
+        return sound.operator->();
     }
-    SoundComponent& operator= (const SoundComponent& copy) {
-        Component::operator= (copy);
-        if (copy.sound) {
-            sound = copy.sound->clone();
-        }
-        return *this;
-    }
-    SoundComponent& operator= (SoundComponent&& temp) = default;
 protected:
-    std::unique_ptr<Sound> sound {nullptr};
+    polymorphic_value<Sound> sound;
 };

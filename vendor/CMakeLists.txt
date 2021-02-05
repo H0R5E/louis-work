@@ -1,6 +1,7 @@
 
 # external projects
 include(ExternalProject)
+include(FetchContent)
 
 # check for autoconf on linux
 if (CMAKE_COMPILER_IS_GNUCXX)
@@ -39,3 +40,11 @@ target_link_libraries(libespeak-ng INTERFACE
                       ${ESPEAKNG_PREFIX}/lib/libespeak-ng.so)
 target_include_directories(libespeak-ng INTERFACE
                            ${ESPEAKNG_PREFIX}/include/espeak-ng)
+
+# polymorphic_value
+FetchContent_Declare(polymorphic_value
+    GIT_REPOSITORY "git://github.com/jbcoe/polymorphic_value"
+    GIT_TAG "master")
+
+FetchContent_MakeAvailable(polymorphic_value)
+include_directories(${polymorphic_value_SOURCE_DIR})

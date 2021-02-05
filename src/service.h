@@ -8,6 +8,10 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
+#include "polymorphic_value.h"
+
+using namespace isocpp_p0201;
+
 // Forward declare
 class Component;
 class Window;
@@ -19,10 +23,10 @@ public:
     virtual const sf::Font& getFont (std::string_view name) const = 0;
     virtual const sf::SoundBuffer& getSoundBuffer
                                             (std::string_view name) const = 0;
-    virtual Window& getWindow () const = 0;
+    virtual Window& getWindow () = 0;
     virtual void storeLetter (const char letter) = 0;
     virtual const std::string getWord () const = 0;
     virtual void clearLetters () = 0;
-    virtual std::unique_ptr<Component> makeScenePtr () = 0;
-    virtual std::unique_ptr<Sound> makeSoundPtr () const = 0;
+    virtual polymorphic_value<Component> makeScenePValue () = 0;
+    virtual polymorphic_value<Sound> makeSoundPValue () = 0;
 };

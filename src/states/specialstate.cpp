@@ -23,14 +23,14 @@ State* SpecialState::HandleKeyPressed (const sf::Event& event,
     
 }
 
-State* SpecialState::Update (uniqueComponentVector& scenes, Service& service) {
+State* SpecialState::Update (polyComponentVector& scenes, Service& service) {
     
     std::cout << "SpecialState::Update" << std::endl;
     
     auto& scene = *(scenes[0]);
     
     if (scene.isCompleted()) {
-        auto new_scene = service.makeScenePtr();
+        auto new_scene = service.makeScenePValue();
         scenes.push_back(std::move(new_scene));
         return &StateHolder::play;
     } else if (scene.update()) {
@@ -42,7 +42,7 @@ State* SpecialState::Update (uniqueComponentVector& scenes, Service& service) {
     
 }
 
-void SpecialState::Enter (uniqueComponentVector& scenes,
+void SpecialState::Enter (polyComponentVector& scenes,
                           Service& service) {
     
     std::cout << "SpecialState::Enter" << std::endl;

@@ -24,7 +24,7 @@ State* StartState::HandleKeyPressed (const sf::Event& event,
 }
 
 State* StartState::HandleTextEntered (const sf::Event& event,
-                                      uniqueComponentVector& scenes,
+                                      polyComponentVector& scenes,
                                       Service& service) {
     
     std::cout << "StartState::HandleTextEntered" << std::endl;
@@ -32,20 +32,20 @@ State* StartState::HandleTextEntered (const sf::Event& event,
     auto& scene = *(scenes[0]);
     scene.abort();
     
-    auto new_scene = service.makeScenePtr();
+    auto new_scene = service.makeScenePValue();
     scenes.push_back(std::move(new_scene));
     service.clearLetters();
     return &StateHolder::play;
     
 }
 
-State* StartState::Update (uniqueComponentVector& scenes,
+State* StartState::Update (polyComponentVector& scenes,
                            Service& service) {
     skipEvents = false;
     return nullptr;
 }
 
-void StartState::Enter (uniqueComponentVector& scenes,
+void StartState::Enter (polyComponentVector& scenes,
                         Service& service) {
     
     skipEvents = true;

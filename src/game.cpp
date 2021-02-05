@@ -7,8 +7,8 @@
 #include <sstream>
 #include <stdexcept>
 
-Game::Game(std::shared_ptr<Window>&& window,
-           std::unique_ptr<SoundMakerBase>&& sound_maker) :
+Game::Game(std::unique_ptr<Window>&& window,
+           polymorphic_value<SoundMakerBase>&& sound_maker) :
         sound_maker(std::move(sound_maker)),
         window(std::move(window)) {
     
@@ -17,8 +17,8 @@ Game::Game(std::shared_ptr<Window>&& window,
     
 }
 
-Game::Game (std::shared_ptr<Window> && window,
-            std::unique_ptr<SoundMakerBase>&& sound_maker,
+Game::Game (std::unique_ptr<Window> && window,
+            polymorphic_value<SoundMakerBase>&& sound_maker,
             fPtrType&& sceneFPtr ) :
         factory(std::move(sceneFPtr)),
         sound_maker(std::move(sound_maker)),
@@ -64,7 +64,7 @@ void Game::updateScene () {
     }
     
     // Start the new scene
-    uniqueComponent new_scene = std::move(scenes.back());
+    polyComponent new_scene = std::move(scenes.back());
     (*new_scene)(*this);
     getWindow().display();
     
@@ -190,7 +190,10 @@ const sf::SoundBuffer& Game::getSoundBuffer ( std::string_view name ) const {
     return buffer_holder.Get(name);
 }
 
-Window& Game::getWindow() const {
+Window& Game::getWindow() {
+    if (!window) {
+        throw std::runtime_error("No window");
+    }
     return *window;
 }
 
@@ -215,10 +218,10 @@ void Game::clearLetters() {
     letter_store.clear();
 }
 
-uniqueComponent Game::makeScenePtr() {
+polyComponent Game::makeScenePValue() {
     return factory.makeScene(*this);
 }
-
-std::unique_ptr<Sound> Game::makeSoundPtr () const {
+ 
+polymorphic_value<Sound> Game::makeSoundPValue () {
     return sound_maker->Get();
 }

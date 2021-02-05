@@ -80,7 +80,7 @@ void SpecialSound::operator() (Service& service) {
     
     buffer = std::make_unique<sf::SoundBuffer>(voice.getBuffer(&out[0]));
     
-    sound = service.makeSoundPtr();
+    sound = service.makeSoundPValue();
     sound->setBuffer(*buffer);
     sound->play();
     clock.restart();
