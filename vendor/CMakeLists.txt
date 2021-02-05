@@ -47,4 +47,5 @@ FetchContent_Declare(polymorphic_value
     GIT_TAG "master")
 
 FetchContent_MakeAvailable(polymorphic_value)
-include_directories(${polymorphic_value_SOURCE_DIR})
+target_include_directories(polymorphic_value INTERFACE
+                           ${polymorphic_value_SOURCE_DIR})
