@@ -11,7 +11,8 @@ TEST (GameTest, TestConstruct) {
     
     std::queue<DelayEvent> eventQueue;
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>()};
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>()};
     ASSERT_EQ(&StateHolder::start, test_game.getCurrentState());
     
 }
@@ -20,7 +21,8 @@ TEST (GameTest, TestNoScenes) {
     
     std::queue<DelayEvent> eventQueue;
     MockGame test_game {std::make_unique<MockWindow>(eventQueue),
-                        std::make_unique<SoundMaker<MockSound>>()};
+                        make_polymorphic_value<SoundMakerBase,
+                                               SoundMaker<MockSound>>()};
     test_game.clearScenes();
     ASSERT_THROW(test_game.updateScene();, std::runtime_error);
 }
@@ -29,10 +31,13 @@ TEST (GameTest, TestSceneNotComplete) {
     
     std::queue<DelayEvent> eventQueue;
     MockGame test_game {std::make_unique<MockWindow>(eventQueue),
-                        std::make_unique<SoundMaker<MockSound>>()};
-    test_game.addScene(std::make_unique<NotComplete>(test_game));
+                        make_polymorphic_value<SoundMakerBase,
+                                               SoundMaker<MockSound>>()};
+    test_game.addScene(make_polymorphic_value<Component,
+                                              NotComplete>(test_game));
     test_game.updateScene();
-    test_game.addScene(std::make_unique<NotComplete>(test_game));
+    test_game.addScene(make_polymorphic_value<Component,
+                                              NotComplete>(test_game));
     ASSERT_THROW(test_game.updateScene();, std::runtime_error);
     
 }
@@ -41,8 +46,8 @@ TEST (GameTest, TestStartStateEnter) {
     
     std::queue<DelayEvent> eventQueue;
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
-                    &makeSingleLetterSpoken};
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>()};
     ASSERT_EQ(&StateHolder::start, test_game.getCurrentState());
     
 }
@@ -52,7 +57,8 @@ TEST (GameTest, TestStartStateExit) {
     std::queue<DelayEvent> eventQueue;
     eventQueue.push(simulateCtrlC());
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     ASSERT_NO_THROW(test_game.EventLoop());
 
@@ -66,7 +72,8 @@ TEST (GameTest, TestStartStateDraw) {
     std::queue<DelayEvent> eventQueue;
     eventQueue.push(simulateCtrlC());
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
     MockWindow& window = dynamic_cast<MockWindow&>(test_game.getWindow());
@@ -80,7 +87,8 @@ TEST (GameTest, TestPlayStateEnter) {
     eventQueue.push(simulateTextEntered(10));
     eventQueue.push(simulateOtherPress());
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
     ASSERT_EQ(&StateHolder::play, test_game.getCurrentState());
@@ -93,7 +101,8 @@ TEST (GameTest, TestPlayStateScene) {
     eventQueue.push(simulateTextEntered(10));
     eventQueue.push(simulateOtherPress());
     MockGame test_game {std::make_unique<MockWindow>(eventQueue),
-                        std::make_unique<SoundMaker<MockSound>>(),
+                        make_polymorphic_value<SoundMakerBase,
+                                               SoundMaker<MockSound>>(),
                         &makeSingleLetterSpoken};
     test_game.EventLoop();
     ASSERT_TRUE(test_game.getScenePtr() != nullptr);
@@ -105,7 +114,8 @@ TEST (GameTest, TestPlayStateClear) {
     std::queue<DelayEvent> eventQueue;
     eventQueue.push(simulateTextEntered(10));
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
     MockWindow& window = dynamic_cast<MockWindow&>(test_game.getWindow());
@@ -119,7 +129,8 @@ TEST (GameTest, TestPlayStateToStart) {
     eventQueue.push(simulateTextEntered(10));
     eventQueue.push(simulateCtrlC());
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
     ASSERT_EQ(&StateHolder::start, test_game.getCurrentState());
@@ -133,7 +144,8 @@ TEST (GameTest, TestStartStateSkipEvents) {
     eventQueue.push(simulateCtrlC(false));
     eventQueue.push(simulateTextEntered(10));
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
     ASSERT_EQ(&StateHolder::start, test_game.getCurrentState());
@@ -147,7 +159,8 @@ TEST (GameTest, TestPlayStateToDraw) {
     eventQueue.push(simulateTextEntered(10));
     eventQueue.push(simulateOtherPress());
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
     ASSERT_EQ(&StateHolder::draw, test_game.getCurrentState());
@@ -160,7 +173,8 @@ TEST (GameTest, TestPlayStateTextNotHandled) {
     eventQueue.push(simulateTextEntered(10));
     eventQueue.push(simulateTextEntered(999));
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
     ASSERT_EQ(&StateHolder::play, test_game.getCurrentState());
@@ -173,7 +187,8 @@ TEST (GameTest, TestDrawStateDraw) {
     eventQueue.push(simulateTextEntered(10));
     eventQueue.push(simulateTextEntered(10));
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
     MockWindow& window = dynamic_cast<MockWindow&>(test_game.getWindow());
@@ -188,7 +203,8 @@ TEST (GameTest, TestDrawStateToStart) {
     eventQueue.push(simulateTextEntered(10));
     eventQueue.push(simulateCtrlC());
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
     ASSERT_EQ(&StateHolder::start, test_game.getCurrentState());
@@ -210,7 +226,8 @@ TEST (GameTest, TestDrawStateToSpecial) {
     eventQueue.push(simulateTextEntered(115));
     eventQueue.push(simulateKeyReleased(1));
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
     ASSERT_EQ(&StateHolder::special, test_game.getCurrentState());
@@ -225,7 +242,8 @@ TEST (GameTest, TestPlayStateClearSecond) {
     eventQueue.push(simulateCtrlC());
     eventQueue.push(simulateTextEntered(10));
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
     MockWindow& window = dynamic_cast<MockWindow&>(test_game.getWindow());
@@ -241,7 +259,8 @@ TEST (GameTest, TestDrawStateToPlay) {
     eventQueue.push(simulateTextEntered(10));
     eventQueue.push(simulateKeyReleased(1));
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
                     &makeSingleLetterSiren};
     test_game.EventLoop();
     ASSERT_EQ(&StateHolder::play, test_game.getCurrentState());
@@ -256,7 +275,8 @@ TEST (GameTest, TestDrawStateToWait) {
     eventQueue.push(simulateKeyReleased());
     eventQueue.push(simulateOtherPress());
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
     ASSERT_EQ(&StateHolder::wait, test_game.getCurrentState());
@@ -271,7 +291,8 @@ TEST (GameTest, TestWaitStateUpdate) {
     eventQueue.push(simulateKeyReleased());
     eventQueue.push(simulateOtherPress());
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
                     componentMaker<NotComplete>()};
     test_game.EventLoop();
     ASSERT_EQ(&StateHolder::wait, test_game.getCurrentState());
@@ -286,7 +307,8 @@ TEST (GameTest, TestWaitStateToPlay) {
     eventQueue.push(simulateKeyReleased());
     eventQueue.push(simulateOtherPress(1));
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
     ASSERT_EQ(&StateHolder::play, test_game.getCurrentState());
@@ -301,7 +323,8 @@ TEST (GameTest, TestWaitStateToStart) {
     eventQueue.push(simulateKeyReleased());
     eventQueue.push(simulateCtrlC());
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
     ASSERT_EQ(&StateHolder::start, test_game.getCurrentState());
@@ -324,7 +347,8 @@ TEST (GameTest, TestWaitStateToSpecial) {
     eventQueue.push(simulateKeyReleased());
     eventQueue.push(simulateOtherPress(1));
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
     ASSERT_EQ(&StateHolder::special, test_game.getCurrentState());
@@ -338,7 +362,8 @@ TEST (GameTest, TestDrawStatePlaying) {
     eventQueue.push(simulateTextEntered(10));
     eventQueue.push(simulateTextEntered(10));
     MockGame test_game {std::make_unique<MockWindow>(eventQueue),
-                        std::make_unique<SoundMaker<MockSound>>(),
+                        make_polymorphic_value<SoundMakerBase,
+                                               SoundMaker<MockSound>>(),
                         &makeSingleLetterSpoken};
     test_game.EventLoop();
     
@@ -366,7 +391,8 @@ TEST (GameTest, TestPlayStateSoundStopped) {
     eventQueue.push(simulateTextEntered(10));
     eventQueue.push(simulateKeyReleased(1));
     MockGame test_game {std::make_unique<MockWindow>(eventQueue),
-                        std::make_unique<SoundMaker<MockSound>>(),
+                        make_polymorphic_value<SoundMakerBase,
+                                               SoundMaker<MockSound>>(),
                         &makeSingleLetterSiren};
     test_game.EventLoop();
     Scene* scenePtr = dynamic_cast<Scene*>(test_game.getScenePtr());

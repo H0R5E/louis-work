@@ -28,7 +28,7 @@ public:
     virtual void setActiveEvent (Service& service) = 0;
     virtual bool update () = 0;
     virtual bool isCompleted () = 0;
-    virtual void abort () {}
+    virtual void abort () = 0;
     virtual void operator() (Service& service) = 0;
     Component& operator= (const Component& copy) {
         if (copy.background) {
@@ -50,11 +50,6 @@ public:
     DrawComponent (Service& service,
                    std::unique_ptr<sf::Color>&& background) :
         Component(service, std::move(background)) {}
-    DrawComponent (const DrawComponent& copy) :
-            Component(copy) {}
-    DrawComponent (DrawComponent&& temp) = default;
-    DrawComponent& operator= (const DrawComponent& copy) = default;
-    DrawComponent& operator= (DrawComponent&& temp) = default;
 };
 
 class SoundComponent : public Component {
@@ -65,6 +60,9 @@ public:
                     std::unique_ptr<sf::Color>&& background) :
         Component(service, std::move(background)) {};
     Sound* getSoundPtr () {
+        if (!sound) {
+            throw std::runtime_error("No sound");
+        }
         return sound.operator->();
     }
 protected:

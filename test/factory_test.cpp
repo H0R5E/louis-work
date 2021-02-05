@@ -19,11 +19,12 @@ TEST (FactoryTest, SceneFactorymakeScene) {
     
     std::queue<DelayEvent> eventQueue;
     Game test_game {std::make_unique<MockWindow>(eventQueue),
-                    std::make_unique<SoundMaker<MockSound>>()};
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>()};
     
     auto factory = SceneFactory();
     auto scene = factory.makeScene(test_game);
     
-    ASSERT_TRUE(scene != nullptr);
+    ASSERT_TRUE(scene);
     
 }

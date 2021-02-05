@@ -9,15 +9,16 @@
 class StateTest : public ::testing::Test {
 public:
     StateTest () {
-        auto comp = std::make_unique<SingleLetterDraw>(game);
+        auto comp = make_polymorphic_value<Component, SingleLetterDraw>(game);
         scenes.push_back(std::move(comp));
     }
 protected:
     std::queue<DelayEvent> eventQueue {};
     Game game {std::make_unique<MockWindow>(eventQueue),
-               std::make_unique<SoundMaker<MockSound>>()};;
+               make_polymorphic_value<SoundMakerBase,
+                                      SoundMaker<MockSound>>()};
     sf::Event event {simulateTextEntered(10)};
-    uniqueComponentVector scenes {};
+    polyComponentVector scenes {};
 };
 
 TEST_F (StateTest, HandleKeyPressed) { 

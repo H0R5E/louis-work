@@ -22,6 +22,7 @@ public:
     bool update () override;
     bool isCompleted () override;
     void operator() (Service& service) override;
+    void abort () override {};
     SpecialSound& operator= (const SpecialSound& copy);
     SpecialSound& operator= (SpecialSound&& temp) = default;
 private:

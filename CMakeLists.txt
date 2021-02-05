@@ -19,7 +19,7 @@ enable_testing()
 # code coverage
 include(CodeCoverage)
 find_program(GCOVR_PATH gcovr)
-#set(GCOV TRUE)
+set(GCOV TRUE)
 
 # output structure
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
@@ -48,6 +48,7 @@ if (CMAKE_COMPILER_IS_GNUCXX AND GCOVR_PATH AND GCOV)
         EXECUTABLE tests
         DEPENDENCIES tests
         EXCLUDE "${CMAKE_SOURCE_DIR}/app/*"
+                "${CMAKE_SOURCE_DIR}/build/_deps/*"
                 "${CMAKE_SOURCE_DIR}/src/adapters/*"
                 "${CMAKE_SOURCE_DIR}/test/*")
     
@@ -74,8 +75,8 @@ file(GLOB test_SRC CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/test/*.cpp"
                                      "${CMAKE_SOURCE_DIR}/test/*.h")
 
 # add tests
-#add_executable(tests ${test_SRC})
-#add_executable(tests "${CMAKE_SOURCE_DIR}/test/specialsound_test.cpp" 
+add_executable(tests ${test_SRC})
+#add_executable(tests "${CMAKE_SOURCE_DIR}/test/singleletterdraw_test.cpp" 
 #                     "${CMAKE_SOURCE_DIR}/test/mock.h")
-#target_link_libraries(tests game drawcomponents soundcomponents ${CONAN_LIBS})
-#gtest_discover_tests(tests)
+target_link_libraries(tests game drawcomponents soundcomponents ${CONAN_LIBS})
+gtest_discover_tests(tests)

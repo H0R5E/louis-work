@@ -94,7 +94,6 @@ TEST (SpecialSound, NoPlayWord) {
     MockService service {};
     SpecialSound test {service, "TEST"};
     test(service);
-    auto* sound = test.getSoundPtr();
-    ASSERT_TRUE(sound == nullptr);
+    ASSERT_THROW(test.getSoundPtr(), std::runtime_error);
     
 }

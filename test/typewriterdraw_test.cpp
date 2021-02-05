@@ -135,7 +135,8 @@ TEST (TypeWriterDraw, DrawLineBreak) {
     
     std::queue<DelayEvent> eventQueue;
     Game service {std::make_unique<MockWindow>(eventQueue),
-                  std::make_unique<SoundMaker<MockSound>>()};
+                  make_polymorphic_value<SoundMakerBase,
+                                         SoundMaker<MockSound>>()};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
     TypeWriterDraw test {service, std::move(color)};

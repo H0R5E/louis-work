@@ -215,7 +215,7 @@ public:
     const sf::SoundBuffer& getSoundBuffer (std::string_view name) const override {
         return buffer;
     }
-    Window& getWindow () const override {
+    Window& getWindow () override {
         return *window;
     }
     void storeLetter (const char letter) override {}
@@ -223,35 +223,35 @@ public:
         return letter_store;
     }
     void clearLetters () override {}
-    std::unique_ptr<Component> makeScenePtr () override {
-        return std::make_unique<SingleLetterDraw>(*this);
+    polymorphic_value<Component> makeScenePValue () override {
+        return make_polymorphic_value<Component, SingleLetterDraw>(*this);
     }
-    std::unique_ptr<Sound> makeSoundPtr () const override {
-        return std::make_unique<MockSound>();
+    polymorphic_value<Sound> makeSoundPValue () override {
+        return make_polymorphic_value<Sound, MockSound>();
     }
 private:
     sf::SoundBuffer buffer {};
     sf::Font font {};
-    std::unique_ptr<Window> window {std::make_unique<MockWindow>()};
+    std::shared_ptr<Window> window {std::make_unique<MockWindow>()};
     std::string letter_store {};
 };
 
 class MockGame : public Game {
 public:
     MockGame(std::unique_ptr<Window>&& window,
-             std::unique_ptr<SoundMakerBase>&& sound_maker) :
+             polymorphic_value<SoundMakerBase>&& sound_maker) :
              Game(std::move(window), std::move(sound_maker)) {}
     MockGame(std::unique_ptr<Window>&& window,
-             std::unique_ptr<SoundMakerBase>&& sound_maker,
+             polymorphic_value<SoundMakerBase>&& sound_maker,
              fPtrType&& sceneFPtr)  :
              Game(std::move(window), std::move(sound_maker), *sceneFPtr) {}
     Component* getScenePtr () {
-        return scenes[0].get();
+        return scenes[0].operator->();
     }
     void clearScenes () {
         scenes.clear();
     }
-    void addScene(std::unique_ptr<Component>&& scene) {
+    void addScene(polymorphic_value<Component>&& scene) {
         scenes.push_back(std::move(scene));
     }
     void updateScene () {
