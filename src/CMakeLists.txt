@@ -2,7 +2,10 @@
 add_library(component INTERFACE)
 target_sources(component INTERFACE component.h)
 target_include_directories(component INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(component INTERFACE polymorphic_value service sound ${CONAN_LIBS})
+target_link_libraries(component INTERFACE polymorphic_value
+                                          service
+                                          sound
+                                          ${CONAN_LIBS})
 
 add_library(resource INTERFACE)
 target_sources(resource INTERFACE resourceholder.h)
@@ -12,7 +15,10 @@ target_link_libraries(resource INTERFACE helpers)
 add_library(service INTERFACE)
 target_sources(service INTERFACE service.h)
 target_include_directories(service INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(service INTERFACE polymorphic_value sound window ${CONAN_LIBS})
+target_link_libraries(service INTERFACE polymorphic_value
+                                        sound
+                                        window
+                                        ${CONAN_LIBS})
 
 add_library(state INTERFACE)
 target_sources(state INTERFACE state.h)
@@ -32,7 +38,10 @@ target_link_libraries(factory PRIVATE scene
 
 add_library(scene scene.cpp scene.h)
 target_include_directories(scene PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(scene PUBLIC drawcomponents polymorphic_value PRIVATE component service  ${CONAN_LIBS})
+target_link_libraries(scene PRIVATE component
+                                    polymorphic_value
+                                    service
+                                    ${CONAN_LIBS})
 
 add_library(stateholder stateholder.cpp stateholder.h)
 target_include_directories(stateholder PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

@@ -3,8 +3,6 @@
 #include "scene.h"
 #include "window.h"
 
-#include "singleletterdraw.h"
-
 #include <iostream>
 
 void Scene::setActiveEvent ( const sf::Event& event, Service& service ) {
