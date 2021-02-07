@@ -10,9 +10,10 @@ TEST (SingleLetterDraw, Copy) {
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
     SingleLetterDraw test {service, std::move(color)};
+    test.setActiveEvent(simulateTextEntered(50), service);
     test.abort();
     SingleLetterDraw copy (test);
-    ASSERT_TRUE(test.isCompleted());
+    ASSERT_TRUE(copy.isCompleted());
     
 }
 
@@ -22,9 +23,11 @@ TEST (SingleLetterDraw, Assign) {
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
     SingleLetterDraw test {service, std::move(color)};
+    test.setActiveEvent(simulateTextEntered(50), service);
     test.abort();
-    auto copy = test;
-    ASSERT_TRUE(test.isCompleted());
+    SingleLetterDraw test2 {service};
+    test2 = test;
+    ASSERT_TRUE(test2.isCompleted());
     
 }
 

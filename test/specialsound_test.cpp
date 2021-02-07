@@ -4,7 +4,19 @@
 
 #include "specialsound.h"
 
-TEST (SpecialSound, setActiveEvent) { 
+TEST (SpecialSoundTest, Copy) { 
+    
+    MockService service {};
+    std::unique_ptr<sf::Color> color {
+                            std::make_unique<sf::Color>(sf::Color::Black)};
+    SpecialSound test {service, "TEST", std::move(color)};
+    test.abort();
+    SpecialSound copy (test);
+    ASSERT_TRUE(copy.isCompleted());
+    
+}
+
+TEST (SpecialSoundTest, setActiveEvent) { 
     
     MockService service {};
     SpecialSound test {service, "TEST"};
@@ -12,7 +24,7 @@ TEST (SpecialSound, setActiveEvent) {
     
 }
 
-TEST (SpecialSound, setNoActiveEvent) { 
+TEST (SpecialSoundTest, setNoActiveEvent) { 
     
     MockService service {};
     SpecialSound test {service, "TEST"};
@@ -20,7 +32,7 @@ TEST (SpecialSound, setNoActiveEvent) {
     
 }
 
-TEST (SpecialSound, NoUpate) { 
+TEST (SpecialSoundTest, NoUpate) { 
     
     MockService service {};
     SpecialSound test {service, "TEST"};
@@ -28,7 +40,7 @@ TEST (SpecialSound, NoUpate) {
     
 }
 
-TEST (SpecialSound, PlayWord) { 
+TEST (SpecialSoundTest, PlayWord) { 
     
     MockService service {};
     SpecialSound test {service, "TEST"};
@@ -40,7 +52,7 @@ TEST (SpecialSound, PlayWord) {
 }
 
 
-TEST (SpecialSound, PlayWordBackground) { 
+TEST (SpecialSoundTest, PlayWordBackground) { 
     
     MockService service {};
     std::unique_ptr<sf::Color> color {
@@ -53,7 +65,7 @@ TEST (SpecialSound, PlayWordBackground) {
     
 }
 
-TEST (SpecialSound, NoSecondUpdate) { 
+TEST (SpecialSoundTest, NoSecondUpdate) { 
     
     MockService service {};
     std::unique_ptr<sf::Color> color {
@@ -65,7 +77,7 @@ TEST (SpecialSound, NoSecondUpdate) {
     
 }
 
-TEST (SpecialSound, NoSoundCompleted) { 
+TEST (SpecialSoundTest, NoSoundCompleted) { 
     
     MockService service {};
     std::unique_ptr<sf::Color> color {
@@ -75,7 +87,7 @@ TEST (SpecialSound, NoSoundCompleted) {
     
 }
 
-TEST (SpecialSound, SoundFinishedCompleted) { 
+TEST (SpecialSoundTest, SoundFinishedCompleted) { 
     
     MockService service {};
     std::unique_ptr<sf::Color> color {
@@ -89,11 +101,27 @@ TEST (SpecialSound, SoundFinishedCompleted) {
     
 }
 
-TEST (SpecialSound, NoPlayWord) { 
+TEST (SpecialSoundTest, NoPlayWord) { 
     
     MockService service {};
     SpecialSound test {service, "TEST"};
     test(service);
     ASSERT_THROW(test.getSoundPtr(), std::runtime_error);
+    
+}
+
+TEST (SpecialSoundTest, Assign) { 
+    
+    MockService service {};
+    std::unique_ptr<sf::Color> color {
+                            std::make_unique<sf::Color>(sf::Color::Black)};
+    SpecialSound test {service, "TEST", std::move(color)};
+    std::this_thread::sleep_for(std::chrono::milliseconds(800));
+    test.update();
+    test(service);
+    test.abort();
+    SpecialSound test2 {service, "TEST"};
+    test2 = test;
+    ASSERT_TRUE(test2.isCompleted());
     
 }

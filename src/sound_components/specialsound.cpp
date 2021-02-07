@@ -21,6 +21,7 @@ void SpecialSound::init_copy ( const SpecialSound& copy ) {
     
     word = copy.word;
     say_it = copy.say_it;
+    aborted = copy.aborted;
     
 }
 
@@ -45,6 +46,10 @@ bool SpecialSound::isCompleted() {
     
     std::cout << "SpecialSound::isCompleted" << std::endl;
     
+    if (aborted) {
+        return true;
+    }
+    
     if (!sound) {
         return true;
     }
@@ -55,6 +60,13 @@ bool SpecialSound::isCompleted() {
         return true;
     }
     
+}
+
+void SpecialSound::abort () {
+    if (sound) {
+        sound->stop();
+    }
+    aborted = true;
 }
 
 void SpecialSound::operator() (Service& service) {

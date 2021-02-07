@@ -4,6 +4,18 @@
 
 #include "typewriterdraw.h"
 
+TEST (TypeWriterDraw, Copy) { 
+    
+    MockService service {};
+    std::unique_ptr<sf::Color> color {
+                            std::make_unique<sf::Color>(sf::Color::Black)};
+    TypeWriterDraw test {service, std::move(color)};
+    test.abort();
+    TypeWriterDraw copy (test);
+    ASSERT_TRUE(copy.isCompleted());
+    
+}
+
 TEST (TypeWriterDraw, setActiveEvent) { 
     
     MockService service {};
@@ -156,3 +168,18 @@ TEST (TypeWriterDraw, DrawLineBreak) {
     
 }
 
+TEST (TypeWriterDraw, Assign) { 
+    
+    MockService service {};
+    std::unique_ptr<sf::Color> color {
+                            std::make_unique<sf::Color>(sf::Color::Black)};
+    TypeWriterDraw test {service, std::move(color)};
+    test.setActiveEvent(simulateTextEntered(50), service);
+    test.update();
+    test(service);
+    test.abort();
+    TypeWriterDraw test2 {service};
+    test2 = test;
+    ASSERT_TRUE(test2.isCompleted());
+    
+}

@@ -22,7 +22,7 @@ public:
     bool update () override;
     bool isCompleted () override;
     void operator() (Service& service) override;
-    void abort () override {};
+    void abort () override;
     SpecialSound& operator= (const SpecialSound& copy);
     SpecialSound& operator= (SpecialSound&& temp) = default;
 private:
@@ -30,4 +30,5 @@ private:
     std::string word;
     std::unique_ptr<sf::SoundBuffer> buffer;
     bool say_it {false};
+    bool aborted {false};
 };

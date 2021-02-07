@@ -4,6 +4,33 @@
 
 #include "lettersound.h"
 
+TEST (LetterSoundTest, Copy) { 
+    
+    MockService service {};
+    std::unique_ptr<sf::Color> color {
+                            std::make_unique<sf::Color>(sf::Color::Black)};
+    LetterSound test {service, std::move(color)};
+    test.setActiveEvent(simulateTextEntered(50), service);
+    test.abort();
+    LetterSound copy (test);
+    ASSERT_TRUE(copy.isCompleted());
+    
+}
+
+TEST (LetterSoundTest, Assign) { 
+    
+    MockService service {};
+    std::unique_ptr<sf::Color> color {
+                            std::make_unique<sf::Color>(sf::Color::Black)};
+    LetterSound test {service, std::move(color)};
+    test.setActiveEvent(simulateTextEntered(50), service);
+    test.abort();
+    LetterSound test2 {service};
+    test2 = test;
+    ASSERT_TRUE(test2.isCompleted());
+    
+}
+
 TEST (LetterSoundTest, PlayLetter) { 
     
     MockService service {};

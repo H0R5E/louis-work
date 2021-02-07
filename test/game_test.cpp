@@ -17,6 +17,15 @@ TEST (GameTest, TestConstruct) {
     
 }
 
+TEST (GameTest, TestNoWindow) {
+    
+    ASSERT_THROW(Game (std::unique_ptr<MockWindow>(),
+                       make_polymorphic_value<SoundMakerBase,
+                                                SoundMaker<MockSound>>()),
+                 std::runtime_error);
+    
+}
+
 TEST (GameTest, TestNoScenes) {
     
     std::queue<DelayEvent> eventQueue;
