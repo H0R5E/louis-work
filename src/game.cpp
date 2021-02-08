@@ -29,6 +29,32 @@ Game::Game (std::unique_ptr<Window> && window,
     
 }
 
+Game::Game (std::unique_ptr<Window>&& window,
+            polymorphic_value<SoundMakerBase>&& sound_maker,
+            const std::unordered_set<std::string>& special_words) :
+        sound_maker(std::move(sound_maker)),
+        window(std::move(window)),
+        special_words(special_words) {
+    
+    // Load resources
+    initResources();
+    
+}
+
+Game::Game (std::unique_ptr<Window>&& window,
+            polymorphic_value<SoundMakerBase>&& sound_maker,
+            const std::unordered_set<std::string>& special_words,
+            fPtrType&& sceneFPtr) :
+        factory(std::move(sceneFPtr)),
+        sound_maker(std::move(sound_maker)),
+        window(std::move(window)),
+        special_words(special_words) {
+    
+    // Load resources
+    initResources();
+    
+}
+
 void Game::initResources () {
     
     font_holder.Load("Monofett-Regular");
@@ -195,6 +221,18 @@ Window& Game::getWindow() {
         throw std::runtime_error("No window");
     }
     return *window;
+}
+
+bool Game::triggerSpecial () const {
+    
+    auto word = getWord();
+    
+    if (special_words.find(word) != special_words.end()) {
+        return true;
+    } else {
+        return false;
+    }
+    
 }
 
 void Game::storeLetter(const char letter) {

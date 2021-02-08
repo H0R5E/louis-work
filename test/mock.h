@@ -218,6 +218,9 @@ public:
     Window& getWindow () override {
         return *window;
     }
+    bool triggerSpecial () const override {
+        return false;
+    }
     void storeLetter (const char letter) override {}
     const std::string getWord () const override {
         return letter_store;

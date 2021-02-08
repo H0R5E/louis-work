@@ -17,6 +17,32 @@ TEST (GameTest, TestConstruct) {
     
 }
 
+TEST (GameTest, TestConstructSpecial) {
+    
+    std::queue<DelayEvent> eventQueue;
+    std::unordered_set<std::string> special_words {"test"};
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
+                    special_words};
+    ASSERT_EQ(&StateHolder::start, test_game.getCurrentState());
+    
+}
+
+TEST (GameTest, TestConstructSpecialComponent) { 
+    
+    std::queue<DelayEvent> eventQueue;
+    std::unordered_set<std::string> special_words {"test"};
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
+                    special_words,
+                    &makeSingleLetterSpoken};
+    test_game.EventLoop();
+    ASSERT_EQ(&StateHolder::start, test_game.getCurrentState());
+    
+}
+
 TEST (GameTest, TestNoWindow) {
     
     ASSERT_THROW(Game (std::unique_ptr<MockWindow>(),

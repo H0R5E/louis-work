@@ -31,7 +31,4 @@ public:
     virtual void Enter (polyComponentVector& scenes,
                         Service& service) {return;}
     bool skipEvents {false};
-    std::unordered_set<std::string> special_words {"louis", 
-                                                   "mummy",
-                                                   "daddy"};
 };

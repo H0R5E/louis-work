@@ -48,12 +48,8 @@ void SpecialState::Enter (polyComponentVector& scenes,
     std::cout << "SpecialState::Enter" << std::endl;
     
     auto word = service.getWord();
-    
-    if (special_words.find(word) != special_words.end()) {
-        auto new_scene = makeSpecial(service, word);
-        scenes.push_back(std::move(new_scene));
-    }
-    
+    auto new_scene = makeSpecial(service, word);
+    scenes.push_back(std::move(new_scene));
     service.clearLetters();
     
     return;

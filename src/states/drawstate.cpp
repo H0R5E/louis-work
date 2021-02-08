@@ -32,9 +32,7 @@ State* DrawState::HandleKeyReleased (const sf::Event& event,
     
     if (scene.isCompleted()) {
         
-        auto word = service.getWord();
-        
-        if (special_words.find(word) != special_words.end()) {
+        if (service.triggerSpecial()) {
             return &StateHolder::special;
         } else {
             return &StateHolder::play;

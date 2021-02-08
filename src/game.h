@@ -25,12 +25,20 @@ public:
     Game (std::unique_ptr<Window>&& window,
           polymorphic_value<SoundMakerBase>&& sound_maker,
           fPtrType&& sceneFPtr);
+    Game (std::unique_ptr<Window>&& window,
+          polymorphic_value<SoundMakerBase>&& sound_maker,
+          const std::unordered_set<std::string>& special_words);
+    Game (std::unique_ptr<Window>&& window,
+          polymorphic_value<SoundMakerBase>&& sound_maker,
+          const std::unordered_set<std::string>& special_words,
+          fPtrType&& sceneFPtr);
     void EventLoop ();
     State* getCurrentState () const;
     const sf::Font& getFont (std::string_view name) const override;
     const sf::SoundBuffer& getSoundBuffer
                                         (std::string_view name) const override;
     Window& getWindow () override;
+    bool triggerSpecial () const override;
     void storeLetter (const char letter) override;
     const std::string getWord () const override;
     void clearLetters () override;
@@ -48,4 +56,7 @@ private:
     ResourceHolder<sf::SoundBuffer> buffer_holder {};
     State* current_state;
     std::vector<char> letter_store {};
+    std::unordered_set<std::string> special_words {"louis", 
+                                                   "mummy",
+                                                   "daddy"};
 };
