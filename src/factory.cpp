@@ -1,4 +1,7 @@
 
+#include <algorithm>
+#include <random>
+
 #include "factory.h"
 #include "scene.h"
 
@@ -45,14 +48,20 @@ polymorphic_value<Component> makeTypeWriterSpoken (Service& service) {
 
 polymorphic_value<Component> SceneFactory::makeScene (Service& service) {
     
-    polymorphic_value<Component> newScene;
-    
     if (force_scene) {
-        newScene = force_scene(service);
-    } else {
-        newScene = myScene(service);
+        return force_scene(service);
     }
     
-    return newScene;
+    std::vector<fPtrType> out;
+    size_t nelems = 1;
+    std::sample(
+        sceneMakers.begin(),
+        sceneMakers.end(),
+        std::back_inserter(out),
+        nelems,
+        std::mt19937{std::random_device{}()}
+    );
+    
+    return out.front()(service);
     
 }

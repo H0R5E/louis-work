@@ -12,7 +12,6 @@
 #include "state.h"
 #include "window.h"
 
-
 using namespace isocpp_p0201;
 
 using polyComponent = polymorphic_value<Component>;
@@ -58,5 +57,8 @@ private:
     std::vector<char> letter_store {};
     std::unordered_set<std::string> special_words {"louis", 
                                                    "mummy",
-                                                   "daddy"};
+                                                   "daddy",
+                                                   "fart",
+                                                   "poo",
+                                                   "wee"};
 };

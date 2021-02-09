@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <memory>
+#include <vector>
 
 #include "component.h"
 #include "polymorphic_value.h"
@@ -39,5 +40,7 @@ public:
     polymorphic_value<Component> makeScene (Service& service);
 private:
     fPtrType force_scene {nullptr};
-    fPtrType myScene {&makeTypeWriterSpoken};
+    const std::vector<fPtrType> sceneMakers {&makeSingleLetterSiren,
+                                             &makeSingleLetterSpoken,
+                                             &makeTypeWriterSpoken};
 };
