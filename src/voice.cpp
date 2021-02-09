@@ -1,6 +1,7 @@
 
 #include <string_view>
 #include <vector>
+#include <iostream>
 
 #include "voice.h"
 
@@ -23,6 +24,7 @@ Voice::Voice () {
     samplerate = espeak_Initialize(AUDIO_OUTPUT_RETRIEVAL, buflength, NULL, 0);
     espeak_SetSynthCallback(&espeakCallBack);
     espeak_SetVoiceByName("en-GB-x-rp");
+    espeak_SetParameter(espeakVOLUME, 300, 0);
     
 }
 
