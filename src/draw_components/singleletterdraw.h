@@ -7,11 +7,13 @@
 
 class SingleLetterDraw : public DrawComponent {
 public:
-    SingleLetterDraw (Service& service) :
-        DrawComponent (service) {};
     SingleLetterDraw (Service& service,
+                      const sf::Color& foreground) :
+        DrawComponent (service, foreground) {};
+    SingleLetterDraw (Service& service,
+                      const sf::Color& foreground,
                       std::unique_ptr<sf::Color>&& background) :
-        DrawComponent(service, std::move(background)) {};
+        DrawComponent(service, foreground, std::move(background)) {};
     SingleLetterDraw (const SingleLetterDraw& copy);
     SingleLetterDraw (SingleLetterDraw&& temp) = default;
     void setActiveEvent (const sf::Event& event,

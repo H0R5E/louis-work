@@ -7,11 +7,15 @@
 
 class TypeWriterDraw : public DrawComponent {
 public:
-    TypeWriterDraw (Service& service) :
-        DrawComponent(service) {init(service);}
     TypeWriterDraw (Service& service,
-                      std::unique_ptr<sf::Color>&& background) :
-        DrawComponent(service, std::move(background)) {init(service);}
+                    const sf::Color& foreground) :
+            DrawComponent(service, foreground) {init(service);}
+    TypeWriterDraw (Service& service,
+                    const sf::Color& foreground,
+                    std::unique_ptr<sf::Color>&& background) :
+            DrawComponent(service, foreground, std::move(background)) {
+        init(service);
+    }
     TypeWriterDraw (const TypeWriterDraw& copy);
     TypeWriterDraw (TypeWriterDraw&& temp) = default;
     void setActiveEvent (const sf::Event& event,

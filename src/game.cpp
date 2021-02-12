@@ -259,7 +259,11 @@ void Game::clearLetters() {
 polyComponent Game::makeScenePValue() {
     return factory.makeScene(*this);
 }
- 
+
+polyComponent Game::makeSpecialScenePValue(std::string_view word) {
+    return factory.makeSpecialScene(*this, word);
+}
+
 polymorphic_value<Sound> Game::makeSoundPValue () {
     return sound_maker->Get();
 }

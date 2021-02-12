@@ -22,7 +22,7 @@ public:
     Component (const Component& copy) {
         *this = copy;
     }
-    Component (Component&& temp) = default; 	
+    Component (Component&& temp) = default;
     virtual void setActiveEvent (const sf::Event& event,
                                  Service& service) = 0;
     virtual void setActiveEvent (Service& service) = 0;
@@ -45,11 +45,15 @@ protected:
 
 class DrawComponent : public Component {
 public:
-    DrawComponent (Service& service) :
-        Component (service) {}
     DrawComponent (Service& service,
+                   const sf::Color& foreground) :
+        Component (service), foreground(foreground) {}
+    DrawComponent (Service& service,
+                   const sf::Color& foreground,
                    std::unique_ptr<sf::Color>&& background) :
-        Component(service, std::move(background)) {}
+        Component(service, std::move(background)), foreground(foreground) {}
+protected:
+    sf::Color foreground;
 };
 
 class SoundComponent : public Component {

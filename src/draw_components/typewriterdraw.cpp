@@ -16,7 +16,7 @@ void TypeWriterDraw::init ( Service& service ) {
     auto& letter_font = service.getFont("JetBrainsMono-Light");
     text.setFont(letter_font);
     text.setCharacterSize(120); // in pixels, not points!
-    text.setFillColor(sf::Color::Yellow);
+    text.setFillColor(foreground);
     
 }
 

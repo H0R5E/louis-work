@@ -41,6 +41,7 @@ public:
     void storeLetter (const char letter) override;
     const std::string getWord () const override;
     void clearLetters () override;
+    polyComponent makeSpecialScenePValue (std::string_view word) override;
     polyComponent makeScenePValue () override;
     polymorphic_value<Sound> makeSoundPValue () override;
 protected:

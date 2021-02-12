@@ -9,12 +9,15 @@
 class SpecialDraw : public DrawComponent {
 public:
     SpecialDraw (Service& service,
+                 const sf::Color& foreground,
                  std::string_view word) :
-        DrawComponent (service), word(word) {}
+        DrawComponent (service, foreground), word(word) {}
     SpecialDraw (Service& service,
+                 const sf::Color& foreground,
                  std::string word,
                  std::unique_ptr<sf::Color>&& background) :
-        DrawComponent(service, std::move(background)), word(word) {}
+        DrawComponent(service, foreground, std::move(background)),
+        word(word) {}
     SpecialDraw (const SpecialDraw& copy) = default;
     SpecialDraw (SpecialDraw&& temp) = default;
     void setActiveEvent (const sf::Event& event,

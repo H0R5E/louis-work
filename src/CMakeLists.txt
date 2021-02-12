@@ -31,7 +31,8 @@ target_link_libraries(helpers PRIVATE ${CONAN_LIBS})
 
 add_library(factory factory.cpp factory.h)
 target_include_directories(factory PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(factory PRIVATE scene
+target_link_libraries(factory PRIVATE helpers
+                                      scene
                                       polymorphic_value
                                       drawcomponents
                                       soundcomponents)

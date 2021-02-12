@@ -80,7 +80,7 @@ void SingleLetterDraw::operator() (Service& service) {
     text.setFont(letter_font); 
     text.setString(*letter);
     text.setCharacterSize(120); // in pixels, not points!
-    text.setFillColor(sf::Color::Yellow);
+    text.setFillColor(foreground);
     
     //center text
     sf::FloatRect textRect = text.getLocalBounds();

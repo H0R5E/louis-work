@@ -29,5 +29,7 @@ public:
     virtual const std::string getWord () const = 0;
     virtual void clearLetters () = 0;
     virtual polymorphic_value<Component> makeScenePValue () = 0;
+    virtual polymorphic_value<Component> makeSpecialScenePValue (
+                                                    std::string_view word) = 0;
     virtual polymorphic_value<Sound> makeSoundPValue () = 0;
 };
