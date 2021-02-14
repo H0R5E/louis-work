@@ -8,7 +8,7 @@
 class SpecialState : public State {
 public:
     State* HandleKeyPressed (const sf::Event& event,
-                             Component& scene,
+                             polyComponentVector& scenes,
                              Service& service) override;
     State* Update (polyComponentVector& scenes, Service& service) override;
     void Enter (polyComponentVector& scenes, Service& service) override;

@@ -126,7 +126,7 @@ void Game::EventLoop() {
                 case sf::Event::KeyPressed:
                     
                     check_state = current_state->HandleKeyPressed(event,
-                                                                  *(scenes[0]),
+                                                                  scenes,
                                                                   *this);
                     
                     if (check_state) {

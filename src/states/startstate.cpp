@@ -8,7 +8,7 @@
 #include <iostream>
 
 State* StartState::HandleKeyPressed (const sf::Event& event,
-                                     Component& scene,
+                                     polyComponentVector& scenes,
                                      Service& service) {
     
     std::cout << "StartState::HandleKeyPressed" << std::endl;

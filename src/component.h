@@ -2,6 +2,7 @@
 #pragma once
 
 #include <memory>
+#include <optional>
 #include <SFML/Graphics.hpp>
 
 #include "polymorphic_value.h"
@@ -29,6 +30,12 @@ public:
     virtual bool update () = 0;
     virtual bool isCompleted () = 0;
     virtual void abort () = 0;
+    virtual std::optional<int> restartLetters () {
+        return {};
+    }
+    virtual bool restartKey (const sf::Event::KeyEvent& event) {
+        return false;
+    }
     virtual void operator() (Service& service) = 0;
     Component& operator= (const Component& copy) {
         if (copy.background) {

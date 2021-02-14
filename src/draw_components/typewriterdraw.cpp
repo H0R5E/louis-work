@@ -101,6 +101,16 @@ void TypeWriterDraw::abort () {
     aborted = true;
 }
 
+bool TypeWriterDraw::restartKey ( const sf::Event::KeyEvent& event ) {
+    
+    if (event.code == sf::Keyboard::Return) {
+        return true;
+    }
+    
+    return false;
+    
+}
+
 void TypeWriterDraw::operator() ( Service& service ) {
     
     std::cout << "TypeWriterDraw::draw" << std::endl;

@@ -9,12 +9,18 @@
 #include <iostream>
 
 State* PlayState::HandleKeyPressed (const sf::Event& event,
-                                    Component& scene,
+                                    polyComponentVector& scenes,
                                     Service& service) {
     
     // Using Ctrl + C to exit
     if (event.key.control && event.key.code == sf::Keyboard::C) {
         return &StateHolder::start;
+    }
+    
+    auto& scene = *(scenes[0]);
+    
+    if (scene.restartKey(event.key)) {
+        return &StateHolder::special;
     }
     
     return nullptr;

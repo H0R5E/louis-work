@@ -18,7 +18,7 @@ class State {
 public:
     virtual ~State () {};
     virtual State* HandleKeyPressed (const sf::Event& event,
-                                     Component& scene,
+                                     polyComponentVector& scenes,
                                      Service& service) {return nullptr;}
     virtual State* HandleTextEntered (const sf::Event& event,
                                       polyComponentVector& scenes,

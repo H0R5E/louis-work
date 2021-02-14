@@ -9,8 +9,10 @@
 #include <iostream>
 
 State* WaitState::HandleKeyPressed (const sf::Event& event,
-                                    Component& scene,
+                                    polyComponentVector& scenes,
                                     Service& service) {
+    
+    auto& scene = *(scenes[0]);
     
     // Using Ctrl + C to exit
     if (event.key.control && event.key.code == sf::Keyboard::C) {

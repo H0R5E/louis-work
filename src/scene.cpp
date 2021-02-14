@@ -73,6 +73,16 @@ bool Scene::update () {
     
 }
 
+bool Scene::restartKey ( const sf::Event::KeyEvent& event ) {
+    
+    auto restart = false;
+    restart |= draw_component->restartKey(event);
+    restart |= sound_component->restartKey(event);
+    
+    return restart;
+    
+}
+
 void Scene::operator () ( Service& service ) {
     
     std::cout << "Scene::operator ()" << std::endl;
