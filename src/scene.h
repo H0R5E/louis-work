@@ -30,6 +30,7 @@ public:
     bool update () override;
     bool isCompleted () override;
     void abort () override;
+    bool restartService (const Service& service) override;
     bool restartKey (const sf::Event::KeyEvent& event) override;
     SoundComponent* getSoundComponentPtr () {
         return sound_component.operator->();

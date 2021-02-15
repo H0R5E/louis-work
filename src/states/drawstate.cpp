@@ -25,17 +25,23 @@ State* DrawState::HandleKeyPressed (const sf::Event& event,
 }
 
 State* DrawState::HandleKeyReleased (const sf::Event& event,
-                                     Component& scene,
+                                     polyComponentVector& scenes,
                                      Service& service ) {
     
     std::cout << "DrawState::HandleKeyReleased" << std::endl;
     
+    auto& scene = *(scenes[0]);
     scene.setActiveEvent(service);
     
     if (scene.isCompleted()) {
         
         if (service.triggerSpecial()) {
             return &StateHolder::special;
+        } else if (scene.restartService(service)) {
+            auto new_scene = service.makeScenePValue();
+            scenes.push_back(std::move(new_scene));
+            service.clearLetters();
+            return &StateHolder::play;
         } else {
             return &StateHolder::play;
         }

@@ -73,6 +73,17 @@ bool Scene::update () {
     
 }
 
+bool Scene::restartService (const Service& service) {
+    
+    auto restart = false;
+    restart |= draw_component->restartService(service);
+    restart |= sound_component->restartService(service);
+    
+    return restart;
+    
+}
+
+
 bool Scene::restartKey ( const sf::Event::KeyEvent& event ) {
     
     auto restart = false;

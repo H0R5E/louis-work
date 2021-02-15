@@ -22,6 +22,7 @@ public:
     bool update () override;
     bool isCompleted () override;
     void abort () override;
+    bool restartService (const Service& service) override;
     void operator() (Service& service) override;
     SingleLetterDraw& operator= (const SingleLetterDraw& copy);
     SingleLetterDraw& operator= (SingleLetterDraw&& temp) = default;

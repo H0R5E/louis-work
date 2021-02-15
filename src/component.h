@@ -30,8 +30,8 @@ public:
     virtual bool update () = 0;
     virtual bool isCompleted () = 0;
     virtual void abort () = 0;
-    virtual std::optional<int> restartLetters () {
-        return {};
+    virtual bool restartService (const Service& service) {
+        return false;
     }
     virtual bool restartKey (const sf::Event::KeyEvent& event) {
         return false;

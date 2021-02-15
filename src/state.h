@@ -24,7 +24,7 @@ public:
                                       polyComponentVector& scenes,
                                       Service& service) {return nullptr;}
     virtual State* HandleKeyReleased (const sf::Event& event,
-                                      Component& scene,
+                                      polyComponentVector& scenes,
                                       Service& service) {return nullptr;}
     virtual State* Update (polyComponentVector& scenes,
                            Service& service) {return nullptr;}

@@ -163,7 +163,7 @@ void Game::EventLoop() {
                 case sf::Event::KeyReleased:
                     
                     check_state = current_state->HandleKeyReleased(event,
-                                                                   *(scenes[0]),
+                                                                   scenes,
                                                                    *this);
                     
                     if (check_state) {
@@ -232,6 +232,25 @@ bool Game::triggerSpecial () const {
     } else {
         return false;
     }
+    
+}
+
+const std::optional<int> Game::getMaxSpecialLength() const {
+    
+    if (special_words.empty()) {
+        return {};
+    }
+    
+    int max_length {0};
+    
+    for ( auto it = special_words.begin(); it != special_words.end(); ++it ) {
+        auto word_length {it->length()};
+        if (word_length > max_length) {
+            max_length = word_length;
+        }
+    }
+    
+    return max_length;
     
 }
 

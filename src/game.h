@@ -38,6 +38,7 @@ public:
                                         (std::string_view name) const override;
     Window& getWindow () override;
     bool triggerSpecial () const override;
+    const std::optional<int> getMaxSpecialLength () const override;
     void storeLetter (const char letter) override;
     const std::string getWord () const override;
     void clearLetters () override;

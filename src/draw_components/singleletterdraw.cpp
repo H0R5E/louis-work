@@ -58,6 +58,19 @@ void SingleLetterDraw::abort () {
     aborted = true;
 }
 
+bool SingleLetterDraw::restartService (const Service& service) {
+    
+    auto max_length = service.getMaxSpecialLength();
+    auto word_length = service.getWord().length();
+    
+    if (max_length && word_length > *max_length + 1) {
+        return true;
+    }
+    
+    return false;
+    
+}
+
 void SingleLetterDraw::operator() (Service& service) {
     
     std::cout << "SingleLetterDraw::operator()" << std::endl;
