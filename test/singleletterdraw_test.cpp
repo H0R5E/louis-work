@@ -4,6 +4,9 @@
 
 #include "singleletterdraw.h"
 
+#include <iostream>
+
+
 TEST (SingleLetterDraw, Copy) { 
     
     MockService service {};
@@ -40,5 +43,18 @@ TEST (SingleLetterDraw, DrawLetterBackground) {
     test.setActiveEvent(simulateTextEntered(50), service);
     test(service);
     ASSERT_TRUE(!test.isCompleted());
+    
+}
+
+TEST (SingleLetterDraw, restartService) { 
+    
+    MockService service {"longerthanten"};
+    std::unique_ptr<sf::Color> color {
+                            std::make_unique<sf::Color>(sf::Color::Black)};
+    SingleLetterDraw test {service, sf::Color::Yellow, std::move(color)};
+    
+    std::cout << service.getWord() << std::endl;
+    
+    ASSERT_TRUE(test.restartService(service));
     
 }

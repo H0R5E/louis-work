@@ -210,6 +210,9 @@ private:
 
 class MockService : public Service {
 public:
+    MockService () = default;
+    MockService (const std::string& word) :
+        letter_store(word) {}
     const sf::Font& getFont (std::string_view name) const override {
         return font;
     }

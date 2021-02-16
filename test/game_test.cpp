@@ -69,10 +69,8 @@ TEST (GameTest, TestSceneNotComplete) {
     std::queue<DelayEvent> eventQueue;
     MockGame test_game {std::make_unique<MockWindow>(eventQueue),
                         make_polymorphic_value<SoundMakerBase,
-                                               SoundMaker<MockSound>>()};
-    test_game.addScene(make_polymorphic_value<Component,
-                                              NotComplete>(test_game));
-    test_game.updateScene();
+                                               SoundMaker<MockSound>>(),
+                        componentMaker<NotComplete>()};
     test_game.addScene(make_polymorphic_value<Component,
                                               NotComplete>(test_game));
     ASSERT_THROW(test_game.updateScene();, std::runtime_error);

@@ -69,7 +69,7 @@ bool SingleLetterDraw::restartService (const Service& service) {
         stop_length = *max_length + 1;
     }
     
-    if (word_length == stop_length) {
+    if (word_length >= stop_length) {
         return true;
     }
     
