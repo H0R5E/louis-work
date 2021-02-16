@@ -19,7 +19,19 @@ Game::Game(std::unique_ptr<Window>&& window,
 
 Game::Game (std::unique_ptr<Window> && window,
             polymorphic_value<SoundMakerBase>&& sound_maker,
-            fPtrType&& sceneFPtr ) :
+            fPtrBasic&& sceneFPtr ) :
+        factory(std::move(sceneFPtr)),
+        sound_maker(std::move(sound_maker)),
+        window(std::move(window)) {
+    
+    // Load resources
+    initResources();
+    
+}
+
+Game::Game (std::unique_ptr<Window> && window,
+            polymorphic_value<SoundMakerBase>&& sound_maker,
+            fPtrColor&& sceneFPtr ) :
         factory(std::move(sceneFPtr)),
         sound_maker(std::move(sound_maker)),
         window(std::move(window)) {
@@ -44,7 +56,21 @@ Game::Game (std::unique_ptr<Window>&& window,
 Game::Game (std::unique_ptr<Window>&& window,
             polymorphic_value<SoundMakerBase>&& sound_maker,
             const std::unordered_set<std::string>& special_words,
-            fPtrType&& sceneFPtr) :
+            fPtrBasic&& sceneFPtr) :
+        factory(std::move(sceneFPtr)),
+        sound_maker(std::move(sound_maker)),
+        window(std::move(window)),
+        special_words(special_words) {
+    
+    // Load resources
+    initResources();
+    
+}
+
+Game::Game (std::unique_ptr<Window>&& window,
+            polymorphic_value<SoundMakerBase>&& sound_maker,
+            const std::unordered_set<std::string>& special_words,
+            fPtrColor&& sceneFPtr) :
         factory(std::move(sceneFPtr)),
         sound_maker(std::move(sound_maker)),
         window(std::move(window)),

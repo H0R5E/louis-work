@@ -8,6 +8,7 @@
 
 #include "game.h"
 #include "singleletterdraw.h"
+#include "specialdraw.h"
 #include "scene.h"
 #include "service.h"
 #include "sound.h"
@@ -221,13 +222,24 @@ public:
     bool triggerSpecial () const override {
         return false;
     }
+    const std::optional<int> getMaxSpecialLength () const override {
+        return {};
+    }
     void storeLetter (const char letter) override {}
     const std::string getWord () const override {
         return letter_store;
     }
     void clearLetters () override {}
     polymorphic_value<Component> makeScenePValue () override {
-        return make_polymorphic_value<Component, SingleLetterDraw>(*this);
+        return make_polymorphic_value<Component,
+                                      SingleLetterDraw>(*this,
+                                                        sf::Color::Yellow);
+    }
+    polymorphic_value<Component> makeSpecialScenePValue (
+                                            std::string_view word) override {
+        return make_polymorphic_value<Component, SpecialDraw>(*this,
+                                                              sf::Color::Yellow,
+                                                              "Test");
     }
     polymorphic_value<Sound> makeSoundPValue () override {
         return make_polymorphic_value<Sound, MockSound>();
@@ -246,9 +258,13 @@ public:
              Game(std::move(window), std::move(sound_maker)) {}
     MockGame(std::unique_ptr<Window>&& window,
              polymorphic_value<SoundMakerBase>&& sound_maker,
-             fPtrType&& sceneFPtr)  :
+             fPtrBasic&& sceneFPtr)  :
+            Game(std::move(window), std::move(sound_maker), *sceneFPtr) {}
+    MockGame(std::unique_ptr<Window>&& window,
+             polymorphic_value<SoundMakerBase>&& sound_maker,
+             fPtrColor&& sceneFPtr)  :
              Game(std::move(window), std::move(sound_maker), *sceneFPtr) {}
-    Component* getScenePtr () {
+             Component* getScenePtr () {
         return scenes[0].operator->();
     }
     void clearScenes () {

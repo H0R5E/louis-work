@@ -7,6 +7,8 @@
 #include "game.h"
 #include "stateholder.h"
 
+#include "sirensound.h"
+
 TEST (GameTest, TestConstruct) {
     
     std::queue<DelayEvent> eventQueue;
@@ -325,10 +327,10 @@ TEST (GameTest, TestWaitStateUpdate) {
     eventQueue.push(simulateTextEntered(10));
     eventQueue.push(simulateKeyReleased());
     eventQueue.push(simulateOtherPress());
+    auto test = componentMaker<SirenSound>();
     Game test_game {std::make_unique<MockWindow>(eventQueue),
                     make_polymorphic_value<SoundMakerBase,
-                                           SoundMaker<MockSound>>(),
-                    componentMaker<NotComplete>()};
+                                           SoundMaker<MockSound>>()};
     test_game.EventLoop();
     ASSERT_EQ(&StateHolder::wait, test_game.getCurrentState());
     

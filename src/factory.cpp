@@ -68,8 +68,20 @@ polymorphic_value<Component> SceneFactory::makeScene (Service& service) {
     const auto& color_pair = getRandomSample(colorCombos);
     lastColors = std::make_unique<colorPair>(color_pair);
     
-    if (force_scene) {
-        return force_scene(service, color_pair.second, color_pair.first);
+    switch (force_scene.index()) {
+
+        case 0: break; // do nothing because the type is std::monostate
+
+        case 1: {
+            auto f = std::get<fPtrBasic>(force_scene);
+            return f(service);
+        }
+
+        case 2: {
+            auto f = std::get<fPtrColor>(force_scene);
+            return f(service, color_pair.second, color_pair.first);
+        }
+    
     }
     
     const auto& scene_maker = getRandomSample(sceneMakers);

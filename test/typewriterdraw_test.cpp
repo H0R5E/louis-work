@@ -9,7 +9,7 @@ TEST (TypeWriterDraw, Copy) {
     MockService service {};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
-    TypeWriterDraw test {service, std::move(color)};
+    TypeWriterDraw test {service, sf::Color::Yellow, std::move(color)};
     test.abort();
     TypeWriterDraw copy (test);
     ASSERT_TRUE(copy.isCompleted());
@@ -19,7 +19,7 @@ TEST (TypeWriterDraw, Copy) {
 TEST (TypeWriterDraw, setActiveEvent) { 
     
     MockService service {};
-    TypeWriterDraw test {service};
+    TypeWriterDraw test {service, sf::Color::Yellow};
     test.setActiveEvent(simulateTextEntered(50), service);
     
 }
@@ -27,7 +27,7 @@ TEST (TypeWriterDraw, setActiveEvent) {
 TEST (TypeWriterDraw, setNoActiveEvent) { 
     
     MockService service {};
-    TypeWriterDraw test {service};
+    TypeWriterDraw test {service, sf::Color::Yellow};
     test.setActiveEvent(service);
     
 }
@@ -35,7 +35,7 @@ TEST (TypeWriterDraw, setNoActiveEvent) {
 TEST (TypeWriterDraw, DrawLetter) { 
     
     MockService service {};
-    TypeWriterDraw test {service};
+    TypeWriterDraw test {service, sf::Color::Yellow};
     test(service);
     ASSERT_TRUE(!test.isCompleted());
     
@@ -46,7 +46,7 @@ TEST (TypeWriterDraw, DrawLetterBackground) {
     MockService service {};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
-    TypeWriterDraw test {service, std::move(color)};
+    TypeWriterDraw test {service, sf::Color::Yellow, std::move(color)};
     test(service);
     ASSERT_TRUE(!test.isCompleted());
     
@@ -58,7 +58,7 @@ TEST (TypeWriterDraw, DrawLetterNoUpdate) {
     MockService service {};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
-    TypeWriterDraw test {service, std::move(color)};
+    TypeWriterDraw test {service, sf::Color::Yellow, std::move(color)};
     test(service);
     ASSERT_TRUE(!test.update());
     
@@ -69,7 +69,7 @@ TEST (TypeWriterDraw, DrawLetterUpdate) {
     MockService service {};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
-    TypeWriterDraw test {service, std::move(color)};
+    TypeWriterDraw test {service, sf::Color::Yellow, std::move(color)};
     test.setActiveEvent(simulateTextEntered(50), service);
     test(service);
     ASSERT_TRUE(test.update());
@@ -81,7 +81,7 @@ TEST (TypeWriterDraw, DrawLetterNoUpdateWait) {
     MockService service {};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
-    TypeWriterDraw test {service, std::move(color)};
+    TypeWriterDraw test {service, sf::Color::Yellow, std::move(color)};
     test.setActiveEvent(simulateTextEntered(50), service);
     test(service);
     test.update();
@@ -94,7 +94,7 @@ TEST (TypeWriterDraw, Abort) {
     MockService service {};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
-    TypeWriterDraw test {service, std::move(color)};
+    TypeWriterDraw test {service, sf::Color::Yellow, std::move(color)};
     test.abort();
     ASSERT_TRUE(test.isCompleted());
     
@@ -105,7 +105,7 @@ TEST (TypeWriterDraw, Completed) {
     MockService service {};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
-    TypeWriterDraw test {service, std::move(color)};
+    TypeWriterDraw test {service, sf::Color::Yellow, std::move(color)};
     test(service);
     std::this_thread::sleep_for(std::chrono::milliseconds(800));
     ASSERT_TRUE(test.isCompleted());
@@ -117,7 +117,7 @@ TEST (TypeWriterDraw, DrawSomething) {
     MockService service {};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
-    TypeWriterDraw test {service, std::move(color)};
+    TypeWriterDraw test {service, sf::Color::Yellow, std::move(color)};
     test.setActiveEvent(simulateTextEntered(50), service);
     test.update();
     test(service);
@@ -131,7 +131,7 @@ TEST (TypeWriterDraw, DrawTwoLetters) {
     MockService service {};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
-    TypeWriterDraw test {service, std::move(color)};
+    TypeWriterDraw test {service, sf::Color::Yellow, std::move(color)};
     test.setActiveEvent(simulateTextEntered(50), service);
     test.update();
     std::this_thread::sleep_for(std::chrono::milliseconds(800));
@@ -151,7 +151,7 @@ TEST (TypeWriterDraw, DrawLineBreak) {
                                          SoundMaker<MockSound>>()};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
-    TypeWriterDraw test {service, std::move(color)};
+    TypeWriterDraw test {service, sf::Color::Yellow, std::move(color)};
     
     for (int i = 0; i < 20; ++i) {
         test.setActiveEvent(simulateTextEntered(50), service);
@@ -173,12 +173,12 @@ TEST (TypeWriterDraw, Assign) {
     MockService service {};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
-    TypeWriterDraw test {service, std::move(color)};
+    TypeWriterDraw test {service, sf::Color::Yellow, std::move(color)};
     test.setActiveEvent(simulateTextEntered(50), service);
     test.update();
     test(service);
     test.abort();
-    TypeWriterDraw test2 {service};
+    TypeWriterDraw test2 {service, sf::Color::Yellow};
     test2 = test;
     ASSERT_TRUE(test2.isCompleted());
     

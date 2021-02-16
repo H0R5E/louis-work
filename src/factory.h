@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <memory>
+#include <variant>
 #include <vector>
 
 #include "component.h"
@@ -10,14 +11,15 @@
 
 using namespace isocpp_p0201;
 
-using fPtrType = polymorphic_value<Component> (*) (
+using fPtrBasic = polymorphic_value<Component> (*) (Service& service);
+using fPtrColor = polymorphic_value<Component> (*) (
                                                 Service& service,
                                                 const sf::Color& foreground,
                                                 const sf::Color& background);
 using colorPair = std::pair<sf::Color, sf::Color>;
 
 template<typename T>
-fPtrType componentMaker () {
+fPtrBasic componentMaker () {
     
     auto f1 = [](Service& service) -> polymorphic_value<Component> {
         return make_polymorphic_value<Component, T>(
@@ -30,7 +32,7 @@ fPtrType componentMaker () {
 };
 
 template<typename T>
-fPtrType drawComponentMaker (const sf::Color& foreground) {
+fPtrBasic drawComponentMaker (const sf::Color& foreground) {
     
     auto f1 = [foreground](Service& service)
                                     -> polymorphic_value<DrawComponent> {
@@ -64,7 +66,9 @@ polymorphic_value<Component> makeTypeWriterSpoken (Service& service,
 class SceneFactory {
 public:
     SceneFactory () = default;
-    SceneFactory (fPtrType&& sceneFPtr) :
+    SceneFactory (fPtrBasic&& sceneFPtr) :
+        force_scene(sceneFPtr) {}
+    SceneFactory (fPtrColor&& sceneFPtr) :
         force_scene(sceneFPtr) {}
     SceneFactory (const SceneFactory& copy) {
         std::cout << "Copy" << std::endl;
@@ -85,10 +89,11 @@ public:
         return *this;
     }
 private:
-    fPtrType force_scene {nullptr};
-    const std::vector<fPtrType> sceneMakers {&makeSingleLetterSiren,
-                                             &makeSingleLetterSpoken,
-                                             &makeTypeWriterSpoken};
+    std::variant<std::monostate, fPtrBasic, fPtrColor> force_scene
+                                                        = std::monostate {};
+    const std::vector<fPtrColor> sceneMakers {&makeSingleLetterSiren,
+                                              &makeSingleLetterSpoken,
+                                              &makeTypeWriterSpoken};
     const std::vector<colorPair> colorCombos {
         std::make_pair(sf::Color::Black, sf::Color::Yellow),
         std::make_pair(sf::Color::Red, sf::Color::Black),

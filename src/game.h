@@ -23,14 +23,21 @@ public:
           polymorphic_value<SoundMakerBase>&& sound_maker);
     Game (std::unique_ptr<Window>&& window,
           polymorphic_value<SoundMakerBase>&& sound_maker,
-          fPtrType&& sceneFPtr);
+          fPtrBasic&& sceneFPtr);
+    Game (std::unique_ptr<Window>&& window,
+          polymorphic_value<SoundMakerBase>&& sound_maker,
+          fPtrColor&& sceneFPtr);
     Game (std::unique_ptr<Window>&& window,
           polymorphic_value<SoundMakerBase>&& sound_maker,
           const std::unordered_set<std::string>& special_words);
     Game (std::unique_ptr<Window>&& window,
           polymorphic_value<SoundMakerBase>&& sound_maker,
           const std::unordered_set<std::string>& special_words,
-          fPtrType&& sceneFPtr);
+          fPtrBasic&& sceneFPtr);
+    Game (std::unique_ptr<Window>&& window,
+          polymorphic_value<SoundMakerBase>&& sound_maker,
+          const std::unordered_set<std::string>& special_words,
+          fPtrColor&& sceneFPtr);
     void EventLoop ();
     State* getCurrentState () const;
     const sf::Font& getFont (std::string_view name) const override;

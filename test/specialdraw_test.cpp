@@ -7,7 +7,7 @@
 TEST (SpecialDraw, setActiveEvent) { 
     
     MockService service {};
-    SpecialDraw test {service, "TEST"};
+    SpecialDraw test {service, sf::Color::Yellow, "TEST"};
     test.setActiveEvent(simulateTextEntered(50), service);
     
 }
@@ -15,7 +15,7 @@ TEST (SpecialDraw, setActiveEvent) {
 TEST (SpecialDraw, setNoActiveEvent) { 
     
     MockService service {};
-    SpecialDraw test {service, "TEST"};
+    SpecialDraw test {service, sf::Color::Yellow, "TEST"};
     test.setActiveEvent(service);
     
 }
@@ -23,7 +23,7 @@ TEST (SpecialDraw, setNoActiveEvent) {
 TEST (SpecialDraw, DrawLetter) { 
     
     MockService service {};
-    SpecialDraw test {service, "TEST"};
+    SpecialDraw test {service, sf::Color::Yellow, "TEST"};
     test(service);
     ASSERT_TRUE(!test.isCompleted());
     
@@ -34,7 +34,7 @@ TEST (SpecialDraw, DrawLetterBackground) {
     MockService service {};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
-    SpecialDraw test {service, "TEST", std::move(color)};
+    SpecialDraw test {service, sf::Color::Yellow, "TEST", std::move(color)};
     test(service);
     ASSERT_TRUE(!test.isCompleted());
     
@@ -46,7 +46,7 @@ TEST (SpecialDraw, DrawLetterNoUpdate) {
     MockService service {};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
-    SpecialDraw test {service, "TEST", std::move(color)};
+    SpecialDraw test {service, sf::Color::Yellow, "TEST", std::move(color)};
     test(service);
     ASSERT_TRUE(!test.update());
     
@@ -57,7 +57,7 @@ TEST (SpecialDraw, DrawLetterUpdate) {
     MockService service {};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
-    SpecialDraw test {service, "TEST", std::move(color)};
+    SpecialDraw test {service, sf::Color::Yellow, "TEST", std::move(color)};
     std::this_thread::sleep_for(std::chrono::milliseconds(800));
     test(service);
     ASSERT_TRUE(test.update());
@@ -69,7 +69,7 @@ TEST (SpecialDraw, DrawLetterNoUpdateAgain) {
     MockService service {};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
-    SpecialDraw test {service, "TEST", std::move(color)};
+    SpecialDraw test {service, sf::Color::Yellow, "TEST", std::move(color)};
     std::this_thread::sleep_for(std::chrono::milliseconds(800));
     test(service);
     test.update();
@@ -82,7 +82,7 @@ TEST (SpecialDraw, Abort) {
     MockService service {};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
-    SpecialDraw test {service, "TEST", std::move(color)};
+    SpecialDraw test {service, sf::Color::Yellow, "TEST", std::move(color)};
     test.abort();
     ASSERT_TRUE(test.isCompleted());
     
@@ -93,7 +93,7 @@ TEST (SpecialDraw, Completed) {
     MockService service {};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
-    SpecialDraw test {service, "TEST", std::move(color)};
+    SpecialDraw test {service, sf::Color::Yellow, "TEST", std::move(color)};
     test(service);
     std::this_thread::sleep_for(std::chrono::milliseconds(800));
     test.update();
@@ -107,7 +107,7 @@ TEST (SpecialDraw, DrawSomething) {
     MockService service {};
     std::unique_ptr<sf::Color> color {
                             std::make_unique<sf::Color>(sf::Color::Black)};
-    SpecialDraw test {service, "TEST", std::move(color)};
+    SpecialDraw test {service, sf::Color::Yellow, "TEST", std::move(color)};
     test(service);
     std::this_thread::sleep_for(std::chrono::milliseconds(800));
     test.update();

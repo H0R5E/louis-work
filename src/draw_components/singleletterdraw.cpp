@@ -63,7 +63,13 @@ bool SingleLetterDraw::restartService (const Service& service) {
     auto max_length = service.getMaxSpecialLength();
     auto word_length = service.getWord().length();
     
-    if (max_length && word_length > *max_length + 1) {
+    int stop_length = 10;
+    
+    if (max_length and max_length >= stop_length) {
+        stop_length = *max_length + 1;
+    }
+    
+    if (word_length == stop_length) {
         return true;
     }
     

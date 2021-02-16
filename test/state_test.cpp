@@ -9,7 +9,9 @@
 class StateTest : public ::testing::Test {
 public:
     StateTest () {
-        auto comp = make_polymorphic_value<Component, SingleLetterDraw>(game);
+        auto comp = make_polymorphic_value<Component,
+                                           SingleLetterDraw>(game,
+                                                             sf::Color::Yellow);
         scenes.push_back(std::move(comp));
     }
 protected:
@@ -24,7 +26,7 @@ protected:
 TEST_F (StateTest, HandleKeyPressed) { 
     
     State state;
-    auto test = state.HandleKeyPressed(event, *(scenes[0]), game);
+    auto test = state.HandleKeyPressed(event, scenes, game);
     ASSERT_TRUE(!test);
     
 }
@@ -40,7 +42,7 @@ TEST_F (StateTest, HandleTextEntered) {
 TEST_F (StateTest, HandleKeyReleased) { 
     
     State state;
-    auto test = state.HandleKeyReleased(event, *(scenes[0]), game);
+    auto test = state.HandleKeyReleased(event, scenes, game);
     ASSERT_TRUE(!test);
     
 }

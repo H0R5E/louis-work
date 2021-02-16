@@ -8,7 +8,10 @@
 
 TEST (FactoryTest, makeSpecial) { 
     MockService service {};
-    auto special = makeSpecial (service, "TEST");
+    auto special = makeSpecial (service,
+                                "TEST",
+                                sf::Color::Yellow, 
+                                sf::Color::Black);
 }
 
 TEST (FactoryTest, SceneFactoryinit) { 
