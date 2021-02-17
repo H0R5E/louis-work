@@ -138,8 +138,7 @@ TEST (TypeWriterDraw, DrawTwoLetters) {
     test.update();
     test(service);
     auto& window = dynamic_cast<MockWindow&>(service.getWindow());
-    const auto* text = dynamic_cast<const sf::Text*>(window.last_drawn);
-    ASSERT_TRUE(text->getString().getSize() == 2);
+    ASSERT_TRUE(window.last_text->getString().getSize() == 2);
     
 }
 
@@ -160,8 +159,7 @@ TEST (TypeWriterDraw, DrawLineBreak) {
     }
     
     auto& window = dynamic_cast<MockWindow&>(service.getWindow());
-    const auto* text = dynamic_cast<const sf::Text*>(window.last_drawn);
-    std::string word = text->getString();
+    std::string word = window.last_text->getString();
     
     auto found = word.find("\n");
     ASSERT_TRUE(found != std::string::npos);
@@ -181,5 +179,29 @@ TEST (TypeWriterDraw, Assign) {
     TypeWriterDraw test2 {service, sf::Color::Yellow};
     test2 = test;
     ASSERT_TRUE(test2.isCompleted());
+    
+}
+
+TEST (TypeWriterDraw, RestartKeyTrue) { 
+    
+    MockService service {};
+    std::unique_ptr<sf::Color> color {
+                            std::make_unique<sf::Color>(sf::Color::Black)};
+    TypeWriterDraw test {service, sf::Color::Yellow, std::move(color)};
+    auto event = simulateKeyPressed(sf::Keyboard::Return,
+                                    false, false, false, false);
+    ASSERT_TRUE(test.restartKey(event.key));
+    
+}
+
+TEST (TypeWriterDraw, RestartKeyFalse) { 
+    
+    MockService service {};
+    std::unique_ptr<sf::Color> color {
+                            std::make_unique<sf::Color>(sf::Color::Black)};
+    TypeWriterDraw test {service, sf::Color::Yellow, std::move(color)};
+    auto event = simulateKeyPressed(sf::Keyboard::A,
+                                    false, false, false, false);
+    ASSERT_TRUE(!test.restartKey(event.key));
     
 }

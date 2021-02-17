@@ -34,8 +34,8 @@ fPtrBasic componentMaker () {
 template<typename T>
 fPtrBasic drawComponentMaker () {
     
-    auto f1 = [](Service& service) -> polymorphic_value<DrawComponent> {
-        return make_polymorphic_value<DrawComponent, T>(
+    auto f1 = [](Service& service) -> polymorphic_value<Component> {
+        return make_polymorphic_value<Component, T>(
                             service,
                             sf::Color::Yellow,
                             std::make_unique<sf::Color>(sf::Color::Black));

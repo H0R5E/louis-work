@@ -135,16 +135,21 @@ public:
     }
     virtual void draw (const sf::Drawable &drawable) override {
         nDraws++;
-        last_drawn = &drawable;
+        totalDraws++;
+        if (typeid(drawable) == typeid(sf::Text)) {
+            auto& text = dynamic_cast<const sf::Text&>(drawable);
+            last_text = std::make_unique<sf::Text>(text);
+        }
     }
     virtual void display () override {};
     void setEventQueue (std::queue<DelayEvent> eventQueue) {
         this->eventQueue = eventQueue;
     }
     int nDraws {0};
+    int totalDraws {0};
     bool isClear {false};
     bool isClosed {false};
-    const sf::Drawable* last_drawn {nullptr};
+    std::unique_ptr<sf::Text> last_text {nullptr};
 private:
     std::queue<DelayEvent> eventQueue; 
     bool isPolled {false};
@@ -226,7 +231,7 @@ public:
         return false;
     }
     const std::optional<int> getMaxSpecialLength () const override {
-        return {};
+        return 10;
     }
     void storeLetter (const char letter) override {}
     const std::string getWord () const override {
