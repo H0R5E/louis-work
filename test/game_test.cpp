@@ -39,6 +39,20 @@ TEST (GameTest, TestConstructSpecialComponent) {
                     make_polymorphic_value<SoundMakerBase,
                                            SoundMaker<MockSound>>(),
                     special_words,
+                    drawComponentMaker<SingleLetterDraw>()};
+    test_game.EventLoop();
+    ASSERT_EQ(&StateHolder::start, test_game.getCurrentState());
+    
+}
+
+TEST (GameTest, TestConstructSpecialScene) { 
+    
+    std::queue<DelayEvent> eventQueue;
+    std::unordered_set<std::string> special_words {"test"};
+    Game test_game {std::make_unique<MockWindow>(eventQueue),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
+                    special_words,
                     &makeSingleLetterSpoken};
     test_game.EventLoop();
     ASSERT_EQ(&StateHolder::start, test_game.getCurrentState());
@@ -444,5 +458,34 @@ TEST (GameTest, TestPlayStateSoundStopped) {
     }
     
     ASSERT_EQ(soundPtr->getStatus(), sf::Sound::Status::Stopped);
+    
+}
+
+TEST (GameTest, SceneRestartSpecial) { 
+    
+    std::queue<DelayEvent> eventQueue;
+    eventQueue.push(simulateTextEntered(10));
+    eventQueue.push(simulateTextEntered(10));
+    eventQueue.push(simulateKeyReleased(1));
+    MockGame test_game {std::make_unique<MockWindow>(eventQueue),
+                        make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
+                        &makeTypeWriterSpoken};
+    test_game.EventLoop();
+    
+    auto& first_scene = test_game.getCurrentScene();
+    auto& test_scene = test_game.getCurrentScene();
+    
+    std::queue<DelayEvent> eventQueueTwo;
+    eventQueueTwo.push(simulateReturn());
+    eventQueueTwo.push(simulateTextEntered(10));
+    eventQueueTwo.push(simulateKeyReleased(1));
+    auto& window = dynamic_cast<MockWindow&>(test_game.getWindow());
+    window.setEventQueue(eventQueueTwo);
+    test_game.EventLoop();
+    
+    auto& second_scene = test_game.getCurrentScene();
+    
+    ASSERT_NE(&first_scene, &second_scene);
     
 }

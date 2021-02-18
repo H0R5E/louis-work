@@ -71,6 +71,14 @@ inline const DelayEvent simulateCtrlC() {
                               false);
 }
 
+inline const DelayEvent simulateReturn() {
+    return simulateKeyPressed(sf::Keyboard::Return,
+                              false,
+                              false,
+                              false,
+                              false);
+}
+
 inline const DelayEvent simulateOtherPress() {
     return simulateKeyPressed(sf::Keyboard::D,
                               false,
@@ -280,6 +288,9 @@ public:
     }
     void addScene(polymorphic_value<Component>&& scene) {
         scenes.push_back(std::move(scene));
+    }
+    const Component& getCurrentScene() {
+        return *(scenes.front());
     }
     void updateScene () {
         Game::updateScene();

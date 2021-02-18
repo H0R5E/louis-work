@@ -76,7 +76,7 @@ file(GLOB test_SRC CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/test/*.cpp"
 
 # add tests
 add_executable(tests ${test_SRC})
-#add_executable(tests "${CMAKE_SOURCE_DIR}/test/factory_test.cpp" 
+#add_executable(tests "${CMAKE_SOURCE_DIR}/test/game_restart_test.cpp" 
 #                     "${CMAKE_SOURCE_DIR}/test/mock.h")
 target_link_libraries(tests game drawcomponents soundcomponents ${CONAN_LIBS})
 gtest_discover_tests(tests)

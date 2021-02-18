@@ -29,9 +29,6 @@ public:
                         make_polymorphic_value<SoundMakerBase,
                                             SoundMaker<MockSound>>(),
                         &makeSingleLetterSpoken);
-        
-        auto& window = dynamic_cast<MockWindow&>(test_game->getWindow());
-        window.setEventQueue(eventQueue);
         test_game->EventLoop();
     
     }
