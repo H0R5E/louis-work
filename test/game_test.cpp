@@ -342,7 +342,8 @@ TEST (GameTest, TestWaitStateUpdate) {
     auto test = componentMaker<SirenSound>();
     Game test_game {std::make_unique<MockWindow>(eventQueue),
                     make_polymorphic_value<SoundMakerBase,
-                                           SoundMaker<MockSound>>()};
+                                           SoundMaker<MockSound>>(),
+                    componentMaker<NotComplete>()};
     test_game.EventLoop();
     ASSERT_EQ(&StateHolder::wait, test_game.getCurrentState());
     
@@ -487,5 +488,20 @@ TEST (GameTest, SceneRestartSpecial) {
     auto& second_scene = test_game.getCurrentScene();
     
     ASSERT_NE(&first_scene, &second_scene);
+    
+}
+
+TEST (GameTest, NoSpecialLength) { 
+    
+    std::unordered_set<std::string> special_words {};
+    Game test_game {std::make_unique<MockWindow>(),
+                    make_polymorphic_value<SoundMakerBase,
+                                           SoundMaker<MockSound>>(),
+                    special_words,
+                    &makeSingleLetterSpoken};
+    
+    auto test = test_game.getMaxSpecialLength();
+    
+    ASSERT_TRUE(!test);
     
 }
