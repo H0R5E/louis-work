@@ -12,7 +12,7 @@ using namespace isocpp_p0201;
 
 int main(int argc, char *argv[]) {
     
-    argparse::ArgumentParser program("Louis' Work");
+    argparse::ArgumentParser program("louis");
     
     program.add_argument("-x")
         .help("run using source tree assets")
