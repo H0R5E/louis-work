@@ -28,7 +28,8 @@ public:
                         std::make_unique<MockWindow>(eventQueue),
                         make_polymorphic_value<SoundMakerBase,
                                             SoundMaker<MockSound>>(),
-                        &makeSingleLetterSpoken);
+                        &makeSingleLetterSpoken,
+                        true);
         test_game->EventLoop();
     
     }

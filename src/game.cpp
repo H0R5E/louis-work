@@ -8,80 +8,94 @@
 #include <stdexcept>
 
 Game::Game(std::unique_ptr<Window>&& window,
-           polymorphic_value<SoundMakerBase>&& sound_maker) :
+           polymorphic_value<SoundMakerBase>&& sound_maker,
+           const bool& test_assets) :
         sound_maker(std::move(sound_maker)),
         window(std::move(window)) {
     
     // Load resources
-    initResources();
+    initResources(test_assets);
     
 }
 
 Game::Game (std::unique_ptr<Window> && window,
             polymorphic_value<SoundMakerBase>&& sound_maker,
-            fPtrBasic&& sceneFPtr ) :
+            fPtrBasic&& sceneFPtr,
+            const bool& test_assets ) :
         factory(std::move(sceneFPtr)),
         sound_maker(std::move(sound_maker)),
         window(std::move(window)) {
     
     // Load resources
-    initResources();
+    initResources(test_assets);
     
 }
 
 Game::Game (std::unique_ptr<Window> && window,
             polymorphic_value<SoundMakerBase>&& sound_maker,
-            fPtrColor&& sceneFPtr ) :
+            fPtrColor&& sceneFPtr,
+            const bool& test_assets ) :
         factory(std::move(sceneFPtr)),
         sound_maker(std::move(sound_maker)),
         window(std::move(window)) {
     
     // Load resources
-    initResources();
-    
-}
-
-Game::Game (std::unique_ptr<Window>&& window,
-            polymorphic_value<SoundMakerBase>&& sound_maker,
-            const std::unordered_set<std::string>& special_words) :
-        sound_maker(std::move(sound_maker)),
-        window(std::move(window)),
-        special_words(special_words) {
-    
-    // Load resources
-    initResources();
+    initResources(test_assets);
     
 }
 
 Game::Game (std::unique_ptr<Window>&& window,
             polymorphic_value<SoundMakerBase>&& sound_maker,
             const std::unordered_set<std::string>& special_words,
-            fPtrBasic&& sceneFPtr) :
-        factory(std::move(sceneFPtr)),
+            const bool& test_assets) :
         sound_maker(std::move(sound_maker)),
         window(std::move(window)),
         special_words(special_words) {
     
     // Load resources
-    initResources();
+    initResources(test_assets);
     
 }
 
 Game::Game (std::unique_ptr<Window>&& window,
             polymorphic_value<SoundMakerBase>&& sound_maker,
             const std::unordered_set<std::string>& special_words,
-            fPtrColor&& sceneFPtr) :
+            fPtrBasic&& sceneFPtr,
+            const bool& test_assets) :
         factory(std::move(sceneFPtr)),
         sound_maker(std::move(sound_maker)),
         window(std::move(window)),
         special_words(special_words) {
     
     // Load resources
-    initResources();
+    initResources(test_assets);
     
 }
 
-void Game::initResources () {
+Game::Game (std::unique_ptr<Window>&& window,
+            polymorphic_value<SoundMakerBase>&& sound_maker,
+            const std::unordered_set<std::string>& special_words,
+            fPtrColor&& sceneFPtr,
+            const bool& test_assets) :
+        factory(std::move(sceneFPtr)),
+        sound_maker(std::move(sound_maker)),
+        window(std::move(window)),
+        special_words(special_words) {
+    
+    // Load resources
+    initResources(test_assets);
+    
+}
+
+void Game::initResources (const bool& test_assets) {
+    
+    if (test_assets) {
+        font_holder = ResourceHolder<sf::Font>(true);
+        buffer_holder = ResourceHolder<sf::SoundBuffer>(true);
+    } else {
+         font_holder = ResourceHolder<sf::Font>();
+         buffer_holder = ResourceHolder<sf::SoundBuffer>();
+    }
     
     font_holder.Load("Monofett-Regular");
     font_holder.Load("JetBrainsMono-Light");

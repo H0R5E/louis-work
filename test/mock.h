@@ -271,15 +271,18 @@ class MockGame : public Game {
 public:
     MockGame(std::unique_ptr<Window>&& window,
              polymorphic_value<SoundMakerBase>&& sound_maker) :
-             Game(std::move(window), std::move(sound_maker)) {}
+             Game(std::move(window), std::move(sound_maker), true) {}
     MockGame(std::unique_ptr<Window>&& window,
              polymorphic_value<SoundMakerBase>&& sound_maker,
              fPtrBasic&& sceneFPtr)  :
-            Game(std::move(window), std::move(sound_maker), *sceneFPtr) {}
+            Game(std::move(window), std::move(sound_maker), *sceneFPtr, true) {}
     MockGame(std::unique_ptr<Window>&& window,
              polymorphic_value<SoundMakerBase>&& sound_maker,
              fPtrColor&& sceneFPtr)  :
-             Game(std::move(window), std::move(sound_maker), *sceneFPtr) {}
+                Game(std::move(window),
+                std::move(sound_maker),
+                *sceneFPtr,
+                true) {}
              Component* getScenePtr () {
         return scenes[0].operator->();
     }

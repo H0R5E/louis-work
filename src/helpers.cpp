@@ -2,14 +2,13 @@
 #include <stdexcept>
 #include <SFML/Graphics.hpp>
 
-#include "pathconfig.h"
 #include "helpers.h"
 
 namespace fs = std::filesystem;
 
-fs::path FindAsset (std::string_view name) {
+fs::path FindAsset (std::string_view name, std::string_view assetDir) {
     
-    fs::path dir (ASSETS_DIR);
+    fs::path dir (assetDir);
     fs::path file (name);
     fs::path search_path = dir / file;
     

@@ -1,4 +1,5 @@
 #pragma once
 
 // assets path settings
-#define ASSETS_DIR "@ASSETS_DIR@"
+#define ASSETS_DIR_TEST "@ASSETS_DIR_TEST@"
+#define ASSETS_DIR_RELEASE "@ASSETS_DIR_RELEASE@"

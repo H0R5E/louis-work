@@ -23,7 +23,8 @@ TEST (FactoryTest, SceneFactorymakeScene) {
     std::queue<DelayEvent> eventQueue;
     Game test_game {std::make_unique<MockWindow>(eventQueue),
                     make_polymorphic_value<SoundMakerBase,
-                                           SoundMaker<MockSound>>()};
+                                           SoundMaker<MockSound>>(),
+                    true};
     
     auto factory = SceneFactory();
     auto scene = factory.makeScene(test_game);
@@ -37,7 +38,8 @@ TEST (FactoryTest, SceneFactorymakeSpecial) {
     std::queue<DelayEvent> eventQueue;
     Game test_game {std::make_unique<MockWindow>(eventQueue),
                     make_polymorphic_value<SoundMakerBase,
-                                           SoundMaker<MockSound>>()};
+                                           SoundMaker<MockSound>>(),
+                    true};
     
     auto factory = SceneFactory();
     auto scene = factory.makeSpecialScene(test_game, "TEST");
@@ -51,7 +53,8 @@ TEST (FactoryTest, SceneFactorymakeSpecialColors) {
     std::queue<DelayEvent> eventQueue;
     Game test_game {std::make_unique<MockWindow>(eventQueue),
                     make_polymorphic_value<SoundMakerBase,
-                                           SoundMaker<MockSound>>()};
+                                           SoundMaker<MockSound>>(),
+                    true};
     
     auto factory = SceneFactory(&makeSingleLetterSiren);
     auto scene = factory.makeScene(test_game);

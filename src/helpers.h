@@ -6,7 +6,8 @@
 #include <random>
 #include <string_view>
 
-std::filesystem::path FindAsset (std::string_view name);
+std::filesystem::path FindAsset (std::string_view name,
+                                 std::string_view assetDir);
 
 template<typename T>
 const T getRandomSample(const std::vector<T>& in) {

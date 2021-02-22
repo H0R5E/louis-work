@@ -19,21 +19,30 @@ enable_testing()
 # code coverage
 include(CodeCoverage)
 find_program(GCOVR_PATH gcovr)
-set(GCOV TRUE)
+#set(GCOV TRUE)
 
 # output structure
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-# define asset path
-set(ASSETS_DIR ${CMAKE_SOURCE_DIR}/assets)
+# define asset path in pathconfig.h
+set(ASSETS_DIR_TEST ${CMAKE_SOURCE_DIR}/assets)
+
+if (WIN32)
+    set(ASSETS_DIR_RELEASE "C:/ProgramData/louis")
+elseif (UNIX)
+    set(ASSETS_DIR_RELEASE "/usr/share/louis")
+else ()
+    message (FATAL_ERROR "Unknown OS")
+endif ()
+
 configure_file(${CMAKE_SOURCE_DIR}/src/pathconfig.h.in
                ${CMAKE_SOURCE_DIR}/src/pathconfig.h)
 
-# release compiler flags
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall")
-set(CMAKE_C_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall")
+# debug compiler flags
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall")
 
 # coverage target and compiler flags
 if (CMAKE_COMPILER_IS_GNUCXX AND GCOVR_PATH AND GCOV)

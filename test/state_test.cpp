@@ -18,7 +18,8 @@ protected:
     std::queue<DelayEvent> eventQueue {};
     Game game {std::make_unique<MockWindow>(eventQueue),
                make_polymorphic_value<SoundMakerBase,
-                                      SoundMaker<MockSound>>()};
+                                      SoundMaker<MockSound>>(),
+               true};
     sf::Event event {simulateTextEntered(10)};
     polyComponentVector scenes {};
 };

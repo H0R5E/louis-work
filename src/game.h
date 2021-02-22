@@ -20,24 +20,30 @@ class Game : public Service {
 public:
     Game () = delete;
     Game (std::unique_ptr<Window>&& window,
-          polymorphic_value<SoundMakerBase>&& sound_maker);
+          polymorphic_value<SoundMakerBase>&& sound_maker,
+          const bool& test_assets=false);
     Game (std::unique_ptr<Window>&& window,
           polymorphic_value<SoundMakerBase>&& sound_maker,
-          fPtrBasic&& sceneFPtr);
+          fPtrBasic&& sceneFPtr,
+          const bool& test_assets=false);
     Game (std::unique_ptr<Window>&& window,
           polymorphic_value<SoundMakerBase>&& sound_maker,
-          fPtrColor&& sceneFPtr);
-    Game (std::unique_ptr<Window>&& window,
-          polymorphic_value<SoundMakerBase>&& sound_maker,
-          const std::unordered_set<std::string>& special_words);
-    Game (std::unique_ptr<Window>&& window,
-          polymorphic_value<SoundMakerBase>&& sound_maker,
-          const std::unordered_set<std::string>& special_words,
-          fPtrBasic&& sceneFPtr);
+          fPtrColor&& sceneFPtr,
+          const bool& test_assets=false);
     Game (std::unique_ptr<Window>&& window,
           polymorphic_value<SoundMakerBase>&& sound_maker,
           const std::unordered_set<std::string>& special_words,
-          fPtrColor&& sceneFPtr);
+          const bool& test_assets=false);
+    Game (std::unique_ptr<Window>&& window,
+          polymorphic_value<SoundMakerBase>&& sound_maker,
+          const std::unordered_set<std::string>& special_words,
+          fPtrBasic&& sceneFPtr,
+          const bool& test_assets=false);
+    Game (std::unique_ptr<Window>&& window,
+          polymorphic_value<SoundMakerBase>&& sound_maker,
+          const std::unordered_set<std::string>& special_words,
+          fPtrColor&& sceneFPtr,
+          const bool& test_assets=false);
     void EventLoop ();
     State* getCurrentState () const;
     const sf::Font& getFont (std::string_view name) const override;
@@ -56,12 +62,12 @@ protected:
     std::vector<polyComponent> scenes {};
     void updateScene ();
 private:
-    void initResources ();
+    void initResources (const bool& test_assets);
     SceneFactory factory;
     polymorphic_value<SoundMakerBase> sound_maker;
     std::shared_ptr<Window> window;
-    ResourceHolder<sf::Font> font_holder {};
-    ResourceHolder<sf::SoundBuffer> buffer_holder {};
+    ResourceHolder<sf::Font> font_holder;
+    ResourceHolder<sf::SoundBuffer> buffer_holder;
     State* current_state;
     std::vector<char> letter_store {};
     std::unordered_set<std::string> special_words {"louis", 

@@ -8,11 +8,18 @@
 #include <string_view>
 
 #include "helpers.h"
+#include "pathconfig.h"
 
 template <typename Resource>
 class ResourceHolder {
 public:
-    ResourceHolder<Resource> () = default;
+    ResourceHolder<Resource> (const bool& test=false) {
+        if (test) {
+            assetDir = ASSETS_DIR_TEST;
+        } else {
+            assetDir = ASSETS_DIR_RELEASE;
+        }
+    }
     ResourceHolder<Resource> (const ResourceHolder<Resource>& copy) {
         *this = copy;
     }
@@ -25,6 +32,7 @@ public:
     ResourceHolder<Resource>& operator= (ResourceHolder<Resource>&& temp)
                                                                     = default;
 private:
+    std::string assetDir;
     std::map<std::string_view, std::unique_ptr<Resource>> mResourceMap;
 };
 
@@ -37,7 +45,7 @@ void ResourceHolder<Resource>::Load(std::string_view resourcename) {
     }
     
     std::unique_ptr<Resource> resource(new Resource());
-    auto filename = FindAsset(resourcename);
+    auto filename = FindAsset(resourcename, assetDir);
     
     if (!resource->loadFromFile(filename)) {
         throw std::runtime_error("ResourceHolder::load - Failed to load " +
@@ -89,6 +97,8 @@ int ResourceHolder<Resource>::Size() const {
 template<typename Resource>
 ResourceHolder<Resource>& ResourceHolder<Resource>::operator= (
                                         const ResourceHolder<Resource>& copy) {
+    
+    assetDir = copy.assetDir;
     
     for (auto const& [key, val] : copy.mResourceMap) {
         
