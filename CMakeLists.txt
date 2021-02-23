@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # conan
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup(NO_OUTPUT_DIRS)
+conan_basic_setup(NO_OUTPUT_DIRS KEEP_RPATHS)
 LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 # testing
@@ -74,6 +74,20 @@ if (CMAKE_COMPILER_IS_GNUCXX AND GCOVR_PATH AND GCOV)
     
 endif ()
 
+# RPATH handling
+
+if (UNIX)
+
+    # use, i.e. don't skip the full RPATH for the build tree
+    set(CMAKE_SKIP_BUILD_RPATH FALSE)
+
+    # when building, don't use the install RPATH already
+    # (but later on when installing)
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+
+endif ()
+
 # path to source code
 add_subdirectory(app)
 add_subdirectory(src)
@@ -87,5 +101,22 @@ file(GLOB test_SRC CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/test/*.cpp"
 add_executable(tests ${test_SRC})
 #add_executable(tests "${CMAKE_SOURCE_DIR}/test/game_test.cpp" 
 #                     "${CMAKE_SOURCE_DIR}/test/mock.h")
-target_link_libraries(tests game drawcomponents soundcomponents ${CONAN_LIBS})
+target_link_libraries(tests
+                      game
+                      drawcomponents
+                      soundcomponents
+                      ${CONAN_LIBS})
+
 gtest_discover_tests(tests)
+
+# extra install commands
+
+# Install SFML
+if (UNIX)
+    FILE(GLOB sfml_libs "${CMAKE_BINARY_DIR}/lib/*.so.*")
+    message(STATUS "SFML libs: ${sfml_libs}")
+    install(FILES ${sfml_libs} DESTINATION lib)
+endif ()
+
+# Install assets
+install(DIRECTORY ${ASSETS_DIR_TEST} DESTINATION ${ASSETS_DIR_RELEASE})

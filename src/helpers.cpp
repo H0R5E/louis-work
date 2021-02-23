@@ -4,8 +4,6 @@
 
 #include "helpers.h"
 
-namespace fs = std::filesystem;
-
 fs::path FindAsset (std::string_view name, std::string_view assetDir) {
     
     fs::path dir (assetDir);

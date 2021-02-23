@@ -17,7 +17,7 @@ public:
         if (test) {
             assetDir = ASSETS_DIR_TEST;
         } else {
-            assetDir = ASSETS_DIR_RELEASE;
+            assetDir = joinPaths(ASSETS_DIR_RELEASE, "assets");
         }
     }
     ResourceHolder<Resource> (const ResourceHolder<Resource>& copy) {

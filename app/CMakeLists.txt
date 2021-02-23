@@ -7,3 +7,4 @@ target_link_libraries(louis
                       sound
                       soundcomponents
                       window)
+install(TARGETS louis DESTINATION bin)
