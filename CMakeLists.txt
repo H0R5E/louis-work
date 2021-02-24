@@ -17,12 +17,24 @@ include(GoogleTest)
 enable_testing()
 
 # code coverage
-include(CodeCoverage)
 find_program(GCOVR_PATH gcovr)
-#set(GCOV TRUE)
+option(GCOV "Check code coverage" OFF)
 
-# output structure
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+# user defined install options
+option(INSTALL3RDPARTY "Install 3rd party libraries" ON)
+
+if (WIN32)
+    SET(INTALL3RDPARTY_PATH "bin")
+else ()
+    SET(INTALL3RDPARTY_PATH "lib")
+endif ()
+
+
+# debug compiler flags
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall")
+
+# build output structure
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
@@ -40,12 +52,10 @@ endif ()
 configure_file(${CMAKE_SOURCE_DIR}/src/pathconfig.h.in
                ${CMAKE_SOURCE_DIR}/src/pathconfig.h)
 
-# debug compiler flags
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall")
-
 # coverage target and compiler flags
 if (CMAKE_COMPILER_IS_GNUCXX AND GCOVR_PATH AND GCOV)
+    
+    include(CodeCoverage)
     
     append_coverage_compiler_flags()
     set(TEST_COMPILER_FLAGS "-O0 -fno-default-inline -fno-inline -fno-elide-constructors -save-temps")
@@ -112,10 +122,12 @@ gtest_discover_tests(tests)
 # extra install commands
 
 # Install SFML
-if (UNIX)
-    FILE(GLOB sfml_libs "${CMAKE_BINARY_DIR}/lib/*.so.*")
+if (INSTALL3RDPARTY)
+    if (UNIX)
+        FILE(GLOB sfml_libs "${CMAKE_BINARY_DIR}/lib/*.so.*")
+    endif ()
     message(STATUS "SFML libs: ${sfml_libs}")
-    install(FILES ${sfml_libs} DESTINATION lib)
+    install(FILES ${sfml_libs} DESTINATION ${INTALL3RDPARTY_PATH})
 endif ()
 
 # Install assets

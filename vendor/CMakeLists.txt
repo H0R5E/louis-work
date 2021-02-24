@@ -11,7 +11,7 @@ endif()
 
 # espeak
 SET(ESPEAKNG_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/espeak-ng)
-SET(ESPEAKNG_BUILD TRUE)
+option(ESPEAKNG_BUILD "Build espeak-ng" ON)
 
 if (ESPEAKNG_BUILD)
     
@@ -27,7 +27,8 @@ if (ESPEAKNG_BUILD)
         PREFIX ${ESPEAKNG_PREFIX}
         BUILD_COMMAND make
         BUILD_IN_SOURCE 1
-        BUILD_BYPRODUCTS ${ESPEAKNG_PREFIX}/lib/libespeak-ng.so)
+        BUILD_BYPRODUCTS ${ESPEAKNG_PREFIX}/lib/libespeak-ng.so
+        INSTALL_COMMAND make LIBDIR=${ESPEAKNG_PREFIX}/lib install)
     endif()
     
     # trigger build
@@ -47,10 +48,11 @@ if (UNIX)
     set(espeak_libs
         "${ESPEAKNG_PREFIX}/lib/libespeak-ng.so"
         "${ESPEAKNG_PREFIX}/lib/libespeak-ng.so.1"
+        "${ESPEAKNG_PREFIX}/lib/libespeak-ng.so.1.1.51"
     )
-    message(STATUS "espeak libs: ${espeak_libs}")
-    install(FILES ${espeak_libs} DESTINATION lib)
 endif ()
+message(STATUS "espeak libs: ${espeak_libs}")
+install(FILES ${espeak_libs} DESTINATION ${INTALL3RDPARTY_PATH})
 
 # polymorphic_value
 FetchContent_Declare(polymorphic_value
