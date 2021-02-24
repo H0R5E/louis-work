@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 # set the project name and version
-project("Louis' Work" VERSION 0.1)
+project("Louis' Work" VERSION 0.0.1)
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -132,3 +132,14 @@ endif ()
 
 # Install assets
 install(DIRECTORY ${ASSETS_DIR_TEST} DESTINATION ${ASSETS_DIR_RELEASE})
+
+# Install desktop entry
+if (UNIX AND NOT APPLE)
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/data/louis.desktop.in
+        ${CMAKE_CURRENT_BINARY_DIR}/louis.desktop)
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/louis.desktop
+                  DESTINATION share/applications/)
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/l-key.svg
+                  DESTINATION share/icons/hicolor/scalable/apps/)
+endif()

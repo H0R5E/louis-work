@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=@PROJECT_VERSION@
+Name=@CMAKE_PROJECT_NAME@
+GenericName=Word Game
+Comment=A game about words and letters
+Icon=l-key
+TryExec=louis
+Exec=louis
+Categories=Game;KidsGame;
