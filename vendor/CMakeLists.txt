@@ -44,15 +44,17 @@ target_include_directories(libespeak-ng INTERFACE
                            ${ESPEAKNG_PREFIX}/include/espeak-ng)
 
 # install
-if (UNIX)
-    set(espeak_libs
-        "${ESPEAKNG_PREFIX}/lib/libespeak-ng.so"
-        "${ESPEAKNG_PREFIX}/lib/libespeak-ng.so.1"
-        "${ESPEAKNG_PREFIX}/lib/libespeak-ng.so.1.1.51"
-    )
-endif ()
-message(STATUS "espeak libs: ${espeak_libs}")
-install(FILES ${espeak_libs} DESTINATION ${INTALL3RDPARTY_PATH})
+if (INSTALL3RDPARTY)
+    if (UNIX)
+        set(espeak_libs
+            "${ESPEAKNG_PREFIX}/lib/libespeak-ng.so"
+            "${ESPEAKNG_PREFIX}/lib/libespeak-ng.so.1"
+            "${ESPEAKNG_PREFIX}/lib/libespeak-ng.so.1.1.51"
+        )
+    endif ()
+    message(STATUS "espeak libs: ${espeak_libs}")
+    install(FILES ${espeak_libs} DESTINATION ${INTALL3RDPARTY_PATH})
+endif()
 
 # polymorphic_value
 FetchContent_Declare(polymorphic_value

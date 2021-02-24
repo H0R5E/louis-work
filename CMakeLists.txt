@@ -20,7 +20,8 @@ enable_testing()
 find_program(GCOVR_PATH gcovr)
 option(GCOV "Check code coverage" OFF)
 
-# user defined install options
+# install options
+set(CMAKE_SKIP_INSTALL_ALL_DEPENDENCY TRUE)
 option(INSTALL3RDPARTY "Install 3rd party libraries" ON)
 
 if (WIN32)
@@ -28,7 +29,6 @@ if (WIN32)
 else ()
     SET(INTALL3RDPARTY_PATH "lib")
 endif ()
-
 
 # debug compiler flags
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
