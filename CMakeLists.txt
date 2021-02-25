@@ -154,7 +154,8 @@ if (UNIX AND APPLE)
       OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/uninstall.sh
       CONTENT "\
 rm ${LOUIS_INSTALL_PATH}
-rm -r ${ASSETS_DIR_RELEASE}")
+rm -r ${ASSETS_DIR_RELEASE}
+rm -- \"$0\"")
 elseif (UNIX)
     file (GENERATE
       OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/uninstall.sh
