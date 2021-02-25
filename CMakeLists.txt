@@ -142,4 +142,36 @@ if (UNIX AND NOT APPLE)
                   DESTINATION share/applications/)
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/l-key.svg
                   DESTINATION share/icons/hicolor/scalable/apps/)
+    SET(DESKTOP_INSTALL_PATH
+        "${CMAKE_INSTALL_PREFIX}/share/applications/louis.desktop")
+    SET(ICON_INSTALL_PATH
+        "${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps/l-key.svg")
 endif()
+
+# Uninstall
+if (UNIX AND APPLE)
+    file (GENERATE
+      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/uninstall.sh
+      CONTENT "\
+rm ${LOUIS_INSTALL_PATH}
+rm -r ${ASSETS_DIR_RELEASE}")
+elseif (UNIX)
+    file (GENERATE
+      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/uninstall.sh
+      CONTENT "\
+rm ${LOUIS_INSTALL_PATH}
+rm -r ${ASSETS_DIR_RELEASE}
+rm ${DESKTOP_INSTALL_PATH}
+rm ${ICON_INSTALL_PATH}
+rm -- \"$0\"")
+endif ()
+
+if (UNIX)
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/uninstall.sh
+            DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
+            PERMISSIONS OWNER_EXECUTE
+                        OWNER_WRITE
+                        OWNER_READ
+                        GROUP_READ
+                        WORLD_READ)
+endif ()

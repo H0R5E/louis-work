@@ -44,6 +44,7 @@ coverage/
 
 # Auto generated files
 src/pathconfig.h
+uninstall.sh
 
 # vendor
 vendor/*/

@@ -7,4 +7,10 @@ target_link_libraries(louis
                       sound
                       soundcomponents
                       window)
-install(TARGETS louis DESTINATION bin)
+
+if (UNIX)
+    install(TARGETS louis DESTINATION bin)
+    SET(LOUIS_INSTALL_PATH
+        "${CMAKE_INSTALL_PREFIX}/bin/$<TARGET_FILE_NAME:louis>"
+        PARENT_SCOPE)
+endif ()
