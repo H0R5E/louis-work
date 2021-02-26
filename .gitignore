@@ -49,3 +49,6 @@ uninstall.sh
 # vendor
 vendor/*/
 
+# packages
+packages/
+

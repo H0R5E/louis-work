@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.13)
 
 # set the project name and version
-project("Louis' Work" VERSION 0.0.1)
+project("Louis' Work" VERSION 0.0.1
+                      DESCRIPTION "A game about words and letters")
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -148,6 +149,23 @@ if (UNIX AND NOT APPLE)
         "${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps/l-key.svg")
 endif()
 
+# Packaging
+option(RPM "Create an RPM package" ON)
+
+# General CPack variables
+set(CPACK_PACKAGE_NAME "louis")
+set(CPACK_PACKAGE_DESCRIPTION "\
+A C++ project to create a game for my son to do his work on my computer")
+set(CPACK_PACKAGE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/packages")
+
+if (UNIX AND RPM)
+    
+    set(CPACK_GENERATOR "RPM")
+    set(CPACK_RPM_PACKAGE_RELEASE 1)
+    include(CPack)
+    
+endif ()
+
 # Uninstall
 if (UNIX AND APPLE)
     file (GENERATE
@@ -167,7 +185,7 @@ rm ${ICON_INSTALL_PATH}
 rm -- \"$0\"")
 endif ()
 
-if (UNIX)
+if (UNIX AND NOT RPM)
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/uninstall.sh
             DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
             PERMISSIONS OWNER_EXECUTE
