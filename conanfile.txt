@@ -2,6 +2,7 @@
 argparse/2.1
 gtest/1.10.0
 sfml/2.5.1@bincrafters/stable
+spdlog/[>=1.4.1]
 
 [options]
 sfml:shared=True

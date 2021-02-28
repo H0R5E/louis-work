@@ -39,13 +39,16 @@ set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-# define asset path in pathconfig.h
+# define asset and log path in pathconfig.h
 set(ASSETS_DIR_TEST ${CMAKE_SOURCE_DIR}/assets)
+set(LOGS_DIR_TEST ${CMAKE_SOURCE_DIR}/logs)
 
 if (WIN32)
     set(ASSETS_DIR_RELEASE "C:/ProgramData/louis")
+    set(LOGS_DIR_RELEASE "[APPDATA]")
 elseif (UNIX)
     set(ASSETS_DIR_RELEASE "/usr/share/louis")
+    set(LOGS_DIR_RELEASE "/var/log/louis")
 else ()
     message (FATAL_ERROR "Unknown OS")
 endif ()
@@ -59,7 +62,8 @@ if (CMAKE_COMPILER_IS_GNUCXX AND GCOVR_PATH AND GCOV)
     include(CodeCoverage)
     
     append_coverage_compiler_flags()
-    set(TEST_COMPILER_FLAGS "-O0 -fno-default-inline -fno-inline -fno-elide-constructors -save-temps")
+    set(TEST_COMPILER_FLAGS
+        "-O0 -fno-default-inline -fno-inline -fno-elide-constructors -save-temps")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${TEST_COMPILER_FLAGS}")
     set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} ${TEST_COMPILER_FLAGS}")
      

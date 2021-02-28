@@ -2,7 +2,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <iostream>
+#include <spdlog/spdlog.h>
 
 class Window {
 public:
@@ -33,7 +33,7 @@ public:
         return sf::RenderWindow::pollEvent(event);
     };
     void clear (const sf::Color &color=sf::Color(0, 0, 0, 255)) override {
-        std::cout << "Window::clear" << std::endl;
+        spdlog::get("file_logger")->debug("Window::clear");
         sf::RenderWindow::clear(color);
     };
     void draw (const sf::Drawable &drawable) override {

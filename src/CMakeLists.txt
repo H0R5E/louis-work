@@ -7,6 +7,11 @@ target_link_libraries(component INTERFACE polymorphic_value
                                           sound
                                           ${CONAN_LIBS})
 
+add_library(logging INTERFACE) 
+target_sources(logging INTERFACE logging.h)
+target_include_directories(logging INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(logging INTERFACE helpers ${CONAN_LIBS})
+
 add_library(resource INTERFACE)
 target_sources(resource INTERFACE resourceholder.h)
 target_include_directories(resource INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -36,6 +41,7 @@ target_link_libraries(factory PRIVATE helpers
                                       polymorphic_value
                                       drawcomponents
                                       soundcomponents)
+
 
 add_library(scene scene.cpp scene.h)
 target_include_directories(scene PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

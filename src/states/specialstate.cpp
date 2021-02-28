@@ -1,4 +1,6 @@
 
+#include <spdlog/spdlog.h>
+
 #include "specialstate.h"
 
 #include "factory.h"
@@ -7,7 +9,6 @@
 #include "stateholder.h"
 #include "window.h"
 
-#include <iostream>
 
 State* SpecialState::HandleKeyPressed (const sf::Event& event,
                                        polyComponentVector& scenes,
@@ -27,7 +28,7 @@ State* SpecialState::HandleKeyPressed (const sf::Event& event,
 
 State* SpecialState::Update (polyComponentVector& scenes, Service& service) {
     
-    std::cout << "SpecialState::Update" << std::endl;
+    spdlog::get("file_logger")->debug("SpecialState::Update");
     
     auto& scene = *(scenes[0]);
     
@@ -47,7 +48,7 @@ State* SpecialState::Update (polyComponentVector& scenes, Service& service) {
 void SpecialState::Enter (polyComponentVector& scenes,
                           Service& service) {
     
-    std::cout << "SpecialState::Enter" << std::endl;
+    spdlog::get("file_logger")->debug("SpecialState::Enter");
     
     auto word = service.getWord();
     auto new_scene = service.makeSpecialScenePValue(word);

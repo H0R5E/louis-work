@@ -1,12 +1,14 @@
 
+#include <sstream>
+#include <spdlog/spdlog.h>
+
 #include "sirensound.h"
 #include "service.h"
 #include "window.h"
 
-#include <iostream>
 
 void SirenSound::init (Service& service) {
-    std::cout << "SirenSound::init" << std::endl;
+    spdlog::get("file_logger")->debug("SirenSound::init");
     auto& sound_buffer = service.getSoundBuffer("Alarm_or_siren");
     sound = service.makeSoundPValue();
     sound->setBuffer(sound_buffer);
@@ -21,13 +23,13 @@ void SirenSound::setActiveEvent ( Service& service ) {
 }
 
 bool SirenSound::update() {
-    std::cout << "SirenSound::update" << std::endl;
+    spdlog::get("file_logger")->debug("SirenSound::update");
     return should_replay;
 }
 
 bool SirenSound::isCompleted() {
     
-    std::cout << "SirenSound::isCompleted" << std::endl;
+    spdlog::get("file_logger")->debug("SirenSound::isCompleted");
     
     auto elapsed = clock.getElapsedTime();
     
@@ -40,12 +42,13 @@ bool SirenSound::isCompleted() {
 }
 
 void SirenSound::abort () {
-    std::cout << "SirenSound::abort()" << std::endl;
+    spdlog::get("file_logger")->debug("SirenSound::abort");
     aborted = true;
 }
 
 void SirenSound::operator() (Service& service) {
-    std::cout << "SirenSound::operator()" << std::endl;
+    
+    spdlog::get("file_logger")->debug("SirenSound::operator()");
     
     if (background) {
         auto& window = service.getWindow();

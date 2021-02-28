@@ -10,8 +10,8 @@ namespace fs = std::filesystem;
 
 fs::path FindAsset (std::string_view name, std::string_view assetDir);
 
-template<typename... Args>
-fs::path joinPaths (const char* in, Args... args) {
+template<typename T, typename... Args>
+fs::path joinPaths (T in, Args... args) {
     fs::path path (in);
     return (path / ... / args);
 }

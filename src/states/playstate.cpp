@@ -1,4 +1,7 @@
 
+#include <sstream>
+#include <spdlog/spdlog.h>
+
 #include "playstate.h"
 
 #include "service.h"
@@ -31,7 +34,7 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
                                      polyComponentVector& scenes,
                                      Service& service) {
     
-    std::cout << "PlayState::HandleTextEntered" << std::endl;
+    spdlog::get("file_logger")->debug("PlayState::HandleTextEntered");
     
     if (event.text.unicode < 128) {
         
@@ -54,8 +57,12 @@ State* PlayState::HandleTextEntered (const sf::Event& event,
 void PlayState::Enter (polyComponentVector& scenes,
                        Service& service) {
     
-    std::cout << "PlayState::Enter" << std::endl;
-    std::cout << "Letters stored: " << service.getWord().size() << std::endl;
+    spdlog::get("file_logger")->debug("PlayState::Enter");
+    
+    std::stringstream log_msg;
+    log_msg << "PlayState::Enter letters stored: " <<
+                                                    service.getWord().size();
+    spdlog::get("file_logger")->debug(log_msg.str());
     
     (*scenes[0])(service);
     service.getWindow().display();

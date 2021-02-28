@@ -1,16 +1,18 @@
 
+#include <sstream>
+#include <spdlog/spdlog.h>
+
 #include "specialdraw.h"
 #include "service.h"
 #include "window.h"
-
-#include <iostream>
-#include <sstream>
 
 bool SpecialDraw::update() {
     
     auto elapsed = clock.getElapsedTime();
     
-    std::cout << "elapsed: " << elapsed.asSeconds() << std::endl;
+    std::stringstream log_msg;
+    log_msg << "SpecialDraw::update time elapsed: " << elapsed.asSeconds();
+    spdlog::get("file_logger")->debug(log_msg.str());
     
     if (elapsed.asSeconds() < 0.5f) {
         return false;
@@ -25,7 +27,7 @@ bool SpecialDraw::update() {
 
 bool SpecialDraw::isCompleted () {
     
-    std::cout << "SpecialDraw::isCompleted" << std::endl;
+    spdlog::get("file_logger")->debug("SpecialDraw::isCompleted");
     
     if (aborted) {
         return true;
@@ -33,7 +35,9 @@ bool SpecialDraw::isCompleted () {
     
     auto elapsed = clock.getElapsedTime();
     
-    std::cout << "elapsed: " << elapsed.asSeconds() << std::endl;
+    std::stringstream log_msg;
+    log_msg << "SpecialDraw::isCompleted time elapsed: " << elapsed.asSeconds();
+    spdlog::get("file_logger")->debug(log_msg.str());
     
     if (elapsed.asSeconds() < 2.0f)
         return false;
@@ -48,7 +52,7 @@ void SpecialDraw::abort () {
 
 void SpecialDraw::operator() (Service& service) {
     
-    std::cout << "SpecialDraw::operator()" << std::endl;
+    spdlog::get("file_logger")->debug("SpecialDraw::operator()");
     
     if (background) {
         auto& window = service.getWindow();

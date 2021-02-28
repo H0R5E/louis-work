@@ -1,12 +1,12 @@
 
 #include <cstring>
+#include <sstream>
+#include <spdlog/spdlog.h>
 
 #include "lettersound.h"
 #include "service.h"
 #include "voice.h"
 #include "window.h"
-
-#include <iostream>
 
 LetterSound::LetterSound (const LetterSound& copy) :
             SoundComponent(copy) {
@@ -53,7 +53,7 @@ void LetterSound::setActiveEvent ( Service& service ) {
 
 bool LetterSound::update() {
     
-    std::cout << "LetterSound::update" << std::endl;
+    spdlog::get("file_logger")->debug("LetterSound::update");
     
     if (!buffer) {
         return false;
@@ -70,7 +70,7 @@ bool LetterSound::update() {
 
 bool LetterSound::isCompleted() {
     
-    std::cout << "LetterSound::isCompleted" << std::endl;
+    spdlog::get("file_logger")->debug("LetterSound::isCompleted");
     
     if (!sound) {
         return true;
@@ -93,7 +93,7 @@ bool LetterSound::isCompleted() {
 }
 
 void LetterSound::abort () {
-    std::cout << "LetterSound::abort" << std::endl;
+    spdlog::get("file_logger")->debug("LetterSound::abort");
     if (sound) {
         sound->stop();
     }
@@ -101,7 +101,7 @@ void LetterSound::abort () {
 
 void LetterSound::operator() (Service& service) {
     
-    std::cout << "LetterSound::operator()" << std::endl;
+    spdlog::get("file_logger")->debug("LetterSound::operator()");
     
     if (background) {
         auto& window = service.getWindow();

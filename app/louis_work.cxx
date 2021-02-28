@@ -2,8 +2,10 @@
 #include <memory>
 #include <iostream>
 #include <argparse/argparse.hpp>
+#include <spdlog/spdlog.h>
 
 #include "game.h"
+#include "logging.h"
 #include "sound.h"
 #include "window.h"
 #include "polymorphic_value.h"
@@ -27,16 +29,21 @@ int main(int argc, char *argv[]) {
         exit(0);
     }
     
-    bool test_assets {false};
+    bool test_paths {false};
     
     if (program["-x"] == true) {
-        std::cout << "Using source tree assets" << std::endl;
-        test_assets = true;
+        std::cout << "Using local paths" << std::endl;
+        test_paths = true;
     }
+    
+    // Bring up the logger
+    startLogging(test_paths);
+    spdlog::get("file_logger")->info("Starting Louis' Work");
+    spdlog::set_level(spdlog::level::debug);
     
     Game my_game {std::make_unique<WindowAdapter>(),
                   make_polymorphic_value<SoundMakerBase, SoundMaker<>>(),
-                  test_assets};
+                  test_paths};
     my_game.EventLoop();
     
     return 0;

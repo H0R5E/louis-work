@@ -1,12 +1,13 @@
 
+#include <sstream>
+#include <spdlog/spdlog.h>
+
 #include "scene.h"
 #include "window.h"
 
-#include <iostream>
-
 void Scene::setActiveEvent ( const sf::Event& event, Service& service ) {
     
-    std::cout << "Scene::setActiveEvent(event)" << std::endl;
+    spdlog::get("file_logger")->debug("Scene::setActiveEvent (event)");
     
     draw_component->setActiveEvent(event, service);
     
@@ -19,7 +20,7 @@ void Scene::setActiveEvent ( const sf::Event& event, Service& service ) {
 
 void Scene::setActiveEvent ( Service& service ) {
     
-    std::cout << "Scene::setActiveEvent()" << std::endl;
+    spdlog::get("file_logger")->debug("Scene::setActiveEvent ()");
     
     draw_component->setActiveEvent(service);
     
@@ -32,7 +33,7 @@ void Scene::setActiveEvent ( Service& service ) {
 
 bool Scene::isCompleted () {
     
-    std::cout << "Scene::isCompleted()" << std::endl;
+    spdlog::get("file_logger")->debug("Scene::isCompleted");
     
     auto draw_completed = draw_component->isCompleted();
     bool sound_completed {true};
@@ -47,7 +48,7 @@ bool Scene::isCompleted () {
 
 void Scene::abort () {
     
-    std::cout << "Scene::abort" << std::endl;
+    spdlog::get("file_logger")->debug("Scene::abort");
     
     draw_component->abort();
     sound_component->abort();
@@ -56,7 +57,7 @@ void Scene::abort () {
 
 bool Scene::update () {
     
-    std::cout << "Scene::update" << std::endl;
+    spdlog::get("file_logger")->debug("Scene::update");
     
     bool update {false};
     
@@ -94,9 +95,9 @@ bool Scene::restartKey ( const sf::Event::KeyEvent& event ) {
     
 }
 
-void Scene::operator () ( Service& service ) {
+void Scene::operator() ( Service& service ) {
     
-    std::cout << "Scene::operator ()" << std::endl;
+    spdlog::get("file_logger")->debug("Scene::operator()");
     
     if (background) {
         auto& window = service.getWindow();

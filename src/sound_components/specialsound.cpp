@@ -1,12 +1,12 @@
 
 #include <cstring>
+#include <sstream>
+#include <spdlog/spdlog.h>
 
 #include "specialsound.h"
 #include "service.h"
 #include "voice.h"
 #include "window.h"
-
-#include <iostream>
 
 SpecialSound::SpecialSound (const SpecialSound& copy) :
             SoundComponent(copy) {
@@ -29,7 +29,9 @@ bool SpecialSound::update() {
     
     auto elapsed = clock.getElapsedTime();
     
-    std::cout << "elapsed: " << elapsed.asSeconds() << std::endl;
+    std::stringstream log_msg;
+    log_msg << "SpecialSound::update letters elapsed: " << elapsed.asSeconds();
+    spdlog::get("file_logger")->debug(log_msg.str());
     
     if (elapsed.asSeconds() < 0.5f) {
         return false;
@@ -44,7 +46,7 @@ bool SpecialSound::update() {
 
 bool SpecialSound::isCompleted() {
     
-    std::cout << "SpecialSound::isCompleted" << std::endl;
+    spdlog::get("file_logger")->debug("SpecialSound::isCompleted");
     
     if (aborted) {
         return true;
@@ -71,7 +73,7 @@ void SpecialSound::abort () {
 
 void SpecialSound::operator() (Service& service) {
     
-    std::cout << "SpecialSound::operator()" << std::endl;
+    spdlog::get("file_logger")->debug("SpecialSound::operator()");
     
     if (background) {
         auto& window = service.getWindow();

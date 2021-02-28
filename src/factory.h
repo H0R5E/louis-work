@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include <iostream>
 #include <memory>
 #include <variant>
 #include <vector>
@@ -70,7 +69,6 @@ public:
     SceneFactory (fPtrColor&& sceneFPtr) :
         force_scene(sceneFPtr) {}
     SceneFactory (const SceneFactory& copy) {
-        std::cout << "Copy" << std::endl;
         *this = copy;
     };
     SceneFactory (SceneFactory&& temp) = default;

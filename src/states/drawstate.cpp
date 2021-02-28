@@ -1,12 +1,12 @@
 
+#include <spdlog/spdlog.h>
+
 #include "drawstate.h"
 
 #include "service.h"
 #include "scene.h"
 #include "stateholder.h"
 #include "window.h"
-
-#include <iostream>
 
 State* DrawState::HandleKeyPressed (const sf::Event& event,
                                     polyComponentVector& scenes,
@@ -28,7 +28,7 @@ State* DrawState::HandleKeyReleased (const sf::Event& event,
                                      polyComponentVector& scenes,
                                      Service& service ) {
     
-    std::cout << "DrawState::HandleKeyReleased" << std::endl;
+    spdlog::get("file_logger")->debug("DrawState::HandleKeyReleased");
     
     auto& scene = *(scenes[0]);
     scene.setActiveEvent(service);
@@ -54,7 +54,7 @@ State* DrawState::HandleKeyReleased (const sf::Event& event,
 
 State* DrawState::Update (polyComponentVector& scenes, Service& service) {
     
-    std::cout << "DrawState::Update" << std::endl;
+    spdlog::get("file_logger")->debug("DrawState::Update");
     
     auto& scene = *(scenes[0]);
     

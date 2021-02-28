@@ -1,12 +1,12 @@
 
+#include <spdlog/spdlog.h>
+
 #include "waitstate.h"
 
 #include "scene.h"
 #include "service.h"
 #include "stateholder.h"
 #include "window.h"
-
-#include <iostream>
 
 State* WaitState::HandleKeyPressed (const sf::Event& event,
                                     polyComponentVector& scenes,
@@ -26,7 +26,7 @@ State* WaitState::HandleKeyPressed (const sf::Event& event,
 
 State* WaitState::Update (polyComponentVector& scenes, Service& service) {
     
-    std::cout << "WaitState::Update" << std::endl;
+    spdlog::get("file_logger")->debug("WaitState::Update");
     
     auto& scene = *(scenes[0]);
     

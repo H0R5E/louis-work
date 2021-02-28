@@ -1,9 +1,10 @@
 
+#include <sstream>
+#include <spdlog/spdlog.h>
+
 #include "singleletterdraw.h"
 #include "service.h"
 #include "window.h"
-
-#include <iostream>
 
 SingleLetterDraw::SingleLetterDraw (const SingleLetterDraw& copy) :
             DrawComponent(copy) {
@@ -36,7 +37,7 @@ bool SingleLetterDraw::update() {
 
 bool SingleLetterDraw::isCompleted () {
     
-    std::cout << "SingleLetterDraw::isCompleted" << std::endl;
+    spdlog::get("file_logger")->debug("SingleLetterDraw::isCompleted");
     
     if (aborted) {
         return true;
@@ -44,8 +45,11 @@ bool SingleLetterDraw::isCompleted () {
     
     auto elapsed = clock.getElapsedTime();
     
-    std::cout << "elapsed: " << elapsed.asSeconds() << std::endl;
-    
+    std::stringstream log_msg;
+    log_msg << "SingleLetterDraw::isCompleted time elapsed: " <<
+                                                        elapsed.asSeconds();
+    spdlog::get("file_logger")->debug(log_msg.str());
+
     if (elapsed.asSeconds() < 0.5f) {
         return false;
     }
@@ -79,7 +83,7 @@ bool SingleLetterDraw::restartService (const Service& service) {
 
 void SingleLetterDraw::operator() (Service& service) {
     
-    std::cout << "SingleLetterDraw::operator()" << std::endl;
+    spdlog::get("file_logger")->debug("SingleLetterDraw::operator()");
     
     if (background) {
         auto& window = service.getWindow();

@@ -1,17 +1,17 @@
 
+#include <spdlog/spdlog.h>
+
 #include "startstate.h"
 
 #include "service.h"
 #include "stateholder.h"
 #include "window.h"
 
-#include <iostream>
-
 State* StartState::HandleKeyPressed (const sf::Event& event,
                                      polyComponentVector& scenes,
                                      Service& service) {
     
-    std::cout << "StartState::HandleKeyPressed" << std::endl;
+    spdlog::get("file_logger")->debug("StartState::HandleKeyPressed");
     
     // Using Ctrl + C to exit
     if (event.key.control && event.key.code == sf::Keyboard::C) {
@@ -27,7 +27,7 @@ State* StartState::HandleTextEntered (const sf::Event& event,
                                       polyComponentVector& scenes,
                                       Service& service) {
     
-    std::cout << "StartState::HandleTextEntered" << std::endl;
+    spdlog::get("file_logger")->debug("StartState::HandleTextEntered");
     
     auto& scene = *(scenes[0]);
     scene.abort();
