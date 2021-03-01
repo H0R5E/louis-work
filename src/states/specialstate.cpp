@@ -28,7 +28,7 @@ State* SpecialState::HandleKeyPressed (const sf::Event& event,
 
 State* SpecialState::Update (polyComponentVector& scenes, Service& service) {
     
-    spdlog::get("file_logger")->debug("SpecialState::Update");
+    spdlog::get("main_logger")->debug("SpecialState::Update");
     
     auto& scene = *(scenes[0]);
     
@@ -48,12 +48,14 @@ State* SpecialState::Update (polyComponentVector& scenes, Service& service) {
 void SpecialState::Enter (polyComponentVector& scenes,
                           Service& service) {
     
-    spdlog::get("file_logger")->debug("SpecialState::Enter");
+    spdlog::get("main_logger")->debug("SpecialState::Enter");
     
     auto word = service.getWord();
     auto new_scene = service.makeSpecialScenePValue(word);
     scenes.push_back(std::move(new_scene));
     service.clearLetters();
+    
+    spdlog::get("main_logger")->info("Entering SpecialState");
     
     return;
     

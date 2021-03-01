@@ -28,7 +28,7 @@ State* DrawState::HandleKeyReleased (const sf::Event& event,
                                      polyComponentVector& scenes,
                                      Service& service ) {
     
-    spdlog::get("file_logger")->debug("DrawState::HandleKeyReleased");
+    spdlog::get("main_logger")->debug("DrawState::HandleKeyReleased");
     
     auto& scene = *(scenes[0]);
     scene.setActiveEvent(service);
@@ -54,7 +54,7 @@ State* DrawState::HandleKeyReleased (const sf::Event& event,
 
 State* DrawState::Update (polyComponentVector& scenes, Service& service) {
     
-    spdlog::get("file_logger")->debug("DrawState::Update");
+    spdlog::get("main_logger")->debug("DrawState::Update");
     
     auto& scene = *(scenes[0]);
     
@@ -64,4 +64,13 @@ State* DrawState::Update (polyComponentVector& scenes, Service& service) {
     }
     
     return nullptr;
+}
+
+void DrawState::Enter (polyComponentVector& scenes,
+                       Service& service) {
+    
+    spdlog::get("main_logger")->info("Entering DrawState");
+    
+    return;
+    
 }

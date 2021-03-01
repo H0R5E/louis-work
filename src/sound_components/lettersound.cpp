@@ -53,7 +53,7 @@ void LetterSound::setActiveEvent ( Service& service ) {
 
 bool LetterSound::update() {
     
-    spdlog::get("file_logger")->debug("LetterSound::update");
+    spdlog::get("main_logger")->debug("LetterSound::update");
     
     if (!buffer) {
         return false;
@@ -70,7 +70,7 @@ bool LetterSound::update() {
 
 bool LetterSound::isCompleted() {
     
-    spdlog::get("file_logger")->debug("LetterSound::isCompleted");
+    spdlog::get("main_logger")->debug("LetterSound::isCompleted");
     
     if (!sound) {
         return true;
@@ -93,7 +93,7 @@ bool LetterSound::isCompleted() {
 }
 
 void LetterSound::abort () {
-    spdlog::get("file_logger")->debug("LetterSound::abort");
+    spdlog::get("main_logger")->debug("LetterSound::abort");
     if (sound) {
         sound->stop();
     }
@@ -101,7 +101,7 @@ void LetterSound::abort () {
 
 void LetterSound::operator() (Service& service) {
     
-    spdlog::get("file_logger")->debug("LetterSound::operator()");
+    spdlog::get("main_logger")->debug("LetterSound::operator()");
     
     if (background) {
         auto& window = service.getWindow();

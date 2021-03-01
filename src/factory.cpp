@@ -1,4 +1,6 @@
 
+#include <spdlog/spdlog.h>
+
 #include "factory.h"
 #include "helpers.h"
 #include "scene.h"
@@ -15,6 +17,9 @@ polymorphic_value<Component> makeSpecial (Service& service,
                                           std::string_view word,
                                           const sf::Color& foreground,
                                           const sf::Color& background) {
+    
+    spdlog::get("main_logger")->info("Creating Special scene");
+    
     return make_polymorphic_value<Component, Scene>(
             service,
             make_polymorphic_value<DrawComponent,
@@ -30,6 +35,9 @@ polymorphic_value<Component> makeSingleLetterSiren (
                                                 Service& service,
                                                 const sf::Color& foreground,
                                                 const sf::Color& background) {
+    
+    spdlog::get("main_logger")->info("Creating SingleLetterSiren scene");
+    
     return make_polymorphic_value<Component, Scene>(
             service,
             make_polymorphic_value<DrawComponent,
@@ -43,6 +51,9 @@ polymorphic_value<Component> makeSingleLetterSpoken (
                                                 Service& service,
                                                 const sf::Color& foreground,
                                                 const sf::Color& background) {
+    
+    spdlog::get("main_logger")->info("Creating SingleLetterSpoken scene");
+    
     return make_polymorphic_value<Component, Scene>(
             service,
             make_polymorphic_value<DrawComponent,
@@ -55,6 +66,9 @@ polymorphic_value<Component> makeTypeWriterSpoken (
                                                 Service& service,
                                                 const sf::Color& foreground,
                                                 const sf::Color& background) {
+    
+    spdlog::get("main_logger")->info("Creating TypeWriterSpoken scene");
+    
     return make_polymorphic_value<Component, Scene>(
             service,
             make_polymorphic_value<DrawComponent,

@@ -37,7 +37,7 @@ bool SingleLetterDraw::update() {
 
 bool SingleLetterDraw::isCompleted () {
     
-    spdlog::get("file_logger")->debug("SingleLetterDraw::isCompleted");
+    spdlog::get("main_logger")->debug("SingleLetterDraw::isCompleted");
     
     if (aborted) {
         return true;
@@ -48,7 +48,7 @@ bool SingleLetterDraw::isCompleted () {
     std::stringstream log_msg;
     log_msg << "SingleLetterDraw::isCompleted time elapsed: " <<
                                                         elapsed.asSeconds();
-    spdlog::get("file_logger")->debug(log_msg.str());
+    spdlog::get("main_logger")->debug(log_msg.str());
 
     if (elapsed.asSeconds() < 0.5f) {
         return false;
@@ -83,7 +83,7 @@ bool SingleLetterDraw::restartService (const Service& service) {
 
 void SingleLetterDraw::operator() (Service& service) {
     
-    spdlog::get("file_logger")->debug("SingleLetterDraw::operator()");
+    spdlog::get("main_logger")->debug("SingleLetterDraw::operator()");
     
     if (background) {
         auto& window = service.getWindow();

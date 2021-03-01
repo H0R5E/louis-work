@@ -26,7 +26,7 @@ State* WaitState::HandleKeyPressed (const sf::Event& event,
 
 State* WaitState::Update (polyComponentVector& scenes, Service& service) {
     
-    spdlog::get("file_logger")->debug("WaitState::Update");
+    spdlog::get("main_logger")->debug("WaitState::Update");
     
     auto& scene = *(scenes[0]);
     
@@ -51,5 +51,14 @@ State* WaitState::Update (polyComponentVector& scenes, Service& service) {
     }
     
     return nullptr;
+    
+}
+
+void WaitState::Enter (polyComponentVector& scenes,
+                       Service& service) {
+    
+    spdlog::get("main_logger")->info("Entering WaitState");
+    
+    return;
     
 }

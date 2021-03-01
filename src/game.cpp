@@ -1,10 +1,11 @@
 
-#include "game.h"
-#include "stateholder.h"
-
 #include <assert.h> 
 #include <sstream>
 #include <stdexcept>
+#include <spdlog/spdlog.h>
+
+#include "game.h"
+#include "stateholder.h"
 
 Game::Game(std::unique_ptr<Window>&& window,
            polymorphic_value<SoundMakerBase>&& sound_maker,
@@ -291,7 +292,13 @@ const std::optional<int> Game::getMaxSpecialLength() const {
 }
 
 void Game::storeLetter(const char letter) {
+    
+    std::stringstream log_msg;
+    log_msg << "Storing letter: " << letter;
+    spdlog::get("main_logger")->info(log_msg.str());
+    
     letter_store.push_back(letter);
+    
 }
 
 const std::string Game::getWord () const {

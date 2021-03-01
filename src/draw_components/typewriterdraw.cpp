@@ -13,7 +13,7 @@ TypeWriterDraw::TypeWriterDraw (const TypeWriterDraw& copy) :
 
 void TypeWriterDraw::init ( Service& service ) {
     
-    spdlog::get("file_logger")->debug("TypeWriterDraw::init");
+    spdlog::get("main_logger")->debug("TypeWriterDraw::init");
     auto& letter_font = service.getFont("JetBrainsMono-Light");
     text.setFont(letter_font);
     text.setCharacterSize(120); // in pixels, not points!
@@ -43,7 +43,7 @@ void TypeWriterDraw::init_copy ( const TypeWriterDraw& copy ) {
 void TypeWriterDraw::setActiveEvent (const sf::Event& event,
                                      Service& service) {
     
-    spdlog::get("file_logger")->debug("TypeWriterDraw::setActiveEvent");
+    spdlog::get("main_logger")->debug("TypeWriterDraw::setActiveEvent");
     auto convert = static_cast<char>(event.text.unicode);
     active_letter = std::make_unique<char>(convert);
     force_draw = true;
@@ -56,7 +56,7 @@ void TypeWriterDraw::setActiveEvent(Service& service) {
 
 bool TypeWriterDraw::update() {
     
-    spdlog::get("file_logger")->debug("TypeWriterDraw::update");
+    spdlog::get("main_logger")->debug("TypeWriterDraw::update");
     
     // no active letter
     if (!active_letter) {
@@ -114,7 +114,7 @@ bool TypeWriterDraw::restartKey ( const sf::Event::KeyEvent& event ) {
 
 void TypeWriterDraw::operator() ( Service& service ) {
     
-    spdlog::get("file_logger")->debug("TypeWriterDraw::operator()");
+    spdlog::get("main_logger")->debug("TypeWriterDraw::operator()");
     
     if (background) {
         auto& window = service.getWindow();
@@ -124,7 +124,7 @@ void TypeWriterDraw::operator() ( Service& service ) {
     std::stringstream log_msg;
     log_msg << "TypeWriterDraw::operator() letters drawn: " <<
                                                         draw_letters.size();
-    spdlog::get("file_logger")->debug(log_msg.str());
+    spdlog::get("main_logger")->debug(log_msg.str());
     
     if (draw_letters.size() == 0) {
         return;
@@ -153,13 +153,13 @@ void TypeWriterDraw::operator() ( Service& service ) {
     log_msg.str("");
     log_msg << "TypeWriterDraw::operator() drawing: " <<
                                     static_cast<std::string>(text.getString());
-    spdlog::get("file_logger")->debug(log_msg.str());
+    spdlog::get("main_logger")->debug(log_msg.str());
     
 }
 
 void TypeWriterDraw::add_letter(const char& letter) {
     
-    spdlog::get("file_logger")->debug("TypeWriterDraw::add_letter");
+    spdlog::get("main_logger")->debug("TypeWriterDraw::add_letter");
     
     auto width = sf::VideoMode::getDesktopMode().width;
     
