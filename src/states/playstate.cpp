@@ -23,6 +23,7 @@ State* PlayState::HandleKeyPressed (const sf::Event& event,
     auto& scene = *(scenes[0]);
     
     if (scene.restartKey(event.key)) {
+        scene.abort();
         return &StateHolder::special;
     }
     

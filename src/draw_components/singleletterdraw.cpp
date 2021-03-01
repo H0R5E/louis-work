@@ -62,6 +62,16 @@ void SingleLetterDraw::abort () {
     aborted = true;
 }
 
+bool SingleLetterDraw::restartKey ( const sf::Event::KeyEvent& event ) {
+    
+    if (event.code == sf::Keyboard::Return) {
+        return true;
+    }
+    
+    return false;
+    
+}
+
 bool SingleLetterDraw::restartService (const Service& service) {
     
     auto max_length = service.getMaxSpecialLength();
