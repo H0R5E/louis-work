@@ -35,10 +35,7 @@ State* WaitState::Update (polyComponentVector& scenes, Service& service) {
         if (service.triggerSpecial()) {
             return &StateHolder::special;
         } else if (scene.restartService(service)) {
-            auto new_scene = service.makeScenePValue();
-            scenes.push_back(std::move(new_scene));
-            service.clearLetters();
-            return &StateHolder::play;
+            return &StateHolder::restart;
         } else {
             return &StateHolder::play;
         }

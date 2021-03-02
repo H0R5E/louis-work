@@ -17,7 +17,7 @@ fs::path joinPaths (T in, Args... args) {
 }
 
 template<typename T>
-const T getRandomSample(const std::vector<T>& in) {
+T getRandomSample(const std::vector<T>& in) {
     
     std::vector<T> out;
     size_t nelems = 1;

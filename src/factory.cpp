@@ -79,7 +79,14 @@ polymorphic_value<Component> makeTypeWriterSpoken (
 
 polymorphic_value<Component> SceneFactory::makeScene (Service& service) {
     
-    const auto& color_pair = getRandomSample(colorCombos);
+    auto color_pair = getRandomSample(colorCombos);
+    
+    if (lastColors) {
+        while (*lastColors == color_pair) {
+            color_pair = getRandomSample(colorCombos);
+        }
+    }
+    
     lastColors = std::make_unique<colorPair>(color_pair);
     
     switch (force_scene.index()) {
