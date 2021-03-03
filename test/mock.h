@@ -5,6 +5,7 @@
 #include <memory>
 #include <queue>
 #include <thread>
+#include <spdlog/spdlog.h>
 
 #include "game.h"
 #include "singleletterdraw.h"
@@ -113,7 +114,11 @@ public:
             eventQueue.pop();
             isPolled = false;
         };
-        std::cout << "eventQueue.size(): " << eventQueue.size() << std::endl;
+        
+        std::stringstream log_msg;
+        log_msg << "eventQueue.size(): " << eventQueue.size();
+        spdlog::info(log_msg.str());
+        
         if (isClosed || eventQueue.size() == 0) {
             return false;
         } else {

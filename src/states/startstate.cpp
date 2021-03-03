@@ -11,7 +11,7 @@ State* StartState::HandleKeyPressed (const sf::Event& event,
                                      polyComponentVector& scenes,
                                      Service& service) {
     
-    spdlog::get("main_logger")->debug("StartState::HandleKeyPressed");
+    spdlog::debug("StartState::HandleKeyPressed");
     
     // Using Ctrl + C to exit
     if (event.key.control && event.key.code == sf::Keyboard::C) {
@@ -27,7 +27,7 @@ State* StartState::HandleTextEntered (const sf::Event& event,
                                       polyComponentVector& scenes,
                                       Service& service) {
     
-    spdlog::get("main_logger")->debug("StartState::HandleTextEntered");
+    spdlog::debug("StartState::HandleTextEntered");
     
     auto& scene = *(scenes[0]);
     scene.abort();
@@ -99,7 +99,7 @@ void StartState::Enter (polyComponentVector& scenes,
     window.draw(text);
     window.display();
     
-    spdlog::get("main_logger")->info("Entering StartState");
+    spdlog::info("Entering StartState");
     
     return;
     

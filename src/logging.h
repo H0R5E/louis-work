@@ -5,14 +5,14 @@
 #include <stdexcept>
 #include <string_view>
 #include <spdlog/sinks/basic_file_sink.h>
-#include "spdlog/sinks/stdout_color_sinks.h"
+#include <spdlog/sinks/stdout_color_sinks.h>
 
 #include "helpers.h"
 #include "pathconfig.h"
 
-void startLogging (const bool& test=false,
-                   const bool& console=false,
-                   const bool& console_debug=false) {
+void setupDefaultLogger (const bool& test=false,
+                         const bool& console=false,
+                         const bool& console_debug=false) {
     
     std::string_view log_dir; 
     std::string_view release_dir {LOGS_DIR_RELEASE};
@@ -55,6 +55,6 @@ void startLogging (const bool& test=false,
                                                             begin(sinks),
                                                             end(sinks));
     combined_logger->set_level(spdlog::level::debug);
-    spdlog::register_logger(combined_logger);
+    spdlog::set_default_logger(combined_logger);
     
 }

@@ -295,7 +295,7 @@ void Game::storeLetter(const char letter) {
     
     std::stringstream log_msg;
     log_msg << "Storing letter: " << letter;
-    spdlog::get("main_logger")->info(log_msg.str());
+    spdlog::info(log_msg.str());
     
     letter_store.push_back(letter);
     

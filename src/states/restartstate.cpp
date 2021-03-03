@@ -26,7 +26,7 @@ State* RestartState::HandleKeyPressed (const sf::Event& event,
 
 State* RestartState::Update (polyComponentVector& scenes, Service& service) {
     
-    spdlog::get("main_logger")->debug("RestartState::Update");
+    spdlog::debug("RestartState::Update");
     
     auto& scene = *(scenes[0]);
     
@@ -44,7 +44,7 @@ State* RestartState::Update (polyComponentVector& scenes, Service& service) {
 void RestartState::Enter (polyComponentVector& scenes,
                           Service& service) {
     
-    spdlog::get("main_logger")->info("Entering RestartState");
+    spdlog::info("Entering RestartState");
     
     return;
     

@@ -18,7 +18,7 @@ polymorphic_value<Component> makeSpecial (Service& service,
                                           const sf::Color& foreground,
                                           const sf::Color& background) {
     
-    spdlog::get("main_logger")->info("Creating Special scene");
+    spdlog::info("Creating Special scene");
     
     return make_polymorphic_value<Component, Scene>(
             service,
@@ -36,7 +36,7 @@ polymorphic_value<Component> makeSingleLetterSiren (
                                                 const sf::Color& foreground,
                                                 const sf::Color& background) {
     
-    spdlog::get("main_logger")->info("Creating SingleLetterSiren scene");
+    spdlog::info("Creating SingleLetterSiren scene");
     
     return make_polymorphic_value<Component, Scene>(
             service,
@@ -52,7 +52,7 @@ polymorphic_value<Component> makeSingleLetterSpoken (
                                                 const sf::Color& foreground,
                                                 const sf::Color& background) {
     
-    spdlog::get("main_logger")->info("Creating SingleLetterSpoken scene");
+    spdlog::info("Creating SingleLetterSpoken scene");
     
     return make_polymorphic_value<Component, Scene>(
             service,
@@ -67,7 +67,7 @@ polymorphic_value<Component> makeTypeWriterSpoken (
                                                 const sf::Color& foreground,
                                                 const sf::Color& background) {
     
-    spdlog::get("main_logger")->info("Creating TypeWriterSpoken scene");
+    spdlog::info("Creating TypeWriterSpoken scene");
     
     return make_polymorphic_value<Component, Scene>(
             service,

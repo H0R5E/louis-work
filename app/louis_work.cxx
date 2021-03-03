@@ -58,8 +58,8 @@ int main(int argc, char *argv[]) {
     }
     
     // Bring up the logger
-    startLogging(test_paths, console_log, console_debug);
-    spdlog::get("main_logger")->info("Starting Louis' Work");
+    setupDefaultLogger(test_paths, console_log, console_debug);
+    spdlog::info("Starting Louis' Work");
     
     Game my_game {std::make_unique<WindowAdapter>(),
                   make_polymorphic_value<SoundMakerBase, SoundMaker<>>(),

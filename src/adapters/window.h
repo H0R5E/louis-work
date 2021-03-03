@@ -25,21 +25,21 @@ public:
                        sf::Style::Fullscreen) {}
     void close () override {
         sf::RenderWindow::close();
-    };
+    }
     bool isOpen () override {
         return sf::RenderWindow::isOpen();
-    };
+    }
     bool pollEvent (sf::Event &event) override {
         return sf::RenderWindow::pollEvent(event);
-    };
+    }
     void clear (const sf::Color &color=sf::Color(0, 0, 0, 255)) override {
-        spdlog::get("main_logger")->debug("Window::clear");
+        spdlog::debug("Window::clear");
         sf::RenderWindow::clear(color);
-    };
+    }
     void draw (const sf::Drawable &drawable) override {
         sf::RenderWindow::draw(drawable);
-    };
+    }
     void display () override {
         sf::RenderWindow::display();
-    };
+    }
 };

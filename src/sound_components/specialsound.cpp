@@ -31,7 +31,7 @@ bool SpecialSound::update() {
     
     std::stringstream log_msg;
     log_msg << "SpecialSound::update letters elapsed: " << elapsed.asSeconds();
-    spdlog::get("main_logger")->debug(log_msg.str());
+    spdlog::debug(log_msg.str());
     
     if (elapsed.asSeconds() < 0.5f) {
         return false;
@@ -46,7 +46,7 @@ bool SpecialSound::update() {
 
 bool SpecialSound::isCompleted() {
     
-    spdlog::get("main_logger")->debug("SpecialSound::isCompleted");
+    spdlog::debug("SpecialSound::isCompleted");
     
     if (aborted) {
         return true;
@@ -73,7 +73,7 @@ void SpecialSound::abort () {
 
 void SpecialSound::operator() (Service& service) {
     
-    spdlog::get("main_logger")->debug("SpecialSound::operator()");
+    spdlog::debug("SpecialSound::operator()");
     
     if (background) {
         auto& window = service.getWindow();

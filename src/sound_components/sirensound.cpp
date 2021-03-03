@@ -8,7 +8,7 @@
 
 
 void SirenSound::init (Service& service) {
-    spdlog::get("main_logger")->debug("SirenSound::init");
+    spdlog::debug("SirenSound::init");
     auto& sound_buffer = service.getSoundBuffer("Alarm_or_siren");
     sound = service.makeSoundPValue();
     sound->setBuffer(sound_buffer);
@@ -23,13 +23,13 @@ void SirenSound::setActiveEvent ( Service& service ) {
 }
 
 bool SirenSound::update() {
-    spdlog::get("main_logger")->debug("SirenSound::update");
+    spdlog::debug("SirenSound::update");
     return should_replay;
 }
 
 bool SirenSound::isCompleted() {
     
-    spdlog::get("main_logger")->debug("SirenSound::isCompleted");
+    spdlog::debug("SirenSound::isCompleted");
     
     auto elapsed = clock.getElapsedTime();
     
@@ -42,13 +42,13 @@ bool SirenSound::isCompleted() {
 }
 
 void SirenSound::abort () {
-    spdlog::get("main_logger")->debug("SirenSound::abort");
+    spdlog::debug("SirenSound::abort");
     aborted = true;
 }
 
 void SirenSound::operator() (Service& service) {
     
-    spdlog::get("main_logger")->debug("SirenSound::operator()");
+    spdlog::debug("SirenSound::operator()");
     
     if (background) {
         auto& window = service.getWindow();
