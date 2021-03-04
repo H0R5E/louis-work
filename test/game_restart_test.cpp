@@ -79,6 +79,7 @@ TEST_F (GameRestartTest, WaitStateRestart) {
     eventQueue.push(simulateTextEntered(10));
     eventQueue.push(simulateKeyReleased());
     eventQueue.push(simulateKeyReleased(1));
+    eventQueue.push(simulateKeyReleased());
     auto& window = dynamic_cast<MockWindow&>(another_game.getWindow());
     window.setEventQueue(eventQueue);
     another_game.EventLoop();
