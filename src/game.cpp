@@ -93,8 +93,10 @@ void Game::initResources (const bool& test_assets) {
         font_holder = ResourceHolder<sf::Font>(true);
         buffer_holder = ResourceHolder<sf::SoundBuffer>(true);
     } else {
+         // GCOVR_EXCL_START
          font_holder = ResourceHolder<sf::Font>();
          buffer_holder = ResourceHolder<sf::SoundBuffer>();
+         // GCOVR_EXCL_STOP
     }
     
     font_holder.Load("Monofett-Regular");

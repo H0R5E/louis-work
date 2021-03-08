@@ -53,3 +53,25 @@ TEST (SingleLetterDraw, restartService) {
     ASSERT_TRUE(test.restartService(service));
     
 }
+
+TEST (SingleLetterDraw, restartKeyTrue) { 
+    
+    MockService service {};
+    std::unique_ptr<sf::Color> color {
+                            std::make_unique<sf::Color>(sf::Color::Black)};
+    SingleLetterDraw test {service, sf::Color::Yellow, std::move(color)};
+    
+    ASSERT_TRUE(test.restartKey(simulateReturn().key));
+    
+}
+
+TEST (SingleLetterDraw, restartKeyFalse) { 
+    
+    MockService service {};
+    std::unique_ptr<sf::Color> color {
+                            std::make_unique<sf::Color>(sf::Color::Black)};
+    SingleLetterDraw test {service, sf::Color::Yellow, std::move(color)};
+    
+    ASSERT_FALSE(test.restartKey(simulateOtherPress().key));
+    
+}
