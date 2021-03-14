@@ -1,7 +1,12 @@
 
-#include <memory>
+#include <filesystem>
+#include <fstream>
 #include <iostream>
+#include <memory>
+#include <signal.h>
+#include <sstream>
 #include <argparse/argparse.hpp>
+#include <boost/stacktrace.hpp>
 #include <spdlog/spdlog.h>
 
 #include "game.h"
@@ -12,7 +17,16 @@
 
 using namespace isocpp_p0201;
 
+void my_signal_handler(int signum) {
+    ::signal(signum, SIG_DFL);
+    boost::stacktrace::safe_dump_to("./backtrace.dump");
+    ::raise(SIGABRT);
+}
+
 int main(int argc, char *argv[]) {
+    
+    ::signal(SIGSEGV, &my_signal_handler);
+    ::signal(SIGABRT, &my_signal_handler);
     
     argparse::ArgumentParser program("louis");
     
@@ -59,6 +73,22 @@ int main(int argc, char *argv[]) {
     
     // Bring up the logger
     setupDefaultLogger(test_paths, console_log, console_debug);
+    
+    if (std::filesystem::exists("./backtrace.dump")) {
+        
+        std::ifstream ifs("./backtrace.dump");
+        std::stringstream ss;
+        
+        boost::stacktrace::stacktrace st =
+                            boost::stacktrace::stacktrace::from_dump(ifs);
+        ss << "Previous run crashed:\n" << st << std::endl;
+        spdlog::error(ss.str());
+        
+        ifs.close();
+        std::filesystem::remove("./backtrace.dump");
+        
+    }
+    
     spdlog::info("Starting Louis' Work");
     
     Game my_game {std::make_unique<WindowAdapter>(),

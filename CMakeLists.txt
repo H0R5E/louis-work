@@ -32,8 +32,15 @@ else ()
 endif ()
 
 # debug compiler flags
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -ldl")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall -ldl")
+
+# boost_stacktrace
+if (UNIX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ldl")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ldl")
+    add_definitions(-DBOOST_STACKTRACE_USE_ADDR2LINE)
+endif ()
 
 # build output structure
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
