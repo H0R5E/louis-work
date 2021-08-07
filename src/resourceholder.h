@@ -20,6 +20,14 @@ public:
             assetDir = joinPaths(ASSETS_DIR_RELEASE, "assets");
         }
     }
+    ResourceHolder<Resource> (const std::string_view subdir,
+                              const bool& test=false) {
+        if (test) {
+            assetDir = joinPaths(ASSETS_DIR_TEST, subdir);
+        } else {
+            assetDir = joinPaths(ASSETS_DIR_RELEASE, "assets", subdir);
+        }
+    }
     ResourceHolder<Resource> (const ResourceHolder<Resource>& copy) {
         *this = copy;
     }

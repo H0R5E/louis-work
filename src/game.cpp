@@ -90,12 +90,12 @@ Game::Game (std::unique_ptr<Window>&& window,
 void Game::initResources (const bool& test_assets) {
     
     if (test_assets) {
-        font_holder = ResourceHolder<sf::Font>(true);
-        buffer_holder = ResourceHolder<sf::SoundBuffer>(true);
+        font_holder = ResourceHolder<sf::Font>("fonts", true);
+        buffer_holder = ResourceHolder<sf::SoundBuffer>("sounds", true);
     } else {
          // GCOVR_EXCL_START
-         font_holder = ResourceHolder<sf::Font>();
-         buffer_holder = ResourceHolder<sf::SoundBuffer>();
+         font_holder = ResourceHolder<sf::Font>("fonts");
+         buffer_holder = ResourceHolder<sf::SoundBuffer>("sounds");
          // GCOVR_EXCL_STOP
     }
     
