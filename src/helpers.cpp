@@ -8,14 +8,21 @@ fs::path FindAsset (std::string_view name, std::string_view assetDir) {
     
     fs::path dir (assetDir);
     fs::path file (name);
-    fs::path search_path = dir / file;
     
-    for (const auto & entry : fs::directory_iterator(dir)) {
+    for (const auto & entry : fs::recursive_directory_iterator(dir)) {
+        
         auto check_path = entry.path();
+        
+        if (fs::is_directory(check_path)) {
+            continue;
+        }
+        
         check_path.replace_extension();
-        if (check_path == search_path) {
+        
+        if (check_path.filename() == file) {
             return entry.path();
         }
+        
     }
     
     throw std::runtime_error("Asset not found");
