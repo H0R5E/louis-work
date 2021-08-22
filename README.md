@@ -1,5 +1,19 @@
 # louis-work
 
+## Introduction
+
+Louis-work is a letters game I created for my son as an exercise in learning
+modern C++ (>= C++17).
+
+It utilises the [eSpeak NG](https://github.com/espeak-ng/espeak-ng) speech
+synthesizer (cool), [polymorphic_value](https://github.com/jbcoe/polymorphic_value)
+for a polymorphic value-type (life-saver) and [conan](https://conan.io/) for
+package management (super-easy).
+
+## Installation
+
+Instructions to follow soon.
+
 ## License
 
 Copyright (C) 2021  Mathew Topper
