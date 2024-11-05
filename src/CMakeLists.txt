@@ -20,13 +20,12 @@ target_sources(component INTERFACE component.h)
 target_include_directories(component INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(component INTERFACE polymorphic_value
                                           service
-                                          sound
-                                          ${CONAN_LIBS})
+                                          sound)
 
 add_library(logging INTERFACE) 
 target_sources(logging INTERFACE logging.h)
 target_include_directories(logging INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(logging INTERFACE helpers ${CONAN_LIBS})
+target_link_libraries(logging INTERFACE helpers)
 
 add_library(resource INTERFACE)
 target_sources(resource INTERFACE resourceholder.h)
@@ -38,17 +37,16 @@ target_sources(service INTERFACE service.h)
 target_include_directories(service INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(service INTERFACE polymorphic_value
                                         sound
-                                        window
-                                        ${CONAN_LIBS})
+                                        window)
 
 add_library(state INTERFACE)
 target_sources(state INTERFACE state.h)
 target_include_directories(state INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(state INTERFACE ${CONAN_LIBS})
+target_link_libraries(state INTERFACE)
 
 add_library(helpers helpers.cpp helpers.h)
 target_include_directories(helpers PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(helpers PRIVATE ${CONAN_LIBS})
+target_link_libraries(helpers PRIVATE sfml::sfml)
 
 add_library(factory factory.cpp factory.h)
 target_include_directories(factory PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -63,8 +61,7 @@ add_library(scene scene.cpp scene.h)
 target_include_directories(scene PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(scene PRIVATE component
                                     polymorphic_value
-                                    service
-                                    ${CONAN_LIBS})
+                                    service)
 
 add_library(stateholder stateholder.cpp stateholder.h)
 target_include_directories(stateholder PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -72,7 +69,7 @@ target_link_libraries(stateholder PUBLIC gamestates sound PRIVATE state)
 
 add_library(voice voice.cpp voice.h)
 target_include_directories(voice PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(voice PUBLIC libespeak-ng PRIVATE ${CONAN_LIBS})
+target_link_libraries(voice PUBLIC libespeak-ng PRIVATE)
 
 add_library(game game.cpp game.h)
 target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -84,8 +81,7 @@ target_link_libraries(game factory
                            sound
                            state
                            stateholder
-                           window
-                           ${CONAN_LIBS})
+                           window)
 
 add_subdirectory(adapters)
 add_subdirectory(draw_components)

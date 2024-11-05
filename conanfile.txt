@@ -1,21 +1,9 @@
 [requires]
 argparse/2.1
-boost_stacktrace/1.69.0@bincrafters/stable
 gtest/1.10.0
-sfml/2.5.1@bincrafters/stable
+sfml/2.5.1
 spdlog/[>=1.4.1]
 
-[options]
-sfml:shared=True
-sfml:graphics=True
-sfml:window=True
-sfml:audio=True
-sfml:network=False
-
 [generators]
-cmake
-
-[imports]
- bin, *.dll -> ./bin
- lib, *.dylib* -> ./lib
- lib, *.so* -> ./lib
+CMakeDeps
+CMakeToolchain

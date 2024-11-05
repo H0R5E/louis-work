@@ -26,46 +26,58 @@ if (CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 # espeak
-SET(ESPEAKNG_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/espeak-ng)
-option(ESPEAKNG_BUILD "Build espeak-ng" ON)
+SET(VENDOR_PREFIX ${CMAKE_CURRENT_SOURCE_DIR})
+option(ESPEAKNG_BUILD "Build espeak-ng" OFF)
 
 if (ESPEAKNG_BUILD)
     
-    # prep
-    if (WIN32)
-        message (FATAL_ERROR "Windows not yet supported")
-    else()
-        ExternalProject_Add(espeak-ng
-        GIT_REPOSITORY "git://github.com/espeak-ng/espeak-ng"
-        GIT_TAG "master"
-        CONFIGURE_COMMAND ./autogen.sh
-        COMMAND ./configure --prefix=${ESPEAKNG_PREFIX}
-        PREFIX ${ESPEAKNG_PREFIX}
-        BUILD_COMMAND make
-        BUILD_IN_SOURCE 1
-        BUILD_BYPRODUCTS ${ESPEAKNG_PREFIX}/lib/libespeak-ng.so
-        INSTALL_COMMAND make LIBDIR=${ESPEAKNG_PREFIX}/lib install)
-    endif()
+    add_library(libespeak-ng INTERFACE)
     
-    # trigger build
-    add_dependencies(voice espeak-ng)
+    if (WIN32)
+        ExternalProject_Add(
+            libespeak-ng-win
+            DOWNLOAD_COMMAND git clone "https://github.com/espeak-ng/espeak-ng" ${VENDOR_PREFIX}/espeak-ng
+                COMMAND git clone "https://github.com/espeak-ng/pcaudiolib" ${VENDOR_PREFIX}/espeak-ng/src/pcaudiolib
+            CONFIGURE_COMMAND ""
+            BUILD_COMMAND msbuild ${VENDOR_PREFIX}/espeak-ng/src/windows/libespeak-ng.vcxproj /p:PlatformToolset=v142 /p:Platform=x64 /p:Configuration=Release
+            BUILD_BYPRODUCTS ${VENDOR_PREFIX}/src/windows/x64/Release/libespeak-ng.dll
+            INSTALL_COMMAND ""
+            BUILD_IN_SOURCE 1
+        )
+        target_link_libraries(libespeak-ng INTERFACE
+                              ${VENDOR_PREFIX}/src/windows/x64/Release/libespeak-ng.dll)
+        add_dependencies(voice libespeak-ng-win)
+    else()
+        ExternalProject_Add(
+            libespeak-ng-nix
+            GIT_REPOSITORY "https://github.com/espeak-ng/espeak-ng"
+            GIT_TAG "master"
+            PREFIX ${VENDOR_PREFIX}
+            CONFIGURE_COMMAND ./autogen.sh
+            COMMAND ./configure --prefix=${VENDOR_PREFIX}
+            BUILD_COMMAND make
+            BUILD_IN_SOURCE 1
+            BUILD_BYPRODUCTS ${VENDOR_PREFIX}/lib/libespeak-ng.so
+            INSTALL_COMMAND make LIBDIR=${VENDOR_PREFIX}/lib install
+        )
+        target_link_libraries(libespeak-ng INTERFACE
+                              ${VENDOR_PREFIX}/lib/libespeak-ng.so)
+        add_dependencies(voice espeak-ng-nix)
+    endif()
     
 endif()
 
 # link and include
-add_library(libespeak-ng INTERFACE)
-target_link_libraries(libespeak-ng INTERFACE
-                      ${ESPEAKNG_PREFIX}/lib/libespeak-ng.so)
 target_include_directories(libespeak-ng INTERFACE
-                           ${ESPEAKNG_PREFIX}/include/espeak-ng)
+                           ${VENDOR_PREFIX}/include/espeak-ng)
 
 # install
 if (INSTALL3RDPARTY)
     if (UNIX)
         set(espeak_libs
-            "${ESPEAKNG_PREFIX}/lib/libespeak-ng.so"
-            "${ESPEAKNG_PREFIX}/lib/libespeak-ng.so.1"
-            "${ESPEAKNG_PREFIX}/lib/libespeak-ng.so.1.1.51"
+            "${VENDOR_PREFIX}/lib/libespeak-ng.so"
+            "${VENDOR_PREFIX}/lib/libespeak-ng.so.1"
+            "${VENDOR_PREFIX}/lib/libespeak-ng.so.1.1.51"
         )
     endif ()
     message(STATUS "espeak libs: ${espeak_libs}")
@@ -74,8 +86,8 @@ endif()
 
 # polymorphic_value
 FetchContent_Declare(polymorphic_value
-    GIT_REPOSITORY "git://github.com/jbcoe/polymorphic_value"
-    GIT_TAG "master")
+    GIT_REPOSITORY "https://github.com/jbcoe/polymorphic_value"
+    GIT_TAG "main")
 
 FetchContent_MakeAvailable(polymorphic_value)
 target_include_directories(polymorphic_value INTERFACE

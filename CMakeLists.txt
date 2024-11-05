@@ -26,9 +26,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # conan
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup(NO_OUTPUT_DIRS KEEP_RPATHS)
-LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+find_package(spdlog REQUIRED)
+find_package(sfml REQUIRED)
 
 # testing
 include(GoogleTest)
@@ -40,7 +39,7 @@ option(GCOV "Check code coverage" OFF)
 
 # install options
 set(CMAKE_SKIP_INSTALL_ALL_DEPENDENCY TRUE)
-option(INSTALL3RDPARTY "Install 3rd party libraries" ON)
+option(INSTALL3RDPARTY "Install 3rd party libraries" OFF)
 
 if (WIN32)
     SET(INTALL3RDPARTY_PATH "bin")
@@ -143,8 +142,7 @@ add_executable(tests ${test_SRC})
 target_link_libraries(tests
                       game
                       drawcomponents
-                      soundcomponents
-                      ${CONAN_LIBS})
+                      soundcomponents)
 
 gtest_discover_tests(tests)
 

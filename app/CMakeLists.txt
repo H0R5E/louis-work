@@ -24,7 +24,8 @@ target_link_libraries(louis
                       polymorphic_value
                       sound
                       soundcomponents
-                      window)
+                      window
+                      spdlog::spdlog)
 
 if (UNIX)
     install(TARGETS louis DESTINATION bin)
