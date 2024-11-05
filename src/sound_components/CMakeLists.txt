@@ -21,11 +21,11 @@ target_link_libraries(sirensound component service)
 
 add_library(specialsound specialsound.cpp specialsound.h)
 target_include_directories(specialsound PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(specialsound component service voice)
+target_link_libraries(specialsound PUBLIC component service PRIVATE voice)
 
 add_library(lettersound lettersound.cpp lettersound.h)
 target_include_directories(lettersound PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(lettersound component service voice)
+target_link_libraries(lettersound PUBLIC component service PRIVATE voice)
 
 add_library(soundcomponents INTERFACE)
 target_link_libraries(soundcomponents INTERFACE sirensound

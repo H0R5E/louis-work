@@ -101,7 +101,7 @@ void SpecialSound::operator() (Service& service) {
         return;
     }
     
-    Voice voice {};
+    MyVoice voice {};
     
     std::string out {word};
     

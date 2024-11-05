@@ -27,7 +27,7 @@ endif()
 
 # espeak
 SET(VENDOR_PREFIX ${CMAKE_CURRENT_SOURCE_DIR})
-option(ESPEAKNG_BUILD "Build espeak-ng" OFF)
+option(ESPEAKNG_BUILD "Build espeak-ng" ON)
 
 if (ESPEAKNG_BUILD)
     
@@ -36,16 +36,20 @@ if (ESPEAKNG_BUILD)
     if (WIN32)
         ExternalProject_Add(
             libespeak-ng-win
-            DOWNLOAD_COMMAND git clone "https://github.com/espeak-ng/espeak-ng" ${VENDOR_PREFIX}/espeak-ng
-                COMMAND git clone "https://github.com/espeak-ng/pcaudiolib" ${VENDOR_PREFIX}/espeak-ng/src/pcaudiolib
+            DOWNLOAD_COMMAND ${CMAKE_COMMAND} -E rm -rf ${VENDOR_PREFIX}/src/espeak-ng
+                COMMAND git clone "https://github.com/espeak-ng/espeak-ng" ${VENDOR_PREFIX}/src/espeak-ng
+                COMMAND git clone "https://github.com/espeak-ng/pcaudiolib" ${VENDOR_PREFIX}/src/espeak-ng/src/pcaudiolib
             CONFIGURE_COMMAND ""
-            BUILD_COMMAND msbuild ${VENDOR_PREFIX}/espeak-ng/src/windows/libespeak-ng.vcxproj /p:PlatformToolset=v142 /p:Platform=x64 /p:Configuration=Release
-            BUILD_BYPRODUCTS ${VENDOR_PREFIX}/src/windows/x64/Release/libespeak-ng.dll
-            INSTALL_COMMAND ""
+            BUILD_COMMAND msbuild ${VENDOR_PREFIX}/src/espeak-ng/src/windows/libespeak-ng.vcxproj /p:PlatformToolset=v142 /p:Platform=x64 /p:Configuration=Release
+                COMMAND msbuild ${VENDOR_PREFIX}/src/espeak-ng/src/windows/espeak-ng.vcxproj /p:PlatformToolset=v142 /p:Platform=x64 /p:Configuration=Release
+                COMMAND msbuild ${VENDOR_PREFIX}/src/espeak-ng/src/windows/data.vcxproj /p:PlatformToolset=v142 /p:Platform=x64 /p:Configuration=Release
+            INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${VENDOR_PREFIX}/src/espeak-ng/src/windows/x64/Release/libespeak-ng.dll ${CMAKE_SOURCE_DIR}/bin/libespeak-ng.dll
+                COMMAND ${CMAKE_COMMAND} -E copy_directory ${VENDOR_PREFIX}/src/espeak-ng/src/include ${VENDOR_PREFIX}/include
             BUILD_IN_SOURCE 1
+            BUILD_BYPRODUCTS ${VENDOR_PREFIX}/lsrc/espeak-ng/src/windows/x64/Release/libespeak-ng.lib
         )
         target_link_libraries(libespeak-ng INTERFACE
-                              ${VENDOR_PREFIX}/src/windows/x64/Release/libespeak-ng.dll)
+                              ${VENDOR_PREFIX}/src/espeak-ng/src/windows/x64/Release/libespeak-ng.lib)
         add_dependencies(voice libespeak-ng-win)
     else()
         ExternalProject_Add(
@@ -65,11 +69,11 @@ if (ESPEAKNG_BUILD)
         add_dependencies(voice espeak-ng-nix)
     endif()
     
+    # link and include
+    target_include_directories(libespeak-ng INTERFACE
+    ${VENDOR_PREFIX}/include/espeak-ng)
+    
 endif()
-
-# link and include
-target_include_directories(libespeak-ng INTERFACE
-                           ${VENDOR_PREFIX}/include/espeak-ng)
 
 # install
 if (INSTALL3RDPARTY)

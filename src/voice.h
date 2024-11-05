@@ -23,9 +23,9 @@
 
 int espeakCallBack (short* wav, int numsamples, espeak_EVENT* events);
 
-class Voice {
+class MyVoice {
 public:
-    Voice ();
+    MyVoice ();
     sf::SoundBuffer getBuffer (const char s[]);
 private:
     int samplerate;

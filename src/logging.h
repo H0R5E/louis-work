@@ -46,7 +46,7 @@ void setupDefaultLogger (const bool& test=false,
     
     auto log_path = joinPaths(log_dir, "log.txt");
     auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(
-                                                            log_path, true);
+                                            log_path.generic_string(), true);
     file_sink->set_pattern("[%H:%M:%S.%f] [%l] %v");
     file_sink->set_level(spdlog::level::debug);
     

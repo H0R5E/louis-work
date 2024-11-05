@@ -1,5 +1,6 @@
 [requires]
 argparse/2.1
+boost/1.86.0
 gtest/1.10.0
 sfml/2.5.1
 spdlog/[>=1.4.1]

@@ -36,7 +36,7 @@ int espeakCallBack (short* wav, int numsamples, espeak_EVENT* events){
     
 }
 
-Voice::Voice () {
+MyVoice::MyVoice () {
     
     samplerate = espeak_Initialize(AUDIO_OUTPUT_RETRIEVAL, buflength, NULL, 0);
     espeak_SetSynthCallback(&espeakCallBack);
@@ -45,7 +45,7 @@ Voice::Voice () {
     
 }
 
-sf::SoundBuffer Voice::getBuffer (const char s[]) {
+sf::SoundBuffer MyVoice::getBuffer (const char s[]) {
     
     int options = 0;
     unsigned int position = 0;

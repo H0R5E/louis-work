@@ -25,6 +25,8 @@ target_link_libraries(louis
                       sound
                       soundcomponents
                       window
+                      argparse::argparse
+                      Boost::stacktrace_from_exception
                       spdlog::spdlog)
 
 if (UNIX)

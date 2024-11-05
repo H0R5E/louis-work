@@ -39,7 +39,7 @@ LetterSound::LetterSound (const LetterSound& copy) :
 void LetterSound::setActiveEvent (const sf::Event& event,
                                   Service& service ) {
     
-    Voice voice {};
+    MyVoice voice {};
     
     if (((event.text.unicode > 47) && (event.text.unicode < 58)) ||
         ((event.text.unicode > 64) && (event.text.unicode < 91)) ||

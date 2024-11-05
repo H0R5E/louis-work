@@ -34,15 +34,15 @@ public:
         if (test) {
             assetDir = ASSETS_DIR_TEST;
         } else {
-            assetDir = joinPaths(ASSETS_DIR_RELEASE, "assets");
+            assetDir = joinPaths(ASSETS_DIR_RELEASE, "assets").generic_string();
         }
     }
     ResourceHolder<Resource> (const std::string_view subdir,
                               const bool& test=false) {
         if (test) {
-            assetDir = joinPaths(ASSETS_DIR_TEST, subdir);
+            assetDir = joinPaths(ASSETS_DIR_TEST, subdir).generic_string();
         } else {
-            assetDir = joinPaths(ASSETS_DIR_RELEASE, "assets", subdir);
+            assetDir = joinPaths(ASSETS_DIR_RELEASE, "assets", subdir).generic_string();
         }
     }
     ResourceHolder<Resource> (const ResourceHolder<Resource>& copy) {
@@ -72,7 +72,7 @@ void ResourceHolder<Resource>::Load(std::string_view resourcename) {
     std::unique_ptr<Resource> resource(new Resource());
     auto filename = FindAsset(resourcename, assetDir);
     
-    if (!resource->loadFromFile(filename)) {
+    if (!resource->loadFromFile(filename.generic_string())) {
         throw std::runtime_error("ResourceHolder::load - Failed to load " +
                                  filename.string());
     }

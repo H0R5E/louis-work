@@ -69,7 +69,7 @@ target_link_libraries(stateholder PUBLIC gamestates sound PRIVATE state)
 
 add_library(voice voice.cpp voice.h)
 target_include_directories(voice PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(voice PUBLIC libespeak-ng PRIVATE)
+target_link_libraries(voice PUBLIC libespeak-ng PRIVATE sfml-audio)
 
 add_library(game game.cpp game.h)
 target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

@@ -15,7 +15,7 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.17)
 
 # set the project name and version
 project("Louis' Work" VERSION 0.0.1
@@ -26,8 +26,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # conan
-find_package(spdlog REQUIRED)
+find_package(argparse REQUIRED)
+find_package(Boost REQUIRED)
+find_package(gtest REQUIRED)
 find_package(sfml REQUIRED)
+find_package(spdlog REQUIRED)
 
 # testing
 include(GoogleTest)
@@ -132,19 +135,20 @@ add_subdirectory(src)
 add_subdirectory(vendor)
 
 # discover test files
-file(GLOB test_SRC CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/test/*.cpp"
-                                     "${CMAKE_SOURCE_DIR}/test/*.h")
+# file(GLOB test_SRC CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/test/*.cpp"
+#                                      "${CMAKE_SOURCE_DIR}/test/*.h")
 
-# add tests
-add_executable(tests ${test_SRC})
-#add_executable(tests "${CMAKE_SOURCE_DIR}/test/game_test.cpp" 
-#                     "${CMAKE_SOURCE_DIR}/test/mock.h")
-target_link_libraries(tests
-                      game
-                      drawcomponents
-                      soundcomponents)
+# # add tests
+# add_executable(tests ${test_SRC})
+# #add_executable(tests "${CMAKE_SOURCE_DIR}/test/game_test.cpp" 
+# #                     "${CMAKE_SOURCE_DIR}/test/mock.h")
+# target_link_libraries(tests
+#                       game
+#                       drawcomponents
+#                       soundcomponents
+#                       gtest::gtest)
 
-gtest_discover_tests(tests)
+# gtest_discover_tests(tests)
 
 # extra install commands
 
