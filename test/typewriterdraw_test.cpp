@@ -170,7 +170,7 @@ TEST (TypeWriterDraw, DrawLineBreak) {
                             std::make_unique<sf::Color>(sf::Color::Black)};
     TypeWriterDraw test {service, sf::Color::Yellow, std::move(color)};
     
-    for (int i = 0; i < 20; ++i) {
+    for (int i = 1; i < 30; ++i) {
         test.setActiveEvent(simulateTextEntered(50), service);
         test.update();
         test(service);

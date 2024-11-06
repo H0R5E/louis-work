@@ -45,13 +45,15 @@ if (ESPEAKNG_BUILD)
                 COMMAND msbuild ${VENDOR_PREFIX}/src/espeak-ng/src/windows/data.vcxproj /p:PlatformToolset=v142 /p:Platform=x64 /p:Configuration=Release
             INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${VENDOR_PREFIX}/src/espeak-ng/src/windows/x64/Release/libespeak-ng.dll ${CMAKE_SOURCE_DIR}/bin/libespeak-ng.dll
                 COMMAND ${CMAKE_COMMAND} -E copy_directory ${VENDOR_PREFIX}/src/espeak-ng/src/include ${VENDOR_PREFIX}/include
+                COMMAND ${CMAKE_COMMAND} -E copy_directory ${VENDOR_PREFIX}/src/espeak-ng/espeak-ng-data C:/ProgramData/espeak-ng-data
+            BUILD_ALWAYS 1
+            BUILD_BYPRODUCTS ${VENDOR_PREFIX}/src/espeak-ng/src/windows/x64/Release/libespeak-ng.lib
             BUILD_IN_SOURCE 1
-            BUILD_BYPRODUCTS ${VENDOR_PREFIX}/lsrc/espeak-ng/src/windows/x64/Release/libespeak-ng.lib
         )
         target_link_libraries(libespeak-ng INTERFACE
                               ${VENDOR_PREFIX}/src/espeak-ng/src/windows/x64/Release/libespeak-ng.lib)
         add_dependencies(voice libespeak-ng-win)
-    else()
+    else(UNIX)
         ExternalProject_Add(
             libespeak-ng-nix
             GIT_REPOSITORY "https://github.com/espeak-ng/espeak-ng"
@@ -62,30 +64,17 @@ if (ESPEAKNG_BUILD)
             BUILD_COMMAND make
             BUILD_IN_SOURCE 1
             BUILD_BYPRODUCTS ${VENDOR_PREFIX}/lib/libespeak-ng.so
-            INSTALL_COMMAND make LIBDIR=${VENDOR_PREFIX}/lib install
+            INSTALL_COMMAND make install
         )
         target_link_libraries(libespeak-ng INTERFACE
                               ${VENDOR_PREFIX}/lib/libespeak-ng.so)
-        add_dependencies(voice espeak-ng-nix)
+        add_dependencies(voice libespeak-ng-nix)
     endif()
     
     # link and include
     target_include_directories(libespeak-ng INTERFACE
-    ${VENDOR_PREFIX}/include/espeak-ng)
+                               ${VENDOR_PREFIX}/include/espeak-ng)
     
-endif()
-
-# install
-if (INSTALL3RDPARTY)
-    if (UNIX)
-        set(espeak_libs
-            "${VENDOR_PREFIX}/lib/libespeak-ng.so"
-            "${VENDOR_PREFIX}/lib/libespeak-ng.so.1"
-            "${VENDOR_PREFIX}/lib/libespeak-ng.so.1.1.51"
-        )
-    endif ()
-    message(STATUS "espeak libs: ${espeak_libs}")
-    install(FILES ${espeak_libs} DESTINATION ${INTALL3RDPARTY_PATH})
 endif()
 
 # polymorphic_value

@@ -38,17 +38,11 @@ enable_testing()
 
 # code coverage
 find_program(GCOVR_PATH gcovr)
-option(GCOV "Check code coverage" OFF)
+option(GCOV "Check code coverage" ON)
 
 # install options
 set(CMAKE_SKIP_INSTALL_ALL_DEPENDENCY TRUE)
-option(INSTALL3RDPARTY "Install 3rd party libraries" OFF)
-
-if (WIN32)
-    SET(INTALL3RDPARTY_PATH "bin")
-else ()
-    SET(INTALL3RDPARTY_PATH "lib")
-endif ()
+option(INSTALL3RDPARTY "Install 3rd party libraries" ON)
 
 # debug compiler flags
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -ldl")
@@ -135,20 +129,20 @@ add_subdirectory(src)
 add_subdirectory(vendor)
 
 # discover test files
-# file(GLOB test_SRC CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/test/*.cpp"
-#                                      "${CMAKE_SOURCE_DIR}/test/*.h")
+file(GLOB test_SRC CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/test/*.cpp"
+                                     "${CMAKE_SOURCE_DIR}/test/*.h")
 
-# # add tests
-# add_executable(tests ${test_SRC})
-# #add_executable(tests "${CMAKE_SOURCE_DIR}/test/game_test.cpp" 
-# #                     "${CMAKE_SOURCE_DIR}/test/mock.h")
-# target_link_libraries(tests
-#                       game
-#                       drawcomponents
-#                       soundcomponents
-#                       gtest::gtest)
+# add tests
+add_executable(tests ${test_SRC})
+#add_executable(tests "${CMAKE_SOURCE_DIR}/test/game_test.cpp" 
+#                     "${CMAKE_SOURCE_DIR}/test/mock.h")
+target_link_libraries(tests
+                      game
+                      drawcomponents
+                      soundcomponents
+                      gtest::gtest)
 
-# gtest_discover_tests(tests)
+gtest_discover_tests(tests)
 
 # extra install commands
 
@@ -156,9 +150,9 @@ add_subdirectory(vendor)
 if (INSTALL3RDPARTY)
     if (UNIX)
         FILE(GLOB sfml_libs "${CMAKE_BINARY_DIR}/lib/*.so.*")
+        message(STATUS "SFML libs: ${sfml_libs}")
+        install(FILES ${sfml_libs} DESTINATION "lib")
     endif ()
-    message(STATUS "SFML libs: ${sfml_libs}")
-    install(FILES ${sfml_libs} DESTINATION ${INTALL3RDPARTY_PATH})
 endif ()
 
 # Install assets
