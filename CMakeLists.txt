@@ -28,8 +28,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # conan
 find_package(argparse REQUIRED)
 find_package(Boost REQUIRED)
-find_package(gtest REQUIRED)
-find_package(sfml REQUIRED)
+find_package(GTest REQUIRED)
+find_package(SFML REQUIRED)
 find_package(spdlog REQUIRED)
 
 # testing
