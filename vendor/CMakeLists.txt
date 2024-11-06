@@ -60,7 +60,7 @@ if (ESPEAKNG_BUILD)
             GIT_TAG "master"
             PREFIX ${VENDOR_PREFIX}
             CONFIGURE_COMMAND ./autogen.sh
-	    COMMAND CC=clang CXX=clang CFLAGS=-fPIE ./configure --prefix=${VENDOR_PREFIX} --with-speechplayer=no --with-sonic=no
+	    COMMAND CC=clang CXX=clang ./configure --prefix=${VENDOR_PREFIX} --with-speechplayer=no --with-sonic=no
             BUILD_COMMAND make
             BUILD_IN_SOURCE 1
             BUILD_BYPRODUCTS ${VENDOR_PREFIX}/lib/libespeak-ng.so
