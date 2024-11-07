@@ -189,31 +189,14 @@ if (UNIX AND RPM)
     
 endif ()
 
-# Uninstall
-if (UNIX AND APPLE)
-    file (GENERATE
-      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/uninstall.sh
-      CONTENT "\
-rm ${LOUIS_INSTALL_PATH}
-rm -r ${ASSETS_DIR_RELEASE}
-rm -- \"$0\"")
-elseif (UNIX)
-    file (GENERATE
-      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/uninstall.sh
-      CONTENT "\
-rm ${LOUIS_INSTALL_PATH}
-rm -r ${ASSETS_DIR_RELEASE}
-rm ${DESKTOP_INSTALL_PATH}
-rm ${ICON_INSTALL_PATH}
-rm -- \"$0\"")
-endif ()
+# uninstall target
+if(NOT TARGET uninstall)
+  configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake/cmake_uninstall.cmake"
+    IMMEDIATE @ONLY)
 
-if (UNIX AND NOT RPM)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/uninstall.sh
-            DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
-            PERMISSIONS OWNER_EXECUTE
-                        OWNER_WRITE
-                        OWNER_READ
-                        GROUP_READ
-                        WORLD_READ)
-endif ()
+  add_custom_target(uninstall
+    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake/cmake_uninstall.cmake)
+endif()
+
