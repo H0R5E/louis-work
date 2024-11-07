@@ -15,7 +15,7 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.21)
 
 # set the project name and version
 project("Louis' Work" VERSION 0.0.1
@@ -67,8 +67,10 @@ set(ASSETS_DIR_TEST ${CMAKE_SOURCE_DIR}/assets)
 set(LOGS_DIR_TEST ${CMAKE_SOURCE_DIR}/logs)
 
 if (WIN32)
-    set(ASSETS_DIR_RELEASE "C:/ProgramData/louis")
-    set(LOGS_DIR_RELEASE "[APPDATA]")
+    cmake_path(SET PROGRAMDATA "$ENV{PROGRAMDATA}/Louis' Work")
+    cmake_path(SET APPDATA $ENV{APPDATA})
+    set(ASSETS_DIR_RELEASE ${PROGRAMDATA})
+    set(LOGS_DIR_RELEASE ${APPDATA})
 elseif (UNIX)
     set(ASSETS_DIR_RELEASE "/usr/share/louis")
     set(LOGS_DIR_RELEASE "/var/log/louis")
@@ -149,14 +151,8 @@ gtest_discover_tests(tests)
 
 # extra install commands
 
-# Install SFML
-if (INSTALL3RDPARTY)
-    if (UNIX)
-        FILE(GLOB sfml_libs "${CMAKE_BINARY_DIR}/lib/*.so.*")
-        message(STATUS "SFML libs: ${sfml_libs}")
-        install(FILES ${sfml_libs} DESTINATION "lib")
-    endif ()
-endif ()
+# Install libs
+install(FILES $<TARGET_RUNTIME_DLLS:louis> TYPE BIN)
 
 # Install assets
 install(DIRECTORY ${ASSETS_DIR_TEST} DESTINATION ${ASSETS_DIR_RELEASE})

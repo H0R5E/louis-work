@@ -31,7 +31,7 @@ option(ESPEAKNG_BUILD "Build espeak-ng" ON)
 
 if (ESPEAKNG_BUILD)
     
-    add_library(libespeak-ng INTERFACE)
+    add_library(libespeak-ng SHARED IMPORTED GLOBAL)
     
     if (WIN32)
         ExternalProject_Add(
@@ -45,14 +45,20 @@ if (ESPEAKNG_BUILD)
                 COMMAND msbuild ${VENDOR_PREFIX}/src/espeak-ng/src/windows/data.vcxproj /p:PlatformToolset=v142 /p:Platform=x64 /p:Configuration=Release
             INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${VENDOR_PREFIX}/src/espeak-ng/src/windows/x64/Release/libespeak-ng.dll ${CMAKE_SOURCE_DIR}/bin/libespeak-ng.dll
                 COMMAND ${CMAKE_COMMAND} -E copy_directory ${VENDOR_PREFIX}/src/espeak-ng/src/include ${VENDOR_PREFIX}/include
-                COMMAND ${CMAKE_COMMAND} -E copy_directory ${VENDOR_PREFIX}/src/espeak-ng/espeak-ng-data C:/ProgramData/espeak-ng-data
-            BUILD_ALWAYS 1
-            BUILD_BYPRODUCTS ${VENDOR_PREFIX}/src/espeak-ng/src/windows/x64/Release/libespeak-ng.lib
+            BUILD_BYPRODUCTS ${VENDOR_PREFIX}/src/espeak-ng/src/windows/x64/Release/libespeak-ng.dll
+                             ${VENDOR_PREFIX}/src/espeak-ng/src/windows/x64/Release/libespeak-ng.lib
+                             ${CMAKE_SOURCE_DIR}/bin/libespeak-ng.dll
             BUILD_IN_SOURCE 1
         )
-        target_link_libraries(libespeak-ng INTERFACE
-                              ${VENDOR_PREFIX}/src/espeak-ng/src/windows/x64/Release/libespeak-ng.lib)
-        add_dependencies(voice libespeak-ng-win)
+        add_dependencies(libespeak-ng libespeak-ng-win)
+        
+        set_property(TARGET libespeak-ng PROPERTY
+                     IMPORTED_LOCATION ${VENDOR_PREFIX}/src/espeak-ng/src/windows/x64/Release/libespeak-ng.dll)
+        set_property(TARGET libespeak-ng PROPERTY
+                     IMPORTED_IMPLIB ${VENDOR_PREFIX}/src/espeak-ng/src/windows/x64/Release/libespeak-ng.lib)
+        
+        cmake_path(SET PROGRAMDATA $ENV{PROGRAMDATA})
+        install(DIRECTORY ${VENDOR_PREFIX}/src/espeak-ng/espeak-ng-data DESTINATION ${PROGRAMDATA})
     else(UNIX)
         ExternalProject_Add(
             libespeak-ng-nix
@@ -66,14 +72,13 @@ if (ESPEAKNG_BUILD)
             BUILD_BYPRODUCTS ${VENDOR_PREFIX}/lib/libespeak-ng.so
             INSTALL_COMMAND make install
         )
-        target_link_libraries(libespeak-ng INTERFACE
-                              ${VENDOR_PREFIX}/lib/libespeak-ng.so)
-        add_dependencies(voice libespeak-ng-nix)
+        add_dependencies(libespeak-ng libespeak-ng-nix)
+        set_property(TARGET libespeak-ng PROPERTY
+                     IMPORTED_LOCATION ${VENDOR_PREFIX}/lib/libespeak-ng.so)
     endif()
     
-    # link and include
-    target_include_directories(libespeak-ng INTERFACE
-                               ${VENDOR_PREFIX}/include/espeak-ng)
+    # include
+    target_include_directories(libespeak-ng INTERFACE ${VENDOR_PREFIX}/include/espeak-ng)
     
 endif()
 

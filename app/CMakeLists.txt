@@ -30,7 +30,9 @@ target_link_libraries(louis
                       Boost::stacktrace_from_exception
                       spdlog::spdlog)
 
-if (UNIX)
+if (WIN32)
+    install(TARGETS louis)
+elseif (UNIX)
     install(TARGETS louis DESTINATION bin)
     SET(LOUIS_INSTALL_PATH
         "${CMAKE_INSTALL_PREFIX}/bin/$<TARGET_FILE_NAME:louis>"
