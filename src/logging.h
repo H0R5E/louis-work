@@ -44,6 +44,10 @@ void setupDefaultLogger (const bool& test=false,
     
     std::vector<spdlog::sink_ptr> sinks;
     
+    if (!std::filesystem::is_directory(log_dir) || !std::filesystem::exists(log_dir)) {
+        std::filesystem::create_directory(log_dir);
+    }
+    
     auto log_path = joinPaths(log_dir, "log.txt");
     auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(
                                             log_path.generic_string(), true);
