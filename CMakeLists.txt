@@ -15,7 +15,7 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.19)
 
 # set the project name and version
 project("Louis' Work" VERSION 0.0.1
@@ -31,6 +31,9 @@ find_package(Boost REQUIRED)
 find_package(GTest REQUIRED)
 find_package(SFML REQUIRED)
 find_package(spdlog REQUIRED)
+
+# vscode
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # testing
 include(GoogleTest)
