@@ -48,8 +48,8 @@ set(CMAKE_SKIP_INSTALL_ALL_DEPENDENCY TRUE)
 option(INSTALL3RDPARTY "Install 3rd party libraries" ON)
 
 # debug compiler flags
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -ldl")
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall -ldl")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall")
 
 # boost_stacktrace
 if (UNIX)
