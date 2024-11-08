@@ -19,7 +19,7 @@
 #pragma once
 
 // assets path settings
-#define ASSETS_DIR_TEST "@ASSETS_DIR_TEST@"
-#define ASSETS_DIR_RELEASE "@ASSETS_DIR_RELEASE@"
+#define ASSETS_DIR_TEST "@ASSETS_DIR_TEST@/assets"
+#define ASSETS_DIR_RELEASE "@ASSETS_DIR_RELEASE@/assets"
 #define LOGS_DIR_TEST "@LOGS_DIR_TEST@"
 #define LOGS_DIR_RELEASE "@LOGS_DIR_RELEASE@"

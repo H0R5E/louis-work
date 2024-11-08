@@ -23,8 +23,8 @@ endif()
 cmake_minimum_required(VERSION 3.27)
 
 # set the project name and version
-project("Louis' Work" VERSION 0.0.1
-                      DESCRIPTION "A game about words and letters")
+project("Louis Work" VERSION 0.0.1
+                     DESCRIPTION "A game about words and letters")
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -71,18 +71,15 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 # define asset and log path in pathconfig.h
-set(ASSETS_DIR_TEST ${CMAKE_SOURCE_DIR}/assets)
+set(ASSETS_DIR_TEST ${CMAKE_SOURCE_DIR})
 set(LOGS_DIR_TEST ${CMAKE_SOURCE_DIR}/logs)
 
 if (WIN32)
-    cmake_path(SET PROGRAMDATA "$ENV{PROGRAMDATA}/Louis_Work/assets")
-    cmake_path(SET APPDATA $ENV{APPDATA})
-    set(ASSETS_DIR_RELEASE ${PROGRAMDATA})
-    set(LOGS_DIR_RELEASE "Louis_Work")
+    set(ASSETS_DIR_RELEASE .)
+    set(LOGS_DIR_RELEASE "Louis Work")
 elseif (UNIX)
     set(ASSETS_DIR_RELEASE /usr/share/louis-work)
     set(LOGS_DIR_RELEASE louis-work)
-    
 endif ()
 
 configure_file(${CMAKE_SOURCE_DIR}/src/pathconfig.h.in
@@ -162,11 +159,7 @@ gtest_discover_tests(tests)
 install(FILES $<TARGET_RUNTIME_DLLS:louis> TYPE BIN)
 
 # Install assets
-if (INNO)
-    install(DIRECTORY ${ASSETS_DIR_TEST} DESTINATION assets COMPONENT ASSETS)
-else()
-    install(DIRECTORY ${ASSETS_DIR_TEST} DESTINATION ${ASSETS_DIR_RELEASE} COMPONENT ASSETS)
-endif()
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${ASSETS_DIR_RELEASE})
 
 # Install desktop entry
 if (UNIX)
@@ -197,6 +190,7 @@ endif()
 if (RPM OR INNO)
     
     # General CPack variables
+    SET(CPACK_VERBATIM_VARIABLES TRUE)
     set(CPACK_PACKAGE_DESCRIPTION "\
     A C++ project to create a game for my son to do his work on my computer")
     set(CPACK_PACKAGE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/packages")
@@ -212,10 +206,8 @@ if (RPM OR INNO)
     if (INNO AND WIN32)
         set(CPACK_PACKAGE_NAME "Louis Work")
         set(CPACK_GENERATOR "INNOSETUP")
-        set(CPACK_BINARY_INNOSETUP "ON")
-        set(CPACK_BINARY_NSIS "OFF")
-        set(CPACK_INNOSETUP_ASSETS_INSTALL_DIRECTORY {commonappdata}/Louis_Work)
-        set(CPACK_INNOSETUP_ESPEAKNG_INSTALL_DIRECTORY {commonappdata})
+        # set(CPACK_BINARY_INNOSETUP "ON")
+        # set(CPACK_BINARY_NSIS "OFF")
         set(CPACK_INNOSETUP_EXTRA_SCRIPTS ${CMAKE_SOURCE_DIR}/cmake/icons.iss)
     endif ()
     

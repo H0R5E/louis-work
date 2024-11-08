@@ -61,7 +61,7 @@ if (ESPEAKNG_BUILD)
         else()
             cmake_path(SET PROGRAMDATA $ENV{PROGRAMDATA})
         endif()
-        install(DIRECTORY ${VENDOR_PREFIX}/src/espeak-ng/espeak-ng-data DESTINATION ${PROGRAMDATA} COMPONENT ESPEAKNG)
+        install(DIRECTORY ${VENDOR_PREFIX}/src/espeak-ng/espeak-ng-data DESTINATION ${PROGRAMDATA})
     else(UNIX)
         ExternalProject_Add(
             libespeak-ng-nix

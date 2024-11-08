@@ -43,7 +43,7 @@ coverage/
 *.kdev4
 
 # Auto generated files
-CMakeUserPresents.json
+CMakeUserPresets.json
 src/pathconfig.h
 
 # vendor
