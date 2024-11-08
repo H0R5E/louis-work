@@ -68,12 +68,11 @@ if (WIN32)
     cmake_path(SET PROGRAMDATA "$ENV{PROGRAMDATA}/Louis' Work")
     cmake_path(SET APPDATA $ENV{APPDATA})
     set(ASSETS_DIR_RELEASE ${PROGRAMDATA})
-    set(LOGS_DIR_RELEASE ${APPDATA})
+    set(LOGS_DIR_RELEASE "Louis' Work")
 elseif (UNIX)
-    set(ASSETS_DIR_RELEASE "/usr/share/louis")
-    set(LOGS_DIR_RELEASE $ENV{HOME}/.louis)
-else ()
-    message (FATAL_ERROR "Unknown OS")
+    set(ASSETS_DIR_RELEASE /usr/share/louis)
+    set(LOGS_DIR_RELEASE louis)
+    
 endif ()
 
 configure_file(${CMAKE_SOURCE_DIR}/src/pathconfig.h.in

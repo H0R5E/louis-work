@@ -21,6 +21,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <string_view>
+#include <sago/platform_folders.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
@@ -31,29 +32,27 @@ void setupDefaultLogger (const bool& test=false,
                          const bool& console=false,
                          const bool& console_debug=false) {
     
-    std::string_view log_dir; 
-    std::string_view release_dir {LOGS_DIR_RELEASE};
-    
+    std::string_view log_dir;
     if (test) {
         log_dir = LOGS_DIR_TEST;
-    } else if (release_dir == "[APPDATA]") {
-        throw std::runtime_error("Not implemented yet");
     } else {
-        log_dir = release_dir;
+        log_dir = LOGS_DIR_RELEASE;
     }
     
-    std::vector<spdlog::sink_ptr> sinks;
+    auto abs_log_dir = joinPaths(sago::getDataHome(), log_dir).lexically_normal();
     
-    if (!std::filesystem::is_directory(log_dir) || !std::filesystem::exists(log_dir)) {
-        std::filesystem::create_directory(log_dir);
+    if (!std::filesystem::is_directory(abs_log_dir) || !std::filesystem::exists(abs_log_dir)) {
+        std::filesystem::create_directories(abs_log_dir);
     }
     
-    auto log_path = joinPaths(log_dir, "log.txt");
+    auto log_path = joinPaths(abs_log_dir, "log.txt");
+    std::cout << log_path << std::endl;
     auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(
                                             log_path.generic_string(), true);
     file_sink->set_pattern("[%H:%M:%S.%f] [%l] %v");
     file_sink->set_level(spdlog::level::debug);
     
+    std::vector<spdlog::sink_ptr> sinks;
     sinks.push_back(file_sink);
     
     if (console) {
@@ -77,5 +76,9 @@ void setupDefaultLogger (const bool& test=false,
                                                             end(sinks));
     combined_logger->set_level(spdlog::level::debug);
     spdlog::set_default_logger(combined_logger);
+    
+    std::stringstream log_msg;
+    log_msg << "Logging to file at: " << log_path.generic_string();
+    spdlog::debug(log_msg.str());
     
 }

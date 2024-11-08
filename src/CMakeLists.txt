@@ -25,7 +25,7 @@ target_link_libraries(component INTERFACE polymorphic_value
 add_library(logging INTERFACE) 
 target_sources(logging INTERFACE logging.h)
 target_include_directories(logging INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(logging INTERFACE helpers)
+target_link_libraries(logging INTERFACE helpers platform_folders)
 
 add_library(resource INTERFACE)
 target_sources(resource INTERFACE resourceholder.h)
