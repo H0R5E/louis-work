@@ -15,7 +15,12 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-cmake_minimum_required(VERSION 3.21)
+# disallow macos for now
+if (APPLE)
+    message( FATAL_ERROR "MacOS is not yet supported" )
+endif()
+
+cmake_minimum_required(VERSION 3.27)
 
 # set the project name and version
 project("Louis' Work" VERSION 0.0.1
@@ -25,10 +30,17 @@ project("Louis' Work" VERSION 0.0.1
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# options
+option(ESPEAKNG_BUILD "Build espeak-ng" ON)
+option(GCOV "Check code coverage" ON)
+option(RPM "Create an RPM package" OFF)
+option(INNO "Create a inno setup package" OFF)
+
 # conan
 find_package(argparse REQUIRED)
 find_package(Boost REQUIRED)
 find_package(GTest REQUIRED)
+find_package(platform_folders REQUIRED)
 find_package(SFML REQUIRED)
 find_package(spdlog REQUIRED)
 
@@ -41,11 +53,9 @@ enable_testing()
 
 # code coverage
 find_program(GCOVR_PATH gcovr)
-option(GCOV "Check code coverage" ON)
 
-# install options
+# install settings
 set(CMAKE_SKIP_INSTALL_ALL_DEPENDENCY TRUE)
-option(INSTALL3RDPARTY "Install 3rd party libraries" ON)
 
 # debug compiler flags
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
@@ -65,13 +75,13 @@ set(ASSETS_DIR_TEST ${CMAKE_SOURCE_DIR}/assets)
 set(LOGS_DIR_TEST ${CMAKE_SOURCE_DIR}/logs)
 
 if (WIN32)
-    cmake_path(SET PROGRAMDATA "$ENV{PROGRAMDATA}/Louis' Work")
+    cmake_path(SET PROGRAMDATA "$ENV{PROGRAMDATA}/Louis_Work/assets")
     cmake_path(SET APPDATA $ENV{APPDATA})
     set(ASSETS_DIR_RELEASE ${PROGRAMDATA})
-    set(LOGS_DIR_RELEASE "Louis' Work")
+    set(LOGS_DIR_RELEASE "Louis_Work")
 elseif (UNIX)
-    set(ASSETS_DIR_RELEASE /usr/share/louis)
-    set(LOGS_DIR_RELEASE louis)
+    set(ASSETS_DIR_RELEASE /usr/share/louis-work)
+    set(LOGS_DIR_RELEASE louis-work)
     
 endif ()
 
@@ -152,10 +162,14 @@ gtest_discover_tests(tests)
 install(FILES $<TARGET_RUNTIME_DLLS:louis> TYPE BIN)
 
 # Install assets
-install(DIRECTORY ${ASSETS_DIR_TEST} DESTINATION ${ASSETS_DIR_RELEASE})
+if (INNO)
+    install(DIRECTORY ${ASSETS_DIR_TEST} DESTINATION assets COMPONENT ASSETS)
+else()
+    install(DIRECTORY ${ASSETS_DIR_TEST} DESTINATION ${ASSETS_DIR_RELEASE} COMPONENT ASSETS)
+endif()
 
 # Install desktop entry
-if (UNIX AND NOT APPLE)
+if (UNIX)
     configure_file(
         ${CMAKE_CURRENT_SOURCE_DIR}/data/louis.desktop.in
         ${CMAKE_CURRENT_BINARY_DIR}/louis.desktop)
@@ -169,23 +183,6 @@ if (UNIX AND NOT APPLE)
         "${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps/l-key.svg")
 endif()
 
-# Packaging
-option(RPM "Create an RPM package" ON)
-
-# General CPack variables
-set(CPACK_PACKAGE_NAME "louis")
-set(CPACK_PACKAGE_DESCRIPTION "\
-A C++ project to create a game for my son to do his work on my computer")
-set(CPACK_PACKAGE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/packages")
-
-if (UNIX AND RPM)
-    
-    set(CPACK_GENERATOR "RPM")
-    set(CPACK_RPM_PACKAGE_RELEASE 1)
-    include(CPack)
-    
-endif ()
-
 # uninstall target
 if(NOT TARGET uninstall)
   configure_file(
@@ -197,3 +194,31 @@ if(NOT TARGET uninstall)
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake/cmake_uninstall.cmake)
 endif()
 
+if (RPM OR INNO)
+    
+    # General CPack variables
+    set(CPACK_PACKAGE_DESCRIPTION "\
+    A C++ project to create a game for my son to do his work on my computer")
+    set(CPACK_PACKAGE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/packages")
+    set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/COPYING)
+    
+    # RPM
+    if (RPM AND UNIX)
+        set(CPACK_PACKAGE_NAME "louis")
+        set(CPACK_GENERATOR "RPM")
+        set(CPACK_RPM_PACKAGE_RELEASE 1)
+    endif ()
+    
+    if (INNO AND WIN32)
+        set(CPACK_PACKAGE_NAME "Louis Work")
+        set(CPACK_GENERATOR "INNOSETUP")
+        set(CPACK_BINARY_INNOSETUP "ON")
+        set(CPACK_BINARY_NSIS "OFF")
+        set(CPACK_INNOSETUP_ASSETS_INSTALL_DIRECTORY {commonappdata}/Louis_Work)
+        set(CPACK_INNOSETUP_ESPEAKNG_INSTALL_DIRECTORY {commonappdata})
+        set(CPACK_INNOSETUP_EXTRA_SCRIPTS ${CMAKE_SOURCE_DIR}/cmake/icons.iss)
+    endif ()
+    
+    include(CPack)
+
+endif()
