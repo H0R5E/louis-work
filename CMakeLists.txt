@@ -206,8 +206,6 @@ if (RPM OR INNO)
     if (INNO AND WIN32)
         set(CPACK_PACKAGE_NAME "Louis Work")
         set(CPACK_GENERATOR "INNOSETUP")
-        # set(CPACK_BINARY_INNOSETUP "ON")
-        # set(CPACK_BINARY_NSIS "OFF")
         set(CPACK_INNOSETUP_EXTRA_SCRIPTS ${CMAKE_SOURCE_DIR}/cmake/icons.iss)
     endif ()
     
