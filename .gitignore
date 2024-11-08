@@ -43,8 +43,8 @@ coverage/
 *.kdev4
 
 # Auto generated files
+CMakeUserPresents.json
 src/pathconfig.h
-uninstall.sh
 
 # vendor
 vendor/*/
