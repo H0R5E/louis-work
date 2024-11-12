@@ -111,8 +111,8 @@ void Game::initResources (const bool& test_assets) {
         buffer_holder = ResourceHolder<sf::SoundBuffer>("sounds", true);
     } else {
          // GCOVR_EXCL_START
-         font_holder = ResourceHolder<sf::Font>("fonts");
-         buffer_holder = ResourceHolder<sf::SoundBuffer>("sounds");
+         font_holder = ResourceHolder<sf::Font>("fonts", false);
+         buffer_holder = ResourceHolder<sf::SoundBuffer>("sounds", false);
          // GCOVR_EXCL_STOP
     }
     
