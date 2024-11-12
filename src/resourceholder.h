@@ -23,6 +23,7 @@
 #include <map>
 #include <stdexcept>
 #include <string_view>
+#include <spdlog/spdlog.h>
 
 #include "helpers.h"
 #include "pathconfig.h"
@@ -36,6 +37,9 @@ public:
         } else {
             assetDir = ASSETS_DIR_RELEASE;
         }
+        std::stringstream log_msg;
+        log_msg << "Setting asset directory to: " << assetDir;
+        spdlog::debug(log_msg.str());
     }
     ResourceHolder<Resource> (const std::string_view subdir,
                               const bool& test=false) {
@@ -44,6 +48,9 @@ public:
         } else {
             assetDir = joinPaths(ASSETS_DIR_RELEASE, subdir).generic_string();
         }
+        std::stringstream log_msg;
+        log_msg << "Setting asset directory to: " << assetDir;
+        spdlog::debug(log_msg.str());
     }
     ResourceHolder<Resource> (const ResourceHolder<Resource>& copy) {
         *this = copy;

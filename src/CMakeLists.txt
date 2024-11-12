@@ -30,7 +30,7 @@ target_link_libraries(logging INTERFACE helpers platform_folders)
 add_library(resource INTERFACE)
 target_sources(resource INTERFACE resourceholder.h)
 target_include_directories(resource INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(resource INTERFACE helpers)
+target_link_libraries(resource INTERFACE helpers spdlog::spdlog)
 
 add_library(service INTERFACE)
 target_sources(service INTERFACE service.h)

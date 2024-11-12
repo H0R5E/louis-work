@@ -75,7 +75,7 @@ set(ASSETS_DIR_TEST ${CMAKE_SOURCE_DIR})
 set(LOGS_DIR_TEST ${CMAKE_SOURCE_DIR}/logs)
 
 if (WIN32)
-    set(ASSETS_DIR_RELEASE .)
+    set(ASSETS_DIR_RELEASE ..)
     set(LOGS_DIR_RELEASE "Louis Work")
 elseif (UNIX)
     set(ASSETS_DIR_RELEASE /usr/share/louis-work)
