@@ -83,6 +83,7 @@
     "numeric": "cpp",
     "source_location": "cpp",
     "string_view": "cpp",
-    "codecvt": "cpp"
+    "codecvt": "cpp",
+    "*.in": "cpp"
   }
 }

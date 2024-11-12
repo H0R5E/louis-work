@@ -34,7 +34,7 @@ public:
         if (test) {
             assetDir = ASSETS_DIR_TEST;
         } else {
-            assetDir = joinPaths(ASSETS_DIR_RELEASE, "assets").generic_string();
+            assetDir = ASSETS_DIR_RELEASE;
         }
     }
     ResourceHolder<Resource> (const std::string_view subdir,
@@ -42,7 +42,7 @@ public:
         if (test) {
             assetDir = joinPaths(ASSETS_DIR_TEST, subdir).generic_string();
         } else {
-            assetDir = joinPaths(ASSETS_DIR_RELEASE, "assets", subdir).generic_string();
+            assetDir = joinPaths(ASSETS_DIR_RELEASE, subdir).generic_string();
         }
     }
     ResourceHolder<Resource> (const ResourceHolder<Resource>& copy) {
