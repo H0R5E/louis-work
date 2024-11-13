@@ -176,6 +176,11 @@ if (UNIX)
         "${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps/l-key.svg")
 endif()
 
+# Install icon
+if (WIN32)
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/l-key.ico DESTINATION .)
+endif()
+
 # uninstall target
 if(NOT TARGET uninstall)
   configure_file(
