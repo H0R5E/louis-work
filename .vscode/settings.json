@@ -85,5 +85,6 @@
     "string_view": "cpp",
     "codecvt": "cpp",
     "*.in": "cpp"
-  }
+  },
+  "editor.formatOnSave": true
 }
