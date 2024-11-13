@@ -115,6 +115,8 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
+#ifdef WIN32
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char*, int nShowCmd) {
     return main(__argc, __argv);
 }
+#endif

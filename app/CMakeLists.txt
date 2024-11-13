@@ -18,6 +18,7 @@
 # add the executable
 if (WIN32)
     add_executable(louis WIN32 louis_work.cxx)
+    target_compile_definitions(louis PRIVATE WIN32)
 else()
     add_executable(louis louis_work.cxx)
 endif()
