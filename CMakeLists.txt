@@ -199,17 +199,19 @@ if (RPM OR INNO)
     set(CPACK_PACKAGE_DESCRIPTION "\
     A C++ project to create a game for my son to do his work on my computer")
     set(CPACK_PACKAGE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/packages")
+    set(CPACK_PACKAGE_VENDOR "Mathew Topper")
     set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/COPYING)
     
     # RPM
     if (RPM AND UNIX)
-        set(CPACK_PACKAGE_NAME "louis")
+        set(CPACK_PACKAGE_NAME "louis-work")
         set(CPACK_GENERATOR "RPM")
         set(CPACK_RPM_PACKAGE_RELEASE 1)
     endif ()
     
     if (INNO AND WIN32)
         set(CPACK_PACKAGE_NAME "Louis Work")
+        set(CPACK_PACKAGE_INSTALL_DIRECTORY "Louis Work")
         set(CPACK_GENERATOR "INNOSETUP")
         set(CPACK_INNOSETUP_USE_CMAKE_BOOL_FORMAT ON)
         set(CPACK_INNOSETUP_SETUP_ChangesEnvironment ON)
