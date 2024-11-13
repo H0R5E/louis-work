@@ -16,7 +16,12 @@
 #   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # add the executable
-add_executable(louis louis_work.cxx)
+if (WIN32)
+    add_executable(louis WIN32 louis_work.cxx)
+else()
+    add_executable(louis louis_work.cxx)
+endif()
+
 target_link_libraries(louis
                       PRIVATE
                       drawcomponents
