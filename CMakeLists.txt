@@ -71,14 +71,14 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 # define asset and log path in pathconfig.h
-set(ASSETS_DIR_TEST ${CMAKE_SOURCE_DIR})
+set(DATA_DIR_TEST ${CMAKE_SOURCE_DIR})
 set(LOGS_DIR_TEST ${CMAKE_SOURCE_DIR}/logs)
 
 if (WIN32)
-    set(ASSETS_DIR_RELEASE ..)
+    set(DATA_DIR_RELEASE ..)
     set(LOGS_DIR_RELEASE "Louis Work")
 elseif (UNIX)
-    set(ASSETS_DIR_RELEASE /usr/share/louis-work)
+    set(DATA_DIR_RELEASE /usr/share/louis-work)
     set(LOGS_DIR_RELEASE louis-work)
 endif ()
 
@@ -159,7 +159,7 @@ gtest_discover_tests(tests)
 install(FILES $<TARGET_RUNTIME_DLLS:louis> TYPE BIN)
 
 # Install assets
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${ASSETS_DIR_RELEASE})
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${DATA_DIR_RELEASE})
 
 # Install desktop entry
 if (UNIX)
@@ -206,6 +206,8 @@ if (RPM OR INNO)
     if (INNO AND WIN32)
         set(CPACK_PACKAGE_NAME "Louis Work")
         set(CPACK_GENERATOR "INNOSETUP")
+        set(CPACK_INNOSETUP_USE_CMAKE_BOOL_FORMAT ON)
+        set(CPACK_INNOSETUP_SETUP_ChangesEnvironment ON)
         set(CPACK_INNOSETUP_EXTRA_SCRIPTS ${CMAKE_SOURCE_DIR}/cmake/icons.iss)
     endif ()
     

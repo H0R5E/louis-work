@@ -18,133 +18,133 @@
 
 #pragma once
 
-#include <cassert>
-#include <memory>
-#include <map>
-#include <stdexcept>
-#include <string_view>
-#include <spdlog/spdlog.h>
-
 #include "helpers.h"
 #include "pathconfig.h"
 
+#include <spdlog/spdlog.h>
+
+#include <cassert>
+#include <filesystem>
+#include <map>
+#include <memory>
+#include <stdexcept>
+#include <string_view>
+
 template <typename Resource>
 class ResourceHolder {
-public:
-    ResourceHolder<Resource> (const bool& test=false) {
+   public:
+    ResourceHolder<Resource>(bool const& test = false)
+        : ResourceHolder<Resource>(".", test) {}
+    ResourceHolder<Resource>(std::string_view const subdir,
+                             bool const& test = false) {
+        char const* env_data = std::getenv("LOUIS_DATA_PATH");
+        std::string baseDir;
+
         if (test) {
-            assetDir = ASSETS_DIR_TEST;
+            baseDir = DATA_DIR_TEST;
+        } else if (env_data) {
+            baseDir = env_data;
         } else {
-            assetDir = ASSETS_DIR_RELEASE;
+            baseDir = "/usr/share/louis-work";
         }
+
+        assetDir = joinPaths(DATA_DIR_TEST, "assets", subdir)
+                       .lexically_normal()
+                       .generic_string();
+
         std::stringstream log_msg;
         log_msg << "Setting asset directory to: " << assetDir;
         spdlog::debug(log_msg.str());
-    }
-    ResourceHolder<Resource> (const std::string_view subdir,
-                              const bool& test=false) {
-        if (test) {
-            assetDir = joinPaths(ASSETS_DIR_TEST, subdir).generic_string();
-        } else {
-            assetDir = joinPaths(ASSETS_DIR_RELEASE, subdir).generic_string();
+
+        if (!std::filesystem::exists(assetDir)) {
+            std::stringstream err_msg;
+            err_msg << "Asset directory '" << assetDir << "' not found!";
+            throw std::runtime_error(err_msg.str());
         }
-        std::stringstream log_msg;
-        log_msg << "Setting asset directory to: " << assetDir;
-        spdlog::debug(log_msg.str());
     }
-    ResourceHolder<Resource> (const ResourceHolder<Resource>& copy) {
+    ResourceHolder<Resource>(ResourceHolder<Resource> const& copy) {
         *this = copy;
     }
-    ResourceHolder<Resource> (ResourceHolder<Resource>&& temp) = default;
+    ResourceHolder<Resource>(ResourceHolder<Resource>&& temp) = default;
     void Load(std::string_view resourcename);
     Resource& Get(std::string_view resourcename);
-    const Resource& Get(std::string_view resourcename) const;
-    int Size () const;
-    ResourceHolder<Resource>& operator= (const ResourceHolder<Resource>& copy);
-    ResourceHolder<Resource>& operator= (ResourceHolder<Resource>&& temp)
-                                                                    = default;
-private:
+    Resource const& Get(std::string_view resourcename) const;
+    int Size() const;
+    ResourceHolder<Resource>& operator=(ResourceHolder<Resource> const& copy);
+    ResourceHolder<Resource>& operator=(ResourceHolder<Resource>&& temp) =
+        default;
+
+   private:
     std::string assetDir;
     std::map<std::string_view, std::unique_ptr<Resource>> mResourceMap;
 };
 
 template <typename Resource>
 void ResourceHolder<Resource>::Load(std::string_view resourcename) {
-    
     // Don't load resources twice
     if (mResourceMap.find(resourcename) != mResourceMap.end()) {
         return;
     }
-    
+
     std::unique_ptr<Resource> resource(new Resource());
     auto filename = FindAsset(resourcename, assetDir);
-    
+
     if (!resource->loadFromFile(filename.generic_string())) {
         throw std::runtime_error("ResourceHolder::load - Failed to load " +
                                  filename.string());
     }
-    
-    auto inserted = mResourceMap.insert(
-                            std::make_pair(resourcename, std::move(resource)));
-    assert (inserted.second);
-    
+
+    auto inserted =
+        mResourceMap.insert(std::make_pair(resourcename, std::move(resource)));
+    assert(inserted.second);
 }
 
 template <typename Resource>
 Resource& ResourceHolder<Resource>::Get(std::string_view resourcename) {
-    
     auto found = mResourceMap.find(resourcename);
-    
+
     if (found == mResourceMap.end()) {
         std::string msg = "ResourceHolder::Get - Failed to get ";
         msg.append(resourcename);
         throw std::runtime_error(msg);
     }
-    
+
     return *found->second;
 }
 
 template <typename Resource>
-const Resource& ResourceHolder<Resource>::Get(
-                                    std::string_view resourcename) const {
-    
+Resource const& ResourceHolder<Resource>::Get(
+    std::string_view resourcename) const {
     auto found = mResourceMap.find(resourcename);
-    
+
     if (found == mResourceMap.end()) {
         std::string msg = "ResourceHolder::Get - Failed to get ";
         msg.append(resourcename);
         throw std::runtime_error(msg);
     }
-    
+
     return *found->second;
-    
-    
 }
 
-template<typename Resource>
+template <typename Resource>
 int ResourceHolder<Resource>::Size() const {
     return mResourceMap.size();
 }
 
-template<typename Resource>
-ResourceHolder<Resource>& ResourceHolder<Resource>::operator= (
-                                        const ResourceHolder<Resource>& copy) {
-    
+template <typename Resource>
+ResourceHolder<Resource>& ResourceHolder<Resource>::operator=(
+    ResourceHolder<Resource> const& copy) {
     assetDir = copy.assetDir;
-    
+
     for (auto const& [key, val] : copy.mResourceMap) {
-        
-        std::unique_ptr<Resource> resource {nullptr};
-        
+        std::unique_ptr<Resource> resource{nullptr};
+
         if (val) {
             resource = std::make_unique<Resource>(*val);
         }
-        
-        mResourceMap.insert(std::make_pair(key, std::move(resource)));
-    
-    }
-    
-    return *this;
-    
-}
 
+        mResourceMap.insert(std::make_pair(key, std::move(resource)));
+    }
+
+    return *this;
+}
