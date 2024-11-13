@@ -48,7 +48,7 @@ class ResourceHolder {
             baseDir = "/usr/share/louis-work";
         }
 
-        assetDir = joinPaths(DATA_DIR_TEST, "assets", subdir)
+        assetDir = joinPaths(baseDir, "assets", subdir)
                        .lexically_normal()
                        .generic_string();
 
