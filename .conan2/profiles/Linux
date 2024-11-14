@@ -7,6 +7,10 @@ compiler.libcxx=libstdc++
 compiler.version=17
 os=Linux
 
+[env]
+CC=/usr/bin/clang
+CXX=/usr/bin/clang++
+
 [conf]
 tools.cmake.cmaketoolchain:generator=Ninja
 tools.system.package_manager:mode=install

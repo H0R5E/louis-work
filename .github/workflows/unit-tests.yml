@@ -7,6 +7,7 @@ on:
 jobs:
   main:
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
@@ -22,9 +23,6 @@ jobs:
           poetry install
           poetry run conan version
       - name: Install Conan dependencies
-        env:
-          CC: clang
-          CXX: clang
         run: poetry run conan install . --profile:all=./.conan2/profiles/${{ runner.os }} --output-folder=build --build=missing
       - name: Dump Conan cache manifest
         run: conan list "*" --format=json > conan-cache.json
