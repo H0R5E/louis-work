@@ -1,4 +1,4 @@
-name: Run unit tests
+name: Unit tests
 on:
   push:
     branches:
@@ -36,3 +36,5 @@ jobs:
         run: poetry run conan install . --profile:all=./.conan2/profiles/${{ runner.os }} --output-folder=build --build=missing --lockfile-partial
       - name: Configure
         run: cmake --preset conan-release
+      - name: Build
+        run: cmake --build --preset conan-release
