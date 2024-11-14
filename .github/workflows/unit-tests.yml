@@ -14,6 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
       - uses: abatilo/actions-poetry@v2
       - name: Cache Conan dependencies
         uses: actions/cache@v4
@@ -22,7 +24,7 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/conan.lock') }}
       - name: Install build dependencies (Linux)
         if: runner.os == 'Linux'
-        run: sudo apt-get install build-essential clang ninja-build
+        run: sudo apt-get install clang ninja-build
       - name: Install Conan
         run: |
           poetry install
