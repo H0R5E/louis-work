@@ -33,7 +33,8 @@
 template <typename Resource>
 class ResourceHolder {
    public:
-    ResourceHolder<Resource>(bool const& test = false)
+    ResourceHolder<Resource>() = default;
+    ResourceHolder<Resource>(bool const& test)
         : ResourceHolder<Resource>(".", test) {}
     ResourceHolder<Resource>(std::string_view const subdir,
                              bool const& test = false) {
