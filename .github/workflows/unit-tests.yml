@@ -17,7 +17,9 @@ jobs:
         with:
           python-version: "3.13"
       - uses: abatilo/actions-poetry@v2
-      - name: Cache Conan dependencies
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: runner.os == 'Windows'
+      - name: Restore Conan cache
         uses: actions/cache@v4
         with:
           path: ~/.conan2
