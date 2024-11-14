@@ -1,0 +1,25 @@
+name: Run unit tests
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  main:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+      - uses: abatilo/actions-poetry@v2
+      - name: Install conan
+        run: poetry install
+      - name: Cache Conan Dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.conan2
+          key: ${{ runner.os }}-${{ hashFiles('**/conanfile.txt') }}
+      - name: Install dependencies
+        run: poetry run conan install . --output-folder=build --build=missing
