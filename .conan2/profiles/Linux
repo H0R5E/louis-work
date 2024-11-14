@@ -7,7 +7,7 @@ compiler.libcxx=libstdc++
 compiler.version=17
 os=Linux
 
-[env]
+[buildenv]
 CC=/usr/bin/clang
 CXX=/usr/bin/clang++
 
