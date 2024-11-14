@@ -81,8 +81,8 @@ if (ESPEAKNG_BUILD)
     endif()
     
     # include
-    set_property(TARGET libespeak-ng PROPERTY INTERFACE_INCLUDE_DIRECTORIES
-                 ${VENDOR_PREFIX}/include/espeak-ng)
+    file (MAKE_DIRECTORY ${VENDOR_PREFIX}/include/espeak-ng)
+    target_include_directories(libespeak-ng INTERFACE ${VENDOR_PREFIX}/include/espeak-ng)
     
 endif()
 
