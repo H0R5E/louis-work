@@ -22,4 +22,4 @@ jobs:
           path: ~/.conan2
           key: ${{ runner.os }}-${{ hashFiles('**/conanfile.txt') }}
       - name: Install dependencies
-        run: poetry run conan install . --output-folder=build --build=missing
+        run: poetry run conan install . -pr ./.conan2/profiles/${{ runner.os }} --output-folder=build --build=missing
