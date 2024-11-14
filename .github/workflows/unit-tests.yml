@@ -15,11 +15,13 @@ jobs:
       - uses: actions/setup-python@v5
       - uses: abatilo/actions-poetry@v2
       - name: Install conan
-        run: poetry install
+        run: |
+          poetry install
+          poetry run conan version
       - name: Cache Conan Dependencies
         uses: actions/cache@v2
         with:
           path: ~/.conan2
           key: ${{ runner.os }}-${{ hashFiles('**/conanfile.txt') }}
-      - name: Install dependencies
-        run: poetry run conan install . -pr ./.conan2/profiles/${{ runner.os }} --output-folder=build --build=missing
+      # - name: Install dependencies
+      #   run: poetry run conan install . --profile:build=./.conan2/profiles/${{ runner.os }} --output-folder=build --build=missing
