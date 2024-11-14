@@ -25,7 +25,7 @@ jobs:
       - name: Install Conan dependencies
         run: poetry run conan install . --profile:all=./.conan2/profiles/${{ runner.os }} --output-folder=build --build=missing
       - name: Dump Conan cache manifest
-        run: conan list "*" --format=json > conan-cache.json
+        run: poetry run conan list "*" --format=json > conan-cache.json
       - name: Cache Conan dependencies
         uses: actions/cache@v4
         with:
