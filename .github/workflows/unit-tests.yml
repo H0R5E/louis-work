@@ -17,22 +17,23 @@ jobs:
         with:
           python-version: "3.13"
       - uses: abatilo/actions-poetry@v2
-      - uses: ilammy/msvc-dev-cmd@v1
+      - name: Install build system (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get install clang ninja-build
+      - name: Install build system (Windows)
+        uses: ilammy/msvc-dev-cmd@v1
         if: runner.os == 'Windows'
+      - name: Install Conan
+        run: |
+          poetry install
+          poetry run conan version
       - name: Restore Conan cache
         uses: actions/cache@v4
         with:
           path: ~/.conan2
           key: ${{ runner.os }}-${{ hashFiles('**/conan.lock') }}
-      - name: Install build dependencies (Linux)
-        if: runner.os == 'Linux'
-        run: sudo apt-get install clang ninja-build
-      - name: Install Conan
-        run: |
-          poetry install
-          poetry run conan version
-      - name: Install Conan dependencies
+      - name: Install package dependencies
         run: poetry run conan install . --profile:all=./.conan2/profiles/${{ runner.os }} --output-folder=build --build=missing --lockfile-partial
-      - name: Configure Step
-        run: cmake --build . --config Release
+      - name: Configure
+        run: cmake --preset conan-release
         working-directory: build
