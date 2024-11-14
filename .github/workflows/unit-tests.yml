@@ -33,3 +33,6 @@ jobs:
           poetry run conan version
       - name: Install Conan dependencies
         run: poetry run conan install . --profile:all=./.conan2/profiles/${{ runner.os }} --output-folder=build --build=missing --lockfile-partial
+      - name: Configure Step
+        run: cmake --build . --config Release
+        working-directory: build
