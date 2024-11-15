@@ -6,6 +6,7 @@ on:
 
 jobs:
   main:
+    name: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:

@@ -139,10 +139,15 @@ elseif(NOT CMAKE_COMPILER_IS_GNUCXX)
     endif()
 endif()
 
+# Get compiler major version
+string(REPLACE "." ";" CMAKE_CXX_COMPILER_VERSION_LIST ${CMAKE_CXX_COMPILER_VERSION})
+list(GET CMAKE_CXX_COMPILER_VERSION_LIST 0 CMAKE_CXX_COMPILER_VERSION_MAJOR)
+
+# Set explicit gcovr executable
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    SET(GCOVR_EXECUTABLE "llvm-cov gcov")
+    SET(GCOVR_EXECUTABLE "llvm-cov-${CMAKE_CXX_COMPILER_VERSION_MAJOR} gcov")
 else()
-    SET(GCOVR_EXECUTABLE "gcov")
+    SET(GCOVR_EXECUTABLE "gcov-${CMAKE_CXX_COMPILER_VERSION_MAJOR}")
 endif()
 
 set(COVERAGE_COMPILER_FLAGS "-g --coverage"
@@ -340,6 +345,8 @@ function(setup_target_for_coverage_gcovr_xml)
 
         # Running gcovr
         COMMAND ${GCOVR_PATH} --cobertura-pretty --cobertura
+            --exclude-unreachable-branches
+            --exclude-throw-branches
             --gcov-executable ${GCOVR_EXECUTABLE}
             --gcov-ignore-parse-errors=all
             -r ${BASEDIR} ${GCOVR_EXCLUDE_ARGS}
@@ -418,6 +425,8 @@ function(setup_target_for_coverage_gcovr_html)
 
         # Running gcovr
         COMMAND ${GCOVR_PATH} --html --html-details
+            --exclude-unreachable-branches
+            --exclude-throw-branches
             --gcov-executable ${GCOVR_EXECUTABLE}
             --gcov-ignore-parse-errors=all
             -r ${BASEDIR} ${GCOVR_EXCLUDE_ARGS}
