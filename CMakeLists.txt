@@ -114,7 +114,7 @@ if ((CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "G
         add_dependencies(coverage-html tests)
     endif()
     
-    if (GCOVR_HTML)
+    if (GCOVR_XML)
         setup_target_for_coverage_gcovr_xml(
             NAME coverage-xml
             EXECUTABLE tests
