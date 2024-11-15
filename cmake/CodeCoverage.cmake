@@ -139,6 +139,12 @@ elseif(NOT CMAKE_COMPILER_IS_GNUCXX)
     endif()
 endif()
 
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    SET(GCOVR_EXECUTABLE "llvm-cov gcov")
+else()
+    SET(GCOVR_EXECUTABLE "gcov")
+endif()
+
 set(COVERAGE_COMPILER_FLAGS "-g --coverage"
     CACHE INTERNAL "")
 
@@ -333,7 +339,9 @@ function(setup_target_for_coverage_gcovr_xml)
         ${Coverage_EXECUTABLE} ${Coverage_EXECUTABLE_ARGS}
 
         # Running gcovr
-        COMMAND ${GCOVR_PATH} --cobertura-pretty --cobertura --gcov-ignore-parse-errors=all
+        COMMAND ${GCOVR_PATH} --cobertura-pretty --cobertura
+            --gcov-executable ${GCOVR_EXECUTABLE}
+            --gcov-ignore-parse-errors=all
             -r ${BASEDIR} ${GCOVR_EXCLUDE_ARGS}
             --object-directory=${PROJECT_BINARY_DIR}
             -o ${Coverage_NAME}.xml
@@ -409,7 +417,9 @@ function(setup_target_for_coverage_gcovr_html)
         COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/${Coverage_NAME}
 
         # Running gcovr
-        COMMAND ${GCOVR_PATH} --html --html-details --gcov-ignore-parse-errors=all
+        COMMAND ${GCOVR_PATH} --html --html-details
+            --gcov-executable ${GCOVR_EXECUTABLE}
+            --gcov-ignore-parse-errors=all
             -r ${BASEDIR} ${GCOVR_EXCLUDE_ARGS}
             --object-directory=${PROJECT_BINARY_DIR}
             -o ${CMAKE_SOURCE_DIR}/${Coverage_NAME}/index.html
