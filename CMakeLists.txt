@@ -47,6 +47,9 @@ find_package(spdlog REQUIRED)
 # vscode
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# modules
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
 # testing
 include(GoogleTest)
 enable_testing()
@@ -85,12 +88,15 @@ endif ()
 configure_file(${CMAKE_SOURCE_DIR}/src/pathconfig.h.in
                ${CMAKE_SOURCE_DIR}/src/pathconfig.h)
 
+message(${CMAKE_CXX_COMPILER_ID} " " ${CMAKE_BUILD_TYPE} " " ${GCOVR_PATH} " " ${GCOV})
+
 # coverage target and compiler flags
 if ((CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "GNU") AND
      CMAKE_BUILD_TYPE STREQUAL "Debug" AND
      GCOVR_PATH AND
      GCOV)
     
+    message("Setting up gcov")
     include(CodeCoverage)
     
     append_coverage_compiler_flags()

@@ -139,7 +139,7 @@ elseif(NOT CMAKE_COMPILER_IS_GNUCXX)
     endif()
 endif()
 
-set(COVERAGE_COMPILER_FLAGS "-g -fprofile-arcs -ftest-coverage"
+set(COVERAGE_COMPILER_FLAGS "-g --coverage"
     CACHE INTERNAL "")
 
 set(CMAKE_Fortran_FLAGS_COVERAGE
@@ -173,9 +173,9 @@ if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
     message(WARNING "Code coverage results with an optimised (non-Debug) build may be misleading")
 endif() # NOT CMAKE_BUILD_TYPE STREQUAL "Debug"
 
-if(CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
-    link_libraries(gcov)
-endif()
+#if(CMAKE_C_COMPILER_ID STREQUAL "GNU" OR CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+#    link_libraries(gcov)
+#endif()
 
 # Defines a target for running and collection code coverage information
 # Builds dependencies, runs the given executable and outputs reports.
@@ -409,7 +409,7 @@ function(setup_target_for_coverage_gcovr_html)
         COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/${Coverage_NAME}
 
         # Running gcovr
-        COMMAND ${GCOVR_PATH} --html --html-details
+        COMMAND ${GCOVR_PATH} --html --html-details --gcov-ignore-parse-errors=all
             -r ${BASEDIR} ${GCOVR_EXCLUDE_ARGS}
             --object-directory=${PROJECT_BINARY_DIR}
             -o ${CMAKE_SOURCE_DIR}/${Coverage_NAME}/index.html
