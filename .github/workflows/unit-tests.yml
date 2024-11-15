@@ -76,7 +76,7 @@ jobs:
       - name: Install package dependencies
         run: poetry run conan install . --profile:all=./.conan2/profiles/${{ runner.os }} --output-folder=build --build=missing --lockfile-partial --settings=build_type=Debug
       - name: Configure
-        run: cmake .. -G Ninja -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake  -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_BUILD_TYPE=Debug -DGCOVR_XML=ON
+        run: cmake .. -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_BUILD_TYPE=Debug -DGCOVR_XML=ON
         working-directory: build
       - name: Xvfb
         run: |
@@ -87,3 +87,6 @@ jobs:
       - name: Build XML report
         run: cmake --build . --config Debug -t coverage-xml
         working-directory: build
+      - uses: codecov/codecov-action@v4
+        with:
+          directory: build
