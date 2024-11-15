@@ -1,11 +1,11 @@
 [![Unit tests](https://github.com/H0R5E/louis-work/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/H0R5E/louis-work/actions/workflows/unit-tests.yml)
 [![codecov](https://codecov.io/gh/H0R5E/louis-work/graph/badge.svg?token=G77889E4AG)](https://codecov.io/gh/H0R5E/louis-work)
 
-# louis-work
+# Louis' Work
 
 ## Introduction
 
-Louis-work is a letters game I created for my son as an exercise in learning
+Louis' Work is a letters game I created for my son as an exercise in learning
 modern C++ (>= C++17).
 
 It is built upon [SFML](https://www.sfml-dev.org), utilises the
