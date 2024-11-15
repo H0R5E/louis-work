@@ -32,7 +32,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # options
 option(ESPEAKNG_BUILD "Build espeak-ng" ON)
-option(GCOV "Check code coverage" ON)
+option(GCOV "Check code coverage" OFF)
 option(RPM "Create an RPM package" OFF)
 option(INNO "Create a inno setup package" OFF)
 
@@ -86,13 +86,15 @@ configure_file(${CMAKE_SOURCE_DIR}/src/pathconfig.h.in
                ${CMAKE_SOURCE_DIR}/src/pathconfig.h)
 
 # coverage target and compiler flags
-if (CMAKE_COMPILER_IS_GNUCXX AND GCOVR_PATH AND GCOV)
+if ((CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "GNU") AND
+     CMAKE_BUILD_TYPE STREQUAL "Debug" AND
+     GCOVR_PATH AND
+     GCOV)
     
     include(CodeCoverage)
     
     append_coverage_compiler_flags()
-    set(TEST_COMPILER_FLAGS
-        "-O0 -fno-default-inline -fno-inline -fno-elide-constructors -save-temps")
+    set(TEST_COMPILER_FLAGS "-O0")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${TEST_COMPILER_FLAGS}")
     set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} ${TEST_COMPILER_FLAGS}")
      
