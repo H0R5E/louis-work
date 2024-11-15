@@ -32,7 +32,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # options
 option(ESPEAKNG_BUILD "Build espeak-ng" ON)
-option(GCOV "Check code coverage" OFF)
+option(GCOVR_HTML "Generate HTML code coverage report" OFF)
+option(GCOVR_XML "Generate XML code coverage report" OFF)
 option(RPM "Create an RPM package" OFF)
 option(INNO "Create a inno setup package" OFF)
 
@@ -88,32 +89,42 @@ endif ()
 configure_file(${CMAKE_SOURCE_DIR}/src/pathconfig.h.in
                ${CMAKE_SOURCE_DIR}/src/pathconfig.h)
 
-message(${CMAKE_CXX_COMPILER_ID} " " ${CMAKE_BUILD_TYPE} " " ${GCOVR_PATH} " " ${GCOV})
-
 # coverage target and compiler flags
 if ((CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "GNU") AND
      CMAKE_BUILD_TYPE STREQUAL "Debug" AND
      GCOVR_PATH AND
-     GCOV)
+     (GCOVR_HTML OR GCOVR_XML))
     
-    message("Setting up gcov")
     include(CodeCoverage)
     
     append_coverage_compiler_flags()
     set(TEST_COMPILER_FLAGS "-O0")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${TEST_COMPILER_FLAGS}")
     set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} ${TEST_COMPILER_FLAGS}")
-     
-    setup_target_for_coverage_gcovr_html(
-        NAME coverage
-        EXECUTABLE tests
-        DEPENDENCIES tests
-        EXCLUDE "${CMAKE_SOURCE_DIR}/app/*"
-                "${CMAKE_SOURCE_DIR}/build/_deps/*"
-                "${CMAKE_SOURCE_DIR}/src/adapters/*"
-                "${CMAKE_SOURCE_DIR}/test/*")
     
-    add_dependencies(coverage tests)
+    if (GCOVR_HTML)
+        setup_target_for_coverage_gcovr_html(
+            NAME coverage-html
+            EXECUTABLE tests
+            DEPENDENCIES tests
+            EXCLUDE "${CMAKE_SOURCE_DIR}/app/*"
+                    "${CMAKE_SOURCE_DIR}/build/_deps/*"
+                    "${CMAKE_SOURCE_DIR}/src/adapters/*"
+                    "${CMAKE_SOURCE_DIR}/test/*")
+        add_dependencies(coverage-html tests)
+    endif()
+    
+    if (GCOVR_HTML)
+        setup_target_for_coverage_gcovr_xml(
+            NAME coverage-xml
+            EXECUTABLE tests
+            DEPENDENCIES tests
+            EXCLUDE "${CMAKE_SOURCE_DIR}/app/*"
+                    "${CMAKE_SOURCE_DIR}/build/_deps/*"
+                    "${CMAKE_SOURCE_DIR}/src/adapters/*"
+                    "${CMAKE_SOURCE_DIR}/test/*")
+        add_dependencies(coverage-xml tests)
+    endif()
     
     file(GLOB_RECURSE GCOV_FILES CONFIGURE_DEPENDS ${PROJECT_BINARY_DIR}
             *.gcda *.gcno)
