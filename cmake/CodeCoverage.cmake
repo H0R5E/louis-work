@@ -114,15 +114,26 @@
 
 include(CMakeParseArguments)
 
+# Get compiler major version
+string(REPLACE "." ";" CMAKE_CXX_COMPILER_VERSION_LIST ${CMAKE_CXX_COMPILER_VERSION})
+list(GET CMAKE_CXX_COMPILER_VERSION_LIST 0 CMAKE_CXX_COMPILER_VERSION_MAJOR)
+
+# Set gcov executable
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    SET( GCOV_NAMES llvm-cov-${CMAKE_CXX_COMPILER_VERSION_MAJOR}; llvm-cov-${CMAKE_CXX_COMPILER_VERSION} )
+else()
+    SET( GCOV_NAMES gcov-${CMAKE_CXX_COMPILER_VERSION_MAJOR}; gcov-${CMAKE_CXX_COMPILER_VERSION} )
+endif()
+
 # Check prereqs
-find_program( GCOV_PATH gcov )
+find_program( GCOV_PATH NAMES ${GCOV_NAMES} )
 find_program( LCOV_PATH  NAMES lcov lcov.bat lcov.exe lcov.perl)
 find_program( GENHTML_PATH NAMES genhtml genhtml.perl genhtml.bat )
 find_program( GCOVR_PATH gcovr PATHS ${CMAKE_SOURCE_DIR}/scripts/test)
 find_program( CPPFILT_PATH NAMES c++filt )
 
 if(NOT GCOV_PATH)
-    message(FATAL_ERROR "gcov not found! Aborting...")
+    message(FATAL_ERROR "gcov or llvm-cov not found! Aborting...")
 endif() # NOT GCOV_PATH
 
 if("${CMAKE_CXX_COMPILER_ID}" MATCHES "(Apple)?[Cc]lang")
@@ -139,15 +150,11 @@ elseif(NOT CMAKE_COMPILER_IS_GNUCXX)
     endif()
 endif()
 
-# Get compiler major version
-string(REPLACE "." ";" CMAKE_CXX_COMPILER_VERSION_LIST ${CMAKE_CXX_COMPILER_VERSION})
-list(GET CMAKE_CXX_COMPILER_VERSION_LIST 0 CMAKE_CXX_COMPILER_VERSION_MAJOR)
-
 # Set explicit gcovr executable
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    SET(GCOVR_EXECUTABLE "llvm-cov-${CMAKE_CXX_COMPILER_VERSION_MAJOR} gcov")
+    SET(GCOVR_EXECUTABLE "${GCOV_PATH} gcov")
 else()
-    SET(GCOVR_EXECUTABLE "gcov-${CMAKE_CXX_COMPILER_VERSION_MAJOR}")
+    SET(GCOVR_EXECUTABLE ${GCOV_PATH})
 endif()
 
 set(COVERAGE_COMPILER_FLAGS "-g --coverage"
