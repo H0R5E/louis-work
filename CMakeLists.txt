@@ -79,7 +79,7 @@ set(DATA_DIR_TEST ${CMAKE_SOURCE_DIR})
 set(LOGS_DIR_TEST ${CMAKE_SOURCE_DIR}/logs)
 
 if (WIN32)
-    set(DATA_DIR_RELEASE ..)
+    set(DATA_DIR_RELEASE .)
     set(LOGS_DIR_RELEASE "Louis Work")
 elseif (UNIX)
     set(DATA_DIR_RELEASE /usr/share/louis-work)
