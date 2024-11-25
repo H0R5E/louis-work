@@ -36,7 +36,7 @@ void setupDefaultLogger(bool const& test = false, bool const& console = false,
     if (test) {
         log_dir = LOGS_DIR_TEST;
     } else {
-        log_dir = LOGS_DIR_RELEASE;
+        log_dir = LOGS_DIR_PROD;
     }
 
     auto abs_log_dir =

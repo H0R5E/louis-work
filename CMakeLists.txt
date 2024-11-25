@@ -79,11 +79,11 @@ set(DATA_DIR_TEST ${CMAKE_SOURCE_DIR})
 set(LOGS_DIR_TEST ${CMAKE_SOURCE_DIR}/logs)
 
 if (WIN32)
-    set(DATA_DIR_RELEASE .)
-    set(LOGS_DIR_RELEASE "Louis Work")
+    set(DATA_DIR_PROD .)
+    set(LOGS_DIR_PROD "Louis Work")
 elseif (UNIX)
-    set(DATA_DIR_RELEASE /usr/share/louis-work)
-    set(LOGS_DIR_RELEASE louis-work)
+    set(DATA_DIR_PROD /usr/share/louis-work)
+    set(LOGS_DIR_PROD louis-work)
 endif ()
 
 configure_file(${CMAKE_SOURCE_DIR}/src/pathconfig.h.in
@@ -178,7 +178,7 @@ gtest_discover_tests(tests)
 install(FILES $<TARGET_RUNTIME_DLLS:louis> TYPE BIN)
 
 # Install assets
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${DATA_DIR_RELEASE})
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${DATA_DIR_PROD})
 
 # Install desktop entry
 if (UNIX)

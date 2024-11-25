@@ -21,4 +21,4 @@
 // assets path settings
 #define DATA_DIR_TEST "@DATA_DIR_TEST@"
 #define LOGS_DIR_TEST "@LOGS_DIR_TEST@"
-#define LOGS_DIR_RELEASE "@LOGS_DIR_RELEASE@"
+#define LOGS_DIR_PROD "@LOGS_DIR_PROD@"
