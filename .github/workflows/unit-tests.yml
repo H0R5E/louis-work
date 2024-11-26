@@ -27,7 +27,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -yq clang ninja-build
+          sudo apt-get install -yq clang ninja-build xvfb
       - name: Configure runner (Windows)
         uses: ilammy/msvc-dev-cmd@v1
         if: runner.os == 'Windows'
