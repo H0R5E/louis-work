@@ -27,10 +27,14 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -yq clang cmake ninja-build
+          sudo apt-get install -yq clang ninja-build
       - name: Configure runner (Windows)
         uses: ilammy/msvc-dev-cmd@v1
         if: runner.os == 'Windows'
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v2
+        with:
+          cmake-version: "3.27.x"
       - name: Install Conan
         run: |
           poetry install
