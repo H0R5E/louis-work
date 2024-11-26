@@ -34,8 +34,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 option(ESPEAKNG_BUILD "Build espeak-ng" ON)
 option(GCOVR_HTML "Generate HTML code coverage report" OFF)
 option(GCOVR_XML "Generate XML code coverage report" OFF)
-option(RPM "Create an RPM package" OFF)
-option(INNO "Create a inno setup package" OFF)
 
 # conan
 find_package(argparse REQUIRED)
@@ -61,6 +59,9 @@ find_program(GCOVR_PATH gcovr)
 
 # install settings
 set(CMAKE_SKIP_INSTALL_ALL_DEPENDENCY TRUE)
+
+# packaging
+include(CPack)
 
 # debug compiler flags
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
@@ -89,6 +90,41 @@ endif ()
 
 configure_file(${CMAKE_SOURCE_DIR}/src/pathconfig.h.in
                ${CMAKE_SOURCE_DIR}/src/pathconfig.h)
+
+# RPATH handling
+
+if (UNIX)
+
+    # use, i.e. don't skip the full RPATH for the build tree
+    set(CMAKE_SKIP_BUILD_RPATH FALSE)
+
+    # when building, don't use the install RPATH already
+    # (but later on when installing)
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+
+endif ()
+
+# path to source code
+add_subdirectory(app)
+add_subdirectory(src)
+add_subdirectory(vendor)
+
+# discover test files
+file(GLOB test_SRC CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/test/*.cpp"
+                                     "${CMAKE_SOURCE_DIR}/test/*.h")
+
+# add tests
+add_executable(tests ${test_SRC})
+#add_executable(tests "${CMAKE_SOURCE_DIR}/test/game_test.cpp" 
+#                     "${CMAKE_SOURCE_DIR}/test/mock.h")
+target_link_libraries(tests
+                      game
+                      drawcomponents
+                      soundcomponents
+                      gtest::gtest)
+
+gtest_discover_tests(tests)
 
 # coverage target and compiler flags
 if ((CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "GNU") AND
@@ -136,44 +172,7 @@ if ((CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "G
         COMMENT "Removing build and gcov files."
     )
     
-endif ()
-
-# RPATH handling
-
-if (UNIX)
-
-    # use, i.e. don't skip the full RPATH for the build tree
-    set(CMAKE_SKIP_BUILD_RPATH FALSE)
-
-    # when building, don't use the install RPATH already
-    # (but later on when installing)
-    set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
-    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
-
-endif ()
-
-# path to source code
-add_subdirectory(app)
-add_subdirectory(src)
-add_subdirectory(vendor)
-
-# discover test files
-file(GLOB test_SRC CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/test/*.cpp"
-                                     "${CMAKE_SOURCE_DIR}/test/*.h")
-
-# add tests
-add_executable(tests ${test_SRC})
-#add_executable(tests "${CMAKE_SOURCE_DIR}/test/game_test.cpp" 
-#                     "${CMAKE_SOURCE_DIR}/test/mock.h")
-target_link_libraries(tests
-                      game
-                      drawcomponents
-                      soundcomponents
-                      gtest::gtest)
-
-gtest_discover_tests(tests)
-
-# extra install commands
+endif()
 
 # Install libs
 install(FILES $<TARGET_RUNTIME_DLLS:louis> TYPE BIN)
@@ -212,32 +211,29 @@ if(NOT TARGET uninstall)
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake/cmake_uninstall.cmake)
 endif()
 
-if (RPM OR INNO)
-    
-    # General CPack variables
-    SET(CPACK_VERBATIM_VARIABLES TRUE)
-    set(CPACK_PACKAGE_DESCRIPTION "\
-    A C++ project to create a game for my son to do his work on my computer")
-    set(CPACK_PACKAGE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/packages")
-    set(CPACK_PACKAGE_VENDOR "Mathew Topper")
-    set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/COPYING)
+# CPack setup
+SET(CPACK_VERBATIM_VARIABLES TRUE)
+set(CPACK_PACKAGE_DESCRIPTION "\
+A C++ project to create a game for my son to do his work on my computer")
+set(CPACK_PACKAGE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/packages")
+set(CPACK_PACKAGE_VENDOR "Mathew Topper")
+set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/COPYING)
+
+if (UNIX)
     
     # RPM
-    if (RPM AND UNIX)
-        set(CPACK_PACKAGE_NAME "louis-work")
-        set(CPACK_GENERATOR "RPM")
-        set(CPACK_RPM_PACKAGE_RELEASE 1)
-    endif ()
-    
-    if (INNO AND WIN32)
-        set(CPACK_PACKAGE_NAME "Louis Work")
-        set(CPACK_PACKAGE_INSTALL_DIRECTORY "Louis Work")
-        set(CPACK_GENERATOR "INNOSETUP")
-        set(CPACK_INNOSETUP_USE_CMAKE_BOOL_FORMAT ON)
-        set(CPACK_INNOSETUP_SETUP_ChangesEnvironment ON)
-        set(CPACK_INNOSETUP_EXTRA_SCRIPTS ${CMAKE_SOURCE_DIR}/cmake/icons.iss)
-    endif ()
-    
-    include(CPack)
+    set(CPACK_PACKAGE_NAME "louis-work")
+    set(CPACK_GENERATOR "RPM")
+    set(CPACK_RPM_PACKAGE_RELEASE 1)
 
-endif()
+elseif(WIN32)
+    
+    # Inno Setup
+    set(CPACK_PACKAGE_NAME "Louis Work")
+    set(CPACK_PACKAGE_INSTALL_DIRECTORY "Louis Work")
+    set(CPACK_GENERATOR "INNOSETUP")
+    set(CPACK_INNOSETUP_USE_CMAKE_BOOL_FORMAT ON)
+    set(CPACK_INNOSETUP_SETUP_ChangesEnvironment ON)
+    set(CPACK_INNOSETUP_EXTRA_SCRIPTS ${CMAKE_SOURCE_DIR}/cmake/icons.iss)
+
+endif ()
