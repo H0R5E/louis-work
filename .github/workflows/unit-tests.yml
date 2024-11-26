@@ -25,7 +25,9 @@ jobs:
       - uses: abatilo/actions-poetry@v2
       - name: Configure runner (Linux)
         if: runner.os == 'Linux'
-        run: sudo apt-get install ninja-build
+        run: |
+          sudo apt-get update
+          sudo apt-get install -yq clang cmake ninja-build
       - name: Configure runner (Windows)
         uses: ilammy/msvc-dev-cmd@v1
         if: runner.os == 'Windows'
