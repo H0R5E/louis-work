@@ -6,3 +6,9 @@ python = "^3.9"
 conan = "^2.9.1"
 gcovr = "^8.2"
 
+[tool.semantic_release]
+commit_parser = "emoji"
+version_variables = ["config.json:version"]
+
+[tool.semantic_release.publish]
+dist_glob_patterns = ["packages/*.rpm", "packages/*.exe"]

@@ -23,7 +23,9 @@ endif()
 cmake_minimum_required(VERSION 3.27)
 
 # set the project name and version
-project("Louis Work" VERSION 0.0.1
+file(READ ${CMAKE_CURRENT_SOURCE_DIR}/config.json CONFIG_JSON)
+string(JSON CONFIG_VERSION GET ${CONFIG_JSON} version)
+project("Louis Work" VERSION ${CONFIG_VERSION}
                      DESCRIPTION "A game about words and letters")
 
 # specify the C++ standard
@@ -59,9 +61,6 @@ find_program(GCOVR_PATH gcovr)
 
 # install settings
 set(CMAKE_SKIP_INSTALL_ALL_DEPENDENCY TRUE)
-
-# packaging
-include(CPack)
 
 # debug compiler flags
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
@@ -237,3 +236,5 @@ elseif(WIN32)
     set(CPACK_INNOSETUP_EXTRA_SCRIPTS ${CMAKE_SOURCE_DIR}/cmake/icons.iss)
 
 endif ()
+
+include(CPack)
