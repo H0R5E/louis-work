@@ -1,6 +1,16 @@
 # CHANGELOG
 
 
+## v0.0.3 (2024-11-27)
+
+### :wheelchair:
+
+* :wheelchair: releases fix
+
++ Try to fix incorrect version being packaged
++ Try to fix windows failure ([`867a826`](https://github.com/H0R5E/louis-work/commit/867a82612f82c9f66281d783471717fa62685e3f))
+
+
 ## v0.0.2 (2024-11-27)
 
 ### :bug:
