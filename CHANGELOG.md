@@ -1,6 +1,15 @@
 # CHANGELOG
 
 
+## v0.0.2 (2024-11-27)
+
+### :bug:
+
+* :bug: install espeak-ng-data files into vendor directory
+
+Give up on using the programdata directory with local installs ([`d2fb481`](https://github.com/H0R5E/louis-work/commit/d2fb4813742b1e6d035cd5a6376fb4f9f43a632a))
+
+
 ## v0.0.1 (2024-11-27)
 
 ### :bug:
