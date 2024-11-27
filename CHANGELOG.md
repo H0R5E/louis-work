@@ -1,6 +1,15 @@
 # CHANGELOG
 
 
+## v0.0.2 (2024-11-27)
+
+### :bug:
+
+* :bug: remove espeak-ng-data installation command ([`b0bad6f`](https://github.com/H0R5E/louis-work/commit/b0bad6ffc208eab10634277e7c84ecd19f057431))
+
+* :bug: Try to fix release tag not being found ([`1b90d3e`](https://github.com/H0R5E/louis-work/commit/1b90d3e0203f3355ad628741648b61700d04d769))
+
+
 ## v0.0.1 (2024-11-27)
 
 ### :goal_net:
