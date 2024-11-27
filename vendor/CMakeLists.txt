@@ -56,11 +56,7 @@ if (ESPEAKNG_BUILD)
         set_property(TARGET libespeak-ng PROPERTY
                      IMPORTED_IMPLIB ${VENDOR_PREFIX}/src/espeak-ng/src/windows/x64/Release/libespeak-ng.lib)
         
-        if (INNO)
-            cmake_path(SET PROGRAMDATA ".")
-        else()
-            cmake_path(SET PROGRAMDATA $ENV{PROGRAMDATA})
-        endif()
+        install(DIRECTORY ${VENDOR_PREFIX}/src/espeak-ng/espeak-ng-data DESTINATION vendor)
     else(UNIX)
         ExternalProject_Add(
             libespeak-ng-nix
