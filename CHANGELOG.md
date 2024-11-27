@@ -1,6 +1,13 @@
 # CHANGELOG
 
 
+## v0.0.4 (2024-11-27)
+
+### :wheelchair:
+
+* :wheelchair: Try again to get the right commit ([`382a1ec`](https://github.com/H0R5E/louis-work/commit/382a1ec52faaf8ea5ba3b92ee8eb8144d2e35fbf))
+
+
 ## v0.0.3 (2024-11-27)
 
 ### :wheelchair:
