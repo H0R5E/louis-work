@@ -16,7 +16,14 @@ package management (super-easy).
 
 ## Installation
 
-Instructions to follow soon.
+For Linux, .deb and .rpm packages are available. For Windows, an installer is
+provided. Please download the appropriate file from the [latest
+release](https://github.com/H0R5E/louis-work/releases/latest) page.
+
+Note that the packages and installers are currently not signed, so you may need
+to circumvent security protection. For instance, if you get the "Windows
+protected your PC" screen, click "More info" and then click the "Run anyway"
+button.
 
 ## License
 
