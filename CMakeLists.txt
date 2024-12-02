@@ -90,6 +90,9 @@ endif ()
 configure_file(${CMAKE_SOURCE_DIR}/src/pathconfig.h.in
                ${CMAKE_SOURCE_DIR}/src/pathconfig.h)
 
+# Path for vended code
+SET(VENDOR_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/vendor)
+
 # RPATH handling
 
 if (UNIX)
@@ -100,7 +103,7 @@ if (UNIX)
     # when building, don't use the install RPATH already
     # (but later on when installing)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
-    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+    set(CMAKE_INSTALL_RPATH "${VENDOR_PREFIX}/lib")
 
 endif ()
 
@@ -220,10 +223,14 @@ set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/COPYING)
 
 if (UNIX)
     
-    # RPM
+    # Shared
     set(CPACK_PACKAGE_NAME "louis-work")
-    set(CPACK_GENERATOR "RPM")
-    set(CPACK_RPM_PACKAGE_RELEASE 1)
+    set(CPACK_GENERATOR "DEB;RPM")
+    
+    # DEB
+    set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS YES)
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Mathew Topper")
+    set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS YES)
 
 elseif(WIN32)
     

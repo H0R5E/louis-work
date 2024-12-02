@@ -66,7 +66,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -yq clang ninja-build rpm
+          sudo apt-get install -yq clang libespeak-ng1 ninja-build rpm
       - name: Configure runner (Windows)
         uses: ilammy/msvc-dev-cmd@v1
         if: runner.os == 'Windows'
@@ -97,5 +97,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: "packages/*.rpm; packages/*.exe"
+          file: "packages/*.deb; packages/*.rpm; packages/*.exe"
           tag_name: ${{ needs.release.outputs.tag }}

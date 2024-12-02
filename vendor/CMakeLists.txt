@@ -25,9 +25,6 @@ if (CMAKE_COMPILER_IS_GNUCXX)
                  REQUIRED)
 endif()
 
-# espeak
-SET(VENDOR_PREFIX ${CMAKE_CURRENT_SOURCE_DIR})
-
 if (ESPEAKNG_BUILD)
     
     add_library(libespeak-ng SHARED IMPORTED GLOBAL)
@@ -73,6 +70,8 @@ if (ESPEAKNG_BUILD)
         add_dependencies(libespeak-ng libespeak-ng-nix)
         set_property(TARGET libespeak-ng PROPERTY
                      IMPORTED_LOCATION ${VENDOR_PREFIX}/lib/libespeak-ng.so)
+        set_property(TARGET libespeak-ng PROPERTY
+                     SOVERSION 1)
     endif()
     
     # include
