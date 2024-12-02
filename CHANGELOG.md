@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## v0.0.4 (2024-12-02)
+
+### :goal_net:
+
+* :goal_net: Make the package names consistent ([`8c25e97`](https://github.com/H0R5E/louis-work/commit/8c25e9758674045c830a1e905dc3978c06cd8d12))
+
+### Other
+
+* Add basic installation instructions ([`97e989e`](https://github.com/H0R5E/louis-work/commit/97e989e56208e34b3104ccc6f40c48e87d980f00))
+
+
 ## v0.0.3 (2024-12-02)
 
 ### :goal_net:
