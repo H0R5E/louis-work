@@ -214,10 +214,23 @@ if(NOT TARGET uninstall)
 endif()
 
 # CPack setup
+if (WIN32)
+    if (CMAKE_SIZEOF_VOID_P EQUAL 4)
+        set(MY_SYSTEM_NAME "win32")
+    endif()
+    if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+        set(MY_SYSTEM_NAME "win64")
+    endif()
+else()
+    set(MY_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
+endif()
+
+
 SET(CPACK_VERBATIM_VARIABLES TRUE)
 set(CPACK_PACKAGE_DESCRIPTION "\
 A C++ project to create a game for my son to do his work on my computer")
 set(CPACK_PACKAGE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/packages")
+set(CPACK_PACKAGE_FILE_NAME louis-work-${PROJECT_VERSION}-${MY_SYSTEM_NAME})
 set(CPACK_PACKAGE_VENDOR "Mathew Topper")
 set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/COPYING)
 
