@@ -1,6 +1,13 @@
 # CHANGELOG
 
 
+## v0.0.3 (2024-12-02)
+
+### :goal_net:
+
+* :goal_net: try debian package ([`977dfed`](https://github.com/H0R5E/louis-work/commit/977dfed8807d3486cae7e0025b19018c411f3495))
+
+
 ## v0.0.2 (2024-11-27)
 
 ### :bug:
