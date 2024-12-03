@@ -43,11 +43,13 @@ jobs:
       - name: Action | Get release commit sha
         id: sha
         run: echo "SHA=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-      - run: echo ${{ steps.sha.outputs.SHA }}
+      - run: |
+          echo "released: ${{ steps.release.outputs.released }}"
+          echo "sha: ${{ steps.sha.outputs.SHA }}"
 
   package:
     needs: [release]
-    if: needs.release.outputs.released
+    if: needs.release.outputs.released == 'true'
     strategy:
       fail-fast: false
       matrix:
