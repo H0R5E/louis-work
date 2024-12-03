@@ -107,27 +107,6 @@ if (UNIX)
 
 endif ()
 
-# path to source code
-add_subdirectory(app)
-add_subdirectory(src)
-add_subdirectory(vendor)
-
-# discover test files
-file(GLOB test_SRC CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/test/*.cpp"
-                                     "${CMAKE_SOURCE_DIR}/test/*.h")
-
-# add tests
-add_executable(tests ${test_SRC})
-#add_executable(tests "${CMAKE_SOURCE_DIR}/test/game_test.cpp" 
-#                     "${CMAKE_SOURCE_DIR}/test/mock.h")
-target_link_libraries(tests
-                      game
-                      drawcomponents
-                      soundcomponents
-                      gtest::gtest)
-
-gtest_discover_tests(tests)
-
 # coverage target and compiler flags
 if ((CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "GNU") AND
      CMAKE_BUILD_TYPE STREQUAL "Debug" AND
@@ -175,6 +154,27 @@ if ((CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "G
     )
     
 endif()
+
+# path to source code
+add_subdirectory(app)
+add_subdirectory(src)
+add_subdirectory(vendor)
+
+# discover test files
+file(GLOB test_SRC CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/test/*.cpp"
+                                     "${CMAKE_SOURCE_DIR}/test/*.h")
+
+# add tests
+add_executable(tests ${test_SRC})
+#add_executable(tests "${CMAKE_SOURCE_DIR}/test/game_test.cpp" 
+#                     "${CMAKE_SOURCE_DIR}/test/mock.h")
+target_link_libraries(tests
+                      game
+                      drawcomponents
+                      soundcomponents
+                      gtest::gtest)
+
+gtest_discover_tests(tests)
 
 # Install libs
 install(FILES $<TARGET_RUNTIME_DLLS:louis> TYPE BIN)
