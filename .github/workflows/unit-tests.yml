@@ -107,8 +107,12 @@ jobs:
           fluxbox > /dev/null 2>&1 &
           sleep 5
       - name: Build coverage report
-        run: poetry run cmake --build . --config Debug -t coverage-xml
-        working-directory: build
+        uses: Wandalen/wretry.action@master
+        with:
+          command: poetry run cmake --build . --config Debug -t coverage-xml
+          attempt_limit: 3
+          attempt_delay: 2000
+          current_path: build
       - uses: codecov/codecov-action@v4
         if: ${{ !env.ACT }}
         with:
